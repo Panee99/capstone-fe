@@ -25,6 +25,7 @@ const productPersistConfig = {
 };
 
 const rootReducer = combineReducers({
+  user: userReducer,
   mail: mailReducer,
   chat: chatReducer,
   calendar: calendarReducer,
