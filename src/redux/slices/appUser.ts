@@ -1,5 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { AppUserState, SearchAppUserSchema } from 'src/@types/appUser';
+import {
+  AppUserState,
+  CreateAppUserSchema,
+  DeleteAppUserSchema,
+  GetAppUserSchema,
+  SearchAppUserSchema,
+  UpdateAppUserSchema,
+} from 'src/@types/appUser';
 import { dispatch } from '../store';
 import axios from '../../utils/axios';
 
@@ -34,17 +41,17 @@ const slice = createSlice({
       state.isLoading = false;
       state.list = action.payload;
     },
-    getBusinessUnit(state, action) {
+    getAppUser(state, action) {
       state.isLoading = false;
       state.single = action.payload;
     },
-    createBusinessUnit(state) {
+    createAppUser(state) {
       state.isLoading = false;
     },
-    updateBusinessUnit(state) {
+    updateAppUser(state) {
       state.isLoading = false;
     },
-    deleteBusinessUnit(state) {
+    deleteAppUser(state) {
       state.isLoading = false;
     },
   },
@@ -57,6 +64,8 @@ export function searchAppUser(params: SearchAppUserSchema) {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.post('/user/search', params);
+      console.log(response);
+
       dispatch(slice.actions.searchAppUser(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -69,43 +78,45 @@ export function getAppUser(params: GetAppUserSchema) {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get('/user', { params });
-      dispatch(slice.actions.getBusinessUnit(response.data));
+      console.log(`getAppUser: ${JSON.stringify(response.data)}`);
+
+      dispatch(slice.actions.getAppUser(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
   };
 }
 
-export function createBusinessUnit(params: CreateBusinessUnitSchema) {
+export function createAppUser(params: CreateAppUserSchema) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
       await axios.post('/bu', params);
-      dispatch(slice.actions.createBusinessUnit());
+      dispatch(slice.actions.createAppUser());
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
   };
 }
 
-export function updateBusinessUnit(params: UpdateBusinessUnitSchema) {
+export function updateAppUser(params: UpdateAppUserSchema) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
       await axios.put('/bu', params);
-      dispatch(slice.actions.updateBusinessUnit());
+      dispatch(slice.actions.updateAppUser());
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
   };
 }
 
-export function deleteBusinessUnit(params: DeleteBusinessUnitSchema) {
+export function deleteAppUser(params: DeleteAppUserSchema) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
       await axios.delete('/bu', { params });
-      dispatch(slice.actions.deleteBusinessUnit());
+      dispatch(slice.actions.deleteAppUser());
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

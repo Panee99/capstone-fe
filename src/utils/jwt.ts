@@ -1,6 +1,4 @@
 import jwtDecode from 'jwt-decode';
-// routes
-import { PATH_AUTH } from '../routes/paths';
 //
 import axios from './axios';
 
@@ -17,24 +15,38 @@ const isValidToken = (accessToken: string) => {
   return decoded.exp > currentTime;
 };
 
-const handleTokenExpired = (exp: number) => {
-  let expiredTimer;
+// const handleTokenExpired = (exp: number) => {
+//   let expiredTimer;
 
-  const currentTime = Date.now();
+//   const currentTime = Date.now();
 
-  // Test token expires after 10s
-  // const timeLeft = currentTime + 10000 - currentTime; // ~10s
-  const timeLeft = exp * 1000 - currentTime;
+//   // Test token expires after 10s
+//   // const timeLeft = currentTime + 10000 - currentTime; // ~10s
+//   const timeLeft = exp * 1000 - currentTime;
 
-  clearTimeout(expiredTimer);
+//   clearTimeout(expiredTimer);
 
-  expiredTimer = setTimeout(() => {
-    alert('Token expired');
+//   expiredTimer = setTimeout(() => {
+//     console.log('Token expired');
+//     // localStorage.removeItem('accessToken');
+//   }, timeLeft);
+// };
 
-    localStorage.removeItem('accessToken');
+const isExpiredToken = (accessToken: string) => {
+  const { exp } = jwtDecode<{ exp: number }>(accessToken);
+  if (Date.now() >= exp * 1000) {
+    return true;
+  }
+  return false;
+};
 
-    window.location.href = PATH_AUTH.login;
-  }, timeLeft);
+const refreshToken = async (token: string) => {
+  localStorage.removeItem('accessToken');
+  const userId = localStorage.getItem('userId');
+  const response = await axios.post('/auth/getaccesstoken', { userId, refreshToken: token });
+  const { accessToken } = response.data;
+  setSession(accessToken);
+  return accessToken;
 };
 
 const setSession = (accessToken: string | null) => {
@@ -43,12 +55,12 @@ const setSession = (accessToken: string | null) => {
     axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
     // This function below will handle when token is expired
-    const { exp } = jwtDecode<{ exp: number }>(accessToken); // ~5 days by minimals server
-    handleTokenExpired(exp);
+    // const { exp } = jwtDecode<{ exp: number }>(accessToken); // ~5 days by minimals server
+    // handleTokenExpired(exp);
   } else {
     localStorage.removeItem('accessToken');
     delete axios.defaults.headers.common.Authorization;
   }
 };
 
-export { isValidToken, setSession };
+export { isValidToken, setSession, refreshToken, isExpiredToken };

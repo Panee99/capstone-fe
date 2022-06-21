@@ -61,6 +61,12 @@ const navConfig = [
           { title: 'account', path: PATH_DASHBOARD.user.account },
         ],
       },
+      {
+        title: 'app user',
+        path: PATH_DASHBOARD.appUser.root,
+        icon: ICONS.user,
+        children: [{ title: 'list', path: PATH_DASHBOARD.appUser.list }],
+      },
 
       // E-COMMERCE
       // {

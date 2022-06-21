@@ -6,10 +6,10 @@ export type AppUser = {
   email: string;
   firstName: string;
   lastName: string;
-  phoneNumber: string;
-  gender: string;
+  phoneNumber?: string | null;
+  gender?: string | null;
   isActive: boolean;
-  inWarehouse: string;
+  inWarehouse?: string | null;
 };
 // ----------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ export type AppUserState = BaseState<AppUser>;
 // ----------------------------------------------------------------------
 
 export type SearchAppUserSchema = Omit<GenericSearchSchema, 'keyword'> & {
-  name: string | null;
+  name?: string | null;
 };
 
 export type GetAppUserSchema = {
@@ -29,19 +29,19 @@ export type CreateAppUserSchema = {
   email: string;
   firstName: string;
   lastName: string;
-  phoneNumber: string | null;
-  gender: string | null;
+  phoneNumber?: string | null;
+  gender?: string | null;
 };
 
 export type UpdateAppUserSchema = {
   id: string;
-  email: string | null;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string | null;
-  gender: string | null;
-  isActive: boolean | null;
-  inWarehouse: string | null;
+  email?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  phoneNumber?: string | null;
+  gender?: string | null;
+  isActive?: boolean | null;
+  inWarehouse?: string | null;
 };
 
 export type DeleteAppUserSchema = {
