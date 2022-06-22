@@ -5,7 +5,12 @@ import useIsMountedRef from '../../../../hooks/useIsMountedRef';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FormProvider, RHFRadioGroup, RHFTextField } from '../../../../components/hook-form';
+import {
+  FormProvider,
+  RHFRadioGroup,
+  RHFSwitch,
+  RHFTextField,
+} from '../../../../components/hook-form';
 import RHFSelect from '../../../../components/hook-form/RHFSelect';
 // @mui
 import { LoadingButton } from '@mui/lab';
@@ -18,6 +23,7 @@ import { UpdateAppUserSchema } from 'src/@types/appUser';
 import { phoneRegExp } from 'src/utils/regexPattern';
 import { updateAppUser } from 'src/redux/slices/appUser';
 import { GENDER_OPTION } from 'src/utils/constants';
+import NetworkAutocomplete from 'src/components/hook-form/NetworkAutocomplete';
 // @types
 // components
 
@@ -33,6 +39,7 @@ type Props = {
 
 export default function AppUserEditForm({ payload }: Props) {
   const dispatch = useDispatch();
+  const { error } = useSelector((state) => state.appUser);
 
   const isMountedRef = useIsMountedRef();
 
@@ -85,20 +92,20 @@ export default function AppUserEditForm({ payload }: Props) {
     };
 
     try {
-      await dispatch(updateAppUser(data));
+      dispatch(updateAppUser(data));
       enqueueSnackbar('Update success!');
     } catch (error) {
       if (isMountedRef.current) {
-        setError('afterSubmit', { ...error, message: error.message });
+        setError('afterSubmit', { ...error, message: error });
       }
     }
   };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={3} sx={{ width: { sm: '100%', md: '50%' } }}>
+      <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-
+        {error && <Alert severity="error">{error}</Alert>}
         <RHFTextField name="email" label="Email" />
         <RHFTextField name="firstName" label="firstName" />
         <RHFTextField name="lastName" label="lastName" />
@@ -110,28 +117,19 @@ export default function AppUserEditForm({ payload }: Props) {
             '& .MuiFormControlLabel-root': { mr: 4 },
           }}
         />
-        {/* <UserAutocomplete name="manager" label="Manager" endpoint="/bu/fetch/manager" /> */}
-
-        {/* <RHFSelect name="parentBusinessUnitId" label="Parent BU" placeholder="Parent BU">
-          <option value="" />
-          {items.map((option: ParentBusinessUnit, index: number) => (
-            <option key={index} value={option.id}>
-              {option.name}
-            </option>
-          ))}
-        </RHFSelect> */}
-
-        <RHFTextField name="address" label="Address" />
+        <RHFSwitch
+          name="isActive"
+          label="Active"
+          labelPlacement="start"
+          style={{ alignSelf: 'start' }}
+        />
+        <NetworkAutocomplete
+          name="inWarehouse"
+          label="Warehouse"
+          endpoint="/warehouse/fetch"
+          sx={{ width: '100%' }}
+        />
       </Stack>
-
-      <RHFTextField
-        fullWidth
-        sx={{ marginTop: 3 }}
-        name="description"
-        multiline
-        rows={10}
-        label="Description"
-      />
 
       <Stack alignItems="flex-end" sx={{ mt: 3 }}>
         <LoadingButton type="submit" variant="contained" loading={isSubmitting}>

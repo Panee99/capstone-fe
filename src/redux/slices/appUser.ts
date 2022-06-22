@@ -64,7 +64,6 @@ export function searchAppUser(params: SearchAppUserSchema) {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.post('/user/search', params);
-      console.log(response);
 
       dispatch(slice.actions.searchAppUser(response.data));
     } catch (error) {
@@ -91,7 +90,7 @@ export function createAppUser(params: CreateAppUserSchema) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      await axios.post('/bu', params);
+      await axios.post('/user', params);
       dispatch(slice.actions.createAppUser());
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -103,7 +102,7 @@ export function updateAppUser(params: UpdateAppUserSchema) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      await axios.put('/bu', params);
+      await axios.put('/users', params);
       dispatch(slice.actions.updateAppUser());
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -115,7 +114,7 @@ export function deleteAppUser(params: DeleteAppUserSchema) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      await axios.delete('/bu', { params });
+      await axios.delete('/user', { params });
       dispatch(slice.actions.deleteAppUser());
     } catch (error) {
       dispatch(slice.actions.hasError(error));

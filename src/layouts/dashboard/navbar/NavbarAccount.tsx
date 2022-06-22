@@ -39,8 +39,6 @@ type UserGroup = {
 
 export default function NavbarAccount({ isCollapse }: Props) {
   const { user } = useAuth();
-  console.log(user?.name);
-  console.log(user?.groups);
 
   return (
     <Link underline="none" color="inherit" component={RouterLink} to={PATH_DASHBOARD.user.account}>
@@ -66,13 +64,20 @@ export default function NavbarAccount({ isCollapse }: Props) {
           }}
         >
           <Typography variant="subtitle2" noWrap>
-            {`${user?.name}`}
+            {user ? user.name : ''}
           </Typography>
-          {user?.groups.map((group: UserGroup) => (
-            <Typography key={group.name} variant="body2" noWrap sx={{ color: 'text.secondary' }}>
-              {`${group.name}`}
-            </Typography>
-          ))}
+          {user
+            ? user.groups.map((group: UserGroup) => (
+                <Typography
+                  key={group.name}
+                  variant="body2"
+                  noWrap
+                  sx={{ color: 'text.secondary' }}
+                >
+                  {`${group.name}`}
+                </Typography>
+              ))
+            : ''}
         </Box>
       </RootStyle>
     </Link>

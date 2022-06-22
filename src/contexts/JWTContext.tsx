@@ -89,9 +89,8 @@ function AuthProvider({ children }: AuthProviderProps) {
           setSession(accessToken);
 
           const response = await axios.get('/user/authuser');
-          console.log(response);
 
-          const { data: user } = response.data;
+          const { data: user } = response;
 
           dispatch({
             type: Types.Initial,
@@ -129,8 +128,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       username,
       password,
     });
-    const { accessToken, user } = response.data.data;
-    console.log(response);
+    const { accessToken, user } = response.data;
 
     setSession(accessToken);
 

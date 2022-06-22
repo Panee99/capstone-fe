@@ -82,7 +82,6 @@ export default function UserList() {
   const dispatch = useDispatch();
 
   const { list, single } = useSelector((state) => state.appUser);
-  console.log(`single: ${single}`);
 
   const { toggle, setToggle } = useToggle();
 
@@ -144,8 +143,8 @@ export default function UserList() {
     setSelected([]);
   };
 
-  const handleEditRow = async (id: string) => {
-    await dispatch(getAppUser({ id }));
+  const handleEditRow = (id: string) => {
+    dispatch(getAppUser({ id }));
     setToggle(true);
   };
 
