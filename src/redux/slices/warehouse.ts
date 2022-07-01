@@ -1,13 +1,13 @@
+import {
+  GetWarehouseSchema,
+  CreateWarehouseSchema,
+  UpdateWarehouseSchema,
+  SearchWarehouseSchema,
+  DeleteWarehouseSchema,
+  WarehouseState,
+} from '../../@types/warehouse';
 import { BaseLoading } from '../../@types/generic';
 import { createSlice } from '@reduxjs/toolkit';
-import {
-  AppUserState,
-  CreateAppUserSchema,
-  DeleteAppUserSchema,
-  GetAppUserSchema,
-  SearchAppUserSchema,
-  UpdateAppUserSchema,
-} from 'src/@types/appUser';
 import { dispatch } from '../store';
 import axios from '../../utils/axios';
 
@@ -15,7 +15,7 @@ const DEFAULT_PAGE_SIZE = 5;
 
 // ----------------------------------------------------------------------
 
-const initialState: AppUserState = {
+const initialState: WarehouseState = {
   loading: null,
   error: null,
   list: {
@@ -28,7 +28,7 @@ const initialState: AppUserState = {
 };
 
 const slice = createSlice({
-  name: 'appUser',
+  name: 'warehouse',
   initialState,
   reducers: {
     startLoading(state, action) {
@@ -42,24 +42,24 @@ const slice = createSlice({
       state.loading = null;
       state.error = null;
     },
-    searchAppUser(state, action) {
+    searchWarehouse(state, action) {
       state.loading = null;
       state.list = action.payload;
     },
-    getAppUser(state, action) {
+    getWarehouse(state, action) {
       state.loading = null;
       state.single = action.payload;
     },
-    createAppUser(state) {
+    createWarehouse(state) {
       state.loading = null;
     },
-    updateAppUser(state) {
+    updateWarehouse(state) {
       state.loading = null;
     },
-    deleteAppUser(state) {
+    deleteWarehouse(state) {
       state.loading = null;
     },
-    deleteMulAppUser(state) {
+    deleteMulWarehouse(state) {
       state.loading = null;
     },
   },
@@ -68,53 +68,43 @@ const slice = createSlice({
 export default slice.reducer;
 export const { hasError, clearError } = slice.actions;
 
-export function searchAppUser(params: SearchAppUserSchema) {
+export function searchWarehouse(params: SearchWarehouseSchema) {
   return async () => {
     dispatch(slice.actions.startLoading(BaseLoading.SEARCH));
-    const response = await axios.post('/user/search', params);
+    const response = await axios.post('/warehouse/search', params);
 
-    dispatch(slice.actions.searchAppUser(response.data));
+    dispatch(slice.actions.searchWarehouse(response.data));
   };
 }
 
-export function getAppUser(params: GetAppUserSchema) {
+export function getWarehouse(params: GetWarehouseSchema) {
   return async () => {
     dispatch(slice.actions.startLoading(BaseLoading.GET));
-    console.log('loading');
-
-    const response = await axios.get('/user', { params });
-    dispatch(slice.actions.getAppUser(response.data));
+    const response = await axios.get('/warehouse', { params });
+    dispatch(slice.actions.getWarehouse(response.data));
   };
 }
 
-export function createAppUser(params: CreateAppUserSchema) {
+export function createWarehouse(params: CreateWarehouseSchema) {
   return async () => {
     dispatch(slice.actions.startLoading(BaseLoading.CREATE));
-    await axios.post('/user', params);
-    dispatch(slice.actions.createAppUser());
+    await axios.post('/warehouse', params);
+    dispatch(slice.actions.createWarehouse());
   };
 }
 
-export function updateAppUser(params: UpdateAppUserSchema) {
+export function updateWarehouse(params: UpdateWarehouseSchema) {
   return async () => {
     dispatch(slice.actions.startLoading(BaseLoading.UPDATE));
-    await axios.put('/user', { ...params, inWarehouseId: params.inWarehouse?.id });
-    dispatch(slice.actions.updateAppUser());
+    await axios.put('/warehouse', params);
+    dispatch(slice.actions.updateWarehouse());
   };
 }
 
-export function deleteAppUser(params: DeleteAppUserSchema) {
+export function deleteWarehouse(params: DeleteWarehouseSchema) {
   return async () => {
     dispatch(slice.actions.startLoading(BaseLoading.DELETE));
-    await axios.delete('/user', { data: [...params.ids] });
-    dispatch(slice.actions.deleteAppUser());
-  };
-}
-
-export function deleteMulAppUser(params: DeleteAppUserSchema) {
-  return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.DELETE));
-    await axios.delete('/user', { data: [...params.ids] });
-    dispatch(slice.actions.deleteAppUser());
+    await axios.delete('/warehouse', { data: [...params.ids] });
+    dispatch(slice.actions.deleteWarehouse());
   };
 }

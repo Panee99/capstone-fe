@@ -1,6 +1,5 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useSnackbar } from 'notistack';
-import useIsMountedRef from '../../../../hooks/useIsMountedRef';
 // form
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
@@ -11,17 +10,15 @@ import {
   RHFSwitch,
   RHFTextField,
 } from '../../../../components/hook-form';
-import RHFSelect from '../../../../components/hook-form/RHFSelect';
 // @mui
 import { LoadingButton } from '@mui/lab';
 import { Stack, Alert } from '@mui/material';
 // redux
 import { useDispatch, useSelector } from '../../../../redux/store';
 // routes
-import { PATH_DASHBOARD } from '../../../../routes/paths';
-import { UpdateAppUserSchema } from 'src/@types/appUser';
+import { CreateAppUserSchema, ENUM_GENDER } from 'src/@types/appUser';
 import { phoneRegExp } from 'src/utils/regexPattern';
-import { searchAppUser, updateAppUser, hasError } from 'src/redux/slices/appUser';
+import { searchAppUser, createAppUser } from 'src/redux/slices/appUser';
 import { GENDER_OPTION } from 'src/utils/constants';
 import NetworkAutocomplete from 'src/components/hook-form/NetworkAutocomplete';
 import { debugError } from 'src/utils/foundation';
@@ -30,24 +27,22 @@ import { debugError } from 'src/utils/foundation';
 
 // ----------------------------------------------------------------------
 
-type FormValuesProps = UpdateAppUserSchema & {
+type FormValuesProps = CreateAppUserSchema & {
   afterSubmit?: string;
 };
 
 type Props = {
-  payload: UpdateAppUserSchema;
   onSuccess?: Function;
 };
 
-export default function AppUserEditForm({ payload, onSuccess }: Props) {
+export default function AppUserAddForm({ onSuccess }: Props) {
   const dispatch = useDispatch();
   const { error } = useSelector((state) => state.appUser);
-
-  const isMountedRef = useIsMountedRef();
 
   const { enqueueSnackbar } = useSnackbar();
 
   const YupSchema = Yup.object().shape({
+    username: Yup.string().required('Username is required'),
     email: Yup.string().email().required('Email is required'),
     firstName: Yup.string().required('First name is required'),
     lastName: Yup.string().required('First name is required'),
@@ -58,16 +53,15 @@ export default function AppUserEditForm({ payload, onSuccess }: Props) {
 
   const defaultValues = useMemo(
     () => ({
-      email: payload.email || '',
-      firstName: payload.firstName || '',
-      lastName: payload.lastName || '',
-      phoneNumber: payload.phoneNumber || '',
-      gender: payload.gender || '',
-      isActive: payload.isActive,
-      inWarehouse: payload.inWarehouse,
+      username: '',
+      email: '',
+      firstName: '',
+      lastName: '',
+      phoneNumber: '',
+      gender: ENUM_GENDER.MALE,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [payload]
+    []
   );
 
   const methods = useForm<FormValuesProps>({
@@ -82,20 +76,14 @@ export default function AppUserEditForm({ payload, onSuccess }: Props) {
     formState: { isSubmitting, errors },
   } = methods;
 
-  useEffect(() => {
-    reset(defaultValues);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [payload]);
-
-  const onSubmit = async (value: UpdateAppUserSchema) => {
+  const onSubmit = async (value: CreateAppUserSchema) => {
     const data = {
       ...value,
-      id: payload.id,
     };
 
     try {
-      await dispatch(updateAppUser(data));
-      enqueueSnackbar('Update success!');
+      await dispatch(createAppUser(data));
+      enqueueSnackbar('Create user success!');
       if (onSuccess) {
         onSuccess();
       }
@@ -111,6 +99,7 @@ export default function AppUserEditForm({ payload, onSuccess }: Props) {
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
         {error && <Alert severity="error">{error}</Alert>}
+        <RHFTextField name="username" label="Username" autoFocus />
         <RHFTextField name="email" label="Email" />
         <RHFTextField name="firstName" label="firstName" />
         <RHFTextField name="lastName" label="lastName" />
@@ -122,12 +111,6 @@ export default function AppUserEditForm({ payload, onSuccess }: Props) {
             '& .MuiFormControlLabel-root': { mr: 4 },
           }}
         />
-        <RHFSwitch
-          name="isActive"
-          label="Active"
-          labelPlacement="start"
-          style={{ alignSelf: 'start' }}
-        />
         <NetworkAutocomplete
           name="inWarehouse"
           label="Warehouse"
@@ -137,7 +120,7 @@ export default function AppUserEditForm({ payload, onSuccess }: Props) {
       </Stack>
       <Stack alignItems="flex-end" sx={{ mt: 3 }}>
         <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-          Save Changes
+          Create
         </LoadingButton>
       </Stack>
     </FormProvider>

@@ -1,4 +1,9 @@
-import { BaseState, GenericSearchSchema } from './generic';
+import { BaseState, FetchModel, GenericSearchSchema } from './generic';
+
+export enum ENUM_GENDER {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+}
 
 export type AppUser = {
   id: string;
@@ -9,12 +14,10 @@ export type AppUser = {
   phoneNumber?: string | null;
   gender?: string | null;
   isActive: boolean;
-  inWarehouse?: string | null;
+  inWarehouse?: FetchModel;
 };
-// ----------------------------------------------------------------------
 
 export type AppUserState = BaseState<AppUser>;
-// ----------------------------------------------------------------------
 
 export type SearchAppUserSchema = Omit<GenericSearchSchema, 'keyword'> & {
   name?: string | null;
@@ -41,9 +44,9 @@ export type UpdateAppUserSchema = {
   phoneNumber?: string | null;
   gender?: string | null;
   isActive?: boolean | null;
-  inWarehouse?: string | null;
+  inWarehouse?: FetchModel;
 };
 
 export type DeleteAppUserSchema = {
-  id: string;
+  ids: string[];
 };

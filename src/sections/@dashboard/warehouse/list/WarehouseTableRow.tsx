@@ -1,32 +1,25 @@
 import { useState } from 'react';
-// @mui
-import { Checkbox, TableRow, TableCell, MenuItem, Typography, useTheme } from '@mui/material';
-import { AppUser, ENUM_GENDER } from 'src/@types/appUser';
+import { Checkbox, TableRow, TableCell, MenuItem, Typography } from '@mui/material';
+import { Warehouse } from 'src/@types/warehouse';
 import Iconify from 'src/components/Iconify';
 import { TableMoreMenu } from 'src/components/table';
-import Label from 'src/components/Label';
-
-// ----------------------------------------------------------------------
 
 type Props = {
-  row: AppUser;
+  row: Warehouse;
   selected: boolean;
   onEditRow: Function;
   onSelectRow: VoidFunction;
   onDeleteRow: Function;
 };
 
-export default function AppUserTableRow({
+export default function WarehouseTableRow({
   row,
   selected,
   onEditRow,
   onSelectRow,
   onDeleteRow,
 }: Props) {
-  const theme = useTheme();
-
-  const { id, username, email, firstName, lastName, phoneNumber, gender, isActive, inWarehouse } =
-    row;
+  const { id, name, address } = row;
 
   const [openMenu, setOpenMenuActions] = useState<HTMLElement | null>(null);
 
@@ -46,37 +39,11 @@ export default function AppUserTableRow({
 
       <TableCell align="left">
         <Typography variant="subtitle2" color="text.primary" component="div">
-          {`${firstName} ${lastName}`}
+          {name}
         </Typography>
       </TableCell>
 
-      <TableCell align="left">{username}</TableCell>
-
-      <TableCell align="left">{email}</TableCell>
-
-      <TableCell align="left">{phoneNumber}</TableCell>
-
-      <TableCell align="left">
-        <Label
-          variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-          color={(gender === ENUM_GENDER.FEMALE && 'success') || 'info'}
-          sx={{ textTransform: 'capitalize' }}
-        >
-          {gender}
-        </Label>
-      </TableCell>
-
-      <TableCell align="left">
-        {' '}
-        <Label
-          variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-          color={(isActive && 'success') || 'error'}
-          sx={{ textTransform: 'capitalize' }}
-        >
-          {(isActive && 'Active') || 'InActive'}
-        </Label>
-      </TableCell>
-      <TableCell align="left">{inWarehouse?.name}</TableCell>
+      <TableCell align="left">{address}</TableCell>
 
       <TableCell align="right">
         <TableMoreMenu

@@ -1,7 +1,6 @@
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
-import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 import SvgIconStyle from '../../../components/SvgIconStyle';
 
@@ -26,6 +25,8 @@ const ICONS = {
   analytics: getIcon('ic_analytics'),
   dashboard: getIcon('ic_dashboard'),
   menuItem: getIcon('ic_menu_item'),
+  warehouse: <Iconify icon="fa6-solid:warehouse" />,
+  customer: <Iconify icon="clarity:users-solid" />,
 };
 
 const navConfig = [
@@ -66,6 +67,18 @@ const navConfig = [
         path: PATH_DASHBOARD.appUser.root,
         icon: ICONS.user,
         children: [{ title: 'list', path: PATH_DASHBOARD.appUser.list }],
+      },
+      {
+        title: 'warehouse',
+        path: PATH_DASHBOARD.warehouse.root,
+        icon: ICONS.warehouse,
+        children: [{ title: 'list', path: PATH_DASHBOARD.warehouse.list }],
+      },
+      {
+        title: 'customer',
+        path: PATH_DASHBOARD.customer.root,
+        icon: ICONS.customer,
+        children: [{ title: 'list', path: PATH_DASHBOARD.customer.list }],
       },
 
       // E-COMMERCE

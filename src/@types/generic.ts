@@ -39,10 +39,18 @@ export type BaseEntity = Base & {
 export type Attachment = {};
 
 export type BaseState<T> = {
-  isLoading: boolean;
+  loading: BaseLoading | null;
   error: Error | null;
   list: SearchResult<T>;
   single: T | null;
   page: number;
   pageSize: number;
 };
+
+export enum BaseLoading {
+  SEARCH,
+  GET,
+  CREATE,
+  UPDATE,
+  DELETE,
+}

@@ -19,9 +19,9 @@ import { Stack, Alert } from '@mui/material';
 import { useDispatch, useSelector } from '../../../../redux/store';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
-import { UpdateAppUserSchema } from 'src/@types/appUser';
+import { UpdateCustomerSchema } from 'src/@types/customer';
 import { phoneRegExp } from 'src/utils/regexPattern';
-import { searchAppUser, updateAppUser, hasError } from 'src/redux/slices/appUser';
+import { searchCustomer, updateCustomer, hasError } from 'src/redux/slices/customer';
 import { GENDER_OPTION } from 'src/utils/constants';
 import NetworkAutocomplete from 'src/components/hook-form/NetworkAutocomplete';
 import { debugError } from 'src/utils/foundation';
@@ -30,41 +30,38 @@ import { debugError } from 'src/utils/foundation';
 
 // ----------------------------------------------------------------------
 
-type FormValuesProps = UpdateAppUserSchema & {
+type FormValuesProps = UpdateCustomerSchema & {
   afterSubmit?: string;
 };
 
 type Props = {
-  payload: UpdateAppUserSchema;
+  payload: UpdateCustomerSchema;
   onSuccess?: Function;
 };
 
-export default function AppUserEditForm({ payload, onSuccess }: Props) {
+export default function CustomerEditForm({ payload, onSuccess }: Props) {
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => state.appUser);
-
-  const isMountedRef = useIsMountedRef();
+  const { error } = useSelector((state) => state.customer);
 
   const { enqueueSnackbar } = useSnackbar();
 
   const YupSchema = Yup.object().shape({
-    email: Yup.string().email().required('Email is required'),
-    firstName: Yup.string().required('First name is required'),
-    lastName: Yup.string().required('First name is required'),
-    phoneNumber: Yup.string()
+    name: Yup.string().required('Name is required'),
+    address: Yup.string().required('Address is required'),
+    phone: Yup.string()
       .matches(phoneRegExp, 'Phone number is not valid')
       .required('Phone number is required'),
+    email: Yup.string().email().required('Email is required'),
+    description: Yup.string(),
   });
 
   const defaultValues = useMemo(
     () => ({
+      name: payload.name || '',
+      address: payload.address || '',
+      phone: payload.phone || '',
       email: payload.email || '',
-      firstName: payload.firstName || '',
-      lastName: payload.lastName || '',
-      phoneNumber: payload.phoneNumber || '',
-      gender: payload.gender || '',
-      isActive: payload.isActive,
-      inWarehouse: payload.inWarehouse,
+      description: payload.description || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [payload]
@@ -87,19 +84,19 @@ export default function AppUserEditForm({ payload, onSuccess }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [payload]);
 
-  const onSubmit = async (value: UpdateAppUserSchema) => {
+  const onSubmit = async (value: UpdateCustomerSchema) => {
     const data = {
       ...value,
       id: payload.id,
     };
 
     try {
-      await dispatch(updateAppUser(data));
+      await dispatch(updateCustomer(data));
       enqueueSnackbar('Update success!');
       if (onSuccess) {
         onSuccess();
       }
-      await dispatch(searchAppUser({}));
+      await dispatch(searchCustomer({}));
     } catch (error) {
       debugError(error);
       setError('afterSubmit', { message: error.message || error });
@@ -111,29 +108,11 @@ export default function AppUserEditForm({ payload, onSuccess }: Props) {
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
         {error && <Alert severity="error">{error}</Alert>}
+        <RHFTextField name="name" label="Name" autoFocus />
         <RHFTextField name="email" label="Email" />
-        <RHFTextField name="firstName" label="firstName" />
-        <RHFTextField name="lastName" label="lastName" />
-        <RHFTextField name="phoneNumber" label="phoneNumber" />
-        <RHFRadioGroup
-          name="gender"
-          options={GENDER_OPTION}
-          sx={{
-            '& .MuiFormControlLabel-root': { mr: 4 },
-          }}
-        />
-        <RHFSwitch
-          name="isActive"
-          label="Active"
-          labelPlacement="start"
-          style={{ alignSelf: 'start' }}
-        />
-        <NetworkAutocomplete
-          name="inWarehouse"
-          label="Warehouse"
-          endpoint="/warehouse/fetch"
-          sx={{ width: '100%' }}
-        />
+        <RHFTextField name="phone" label="Phone" />
+        <RHFTextField name="address" label="Address" />
+        <RHFTextField name="description" label="Description" />
       </Stack>
       <Stack alignItems="flex-end" sx={{ mt: 3 }}>
         <LoadingButton type="submit" variant="contained" loading={isSubmitting}>

@@ -104,12 +104,15 @@ export default function Router() {
         },
         {
           path: 'app-user',
-          children: [
-            { path: 'list', element: <AppUserList /> },
-            { path: 'new', element: <UserCreate /> },
-            { path: ':name/edit', element: <UserCreate /> },
-            { path: 'account', element: <UserAccount /> },
-          ],
+          children: [{ path: 'list', element: <AppUserList /> }],
+        },
+        {
+          path: 'warehouse',
+          children: [{ path: 'list', element: <WarehouseList /> }],
+        },
+        {
+          path: 'customer',
+          children: [{ path: 'list', element: <CustomerList /> }],
         },
         {
           path: 'invoice',
@@ -225,7 +228,13 @@ const UserAccount = Loadable(lazy(() => import('../pages/dashboardd/UserAccount'
 const UserCreate = Loadable(lazy(() => import('../pages/dashboardd/UserCreate')));
 
 // APP USER
-const AppUserList = Loadable(lazy(() => import('../pages/dashboard/AppUserList')));
+const AppUserList = Loadable(lazy(() => import('../pages/dashboard/appUser/AppUserList')));
+
+// WAREHOUSE
+const WarehouseList = Loadable(lazy(() => import('../pages/dashboard/warehouse/WarehouseList')));
+
+// CUSTOMER
+const CustomerList = Loadable(lazy(() => import('../pages/dashboard/customer/CustomerList')));
 
 // APP
 const Chat = Loadable(lazy(() => import('../pages/dashboardd/Chat')));

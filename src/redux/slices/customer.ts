@@ -1,13 +1,13 @@
 import { BaseLoading } from '../../@types/generic';
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  AppUserState,
-  CreateAppUserSchema,
-  DeleteAppUserSchema,
-  GetAppUserSchema,
-  SearchAppUserSchema,
-  UpdateAppUserSchema,
-} from 'src/@types/appUser';
+  CustomerState,
+  CreateCustomerSchema,
+  DeleteCustomerSchema,
+  GetCustomerSchema,
+  SearchCustomerSchema,
+  UpdateCustomerSchema,
+} from 'src/@types/customer';
 import { dispatch } from '../store';
 import axios from '../../utils/axios';
 
@@ -15,7 +15,7 @@ const DEFAULT_PAGE_SIZE = 5;
 
 // ----------------------------------------------------------------------
 
-const initialState: AppUserState = {
+const initialState: CustomerState = {
   loading: null,
   error: null,
   list: {
@@ -28,7 +28,7 @@ const initialState: AppUserState = {
 };
 
 const slice = createSlice({
-  name: 'appUser',
+  name: 'customer',
   initialState,
   reducers: {
     startLoading(state, action) {
@@ -42,24 +42,24 @@ const slice = createSlice({
       state.loading = null;
       state.error = null;
     },
-    searchAppUser(state, action) {
+    searchCustomer(state, action) {
       state.loading = null;
       state.list = action.payload;
     },
-    getAppUser(state, action) {
+    getCustomer(state, action) {
       state.loading = null;
       state.single = action.payload;
     },
-    createAppUser(state) {
+    createCustomer(state) {
       state.loading = null;
     },
-    updateAppUser(state) {
+    updateCustomer(state) {
       state.loading = null;
     },
-    deleteAppUser(state) {
+    deleteCustomer(state) {
       state.loading = null;
     },
-    deleteMulAppUser(state) {
+    deleteMulCustomer(state) {
       state.loading = null;
     },
   },
@@ -68,53 +68,45 @@ const slice = createSlice({
 export default slice.reducer;
 export const { hasError, clearError } = slice.actions;
 
-export function searchAppUser(params: SearchAppUserSchema) {
+export function searchCustomer(params: SearchCustomerSchema) {
   return async () => {
     dispatch(slice.actions.startLoading(BaseLoading.SEARCH));
-    const response = await axios.post('/user/search', params);
+    const response = await axios.post('/customer/search', params);
 
-    dispatch(slice.actions.searchAppUser(response.data));
+    dispatch(slice.actions.searchCustomer(response.data));
   };
 }
 
-export function getAppUser(params: GetAppUserSchema) {
+export function getCustomer(params: GetCustomerSchema) {
   return async () => {
     dispatch(slice.actions.startLoading(BaseLoading.GET));
     console.log('loading');
 
-    const response = await axios.get('/user', { params });
-    dispatch(slice.actions.getAppUser(response.data));
+    const response = await axios.get('/customer', { params });
+    dispatch(slice.actions.getCustomer(response.data));
   };
 }
 
-export function createAppUser(params: CreateAppUserSchema) {
+export function createCustomer(params: CreateCustomerSchema) {
   return async () => {
     dispatch(slice.actions.startLoading(BaseLoading.CREATE));
-    await axios.post('/user', params);
-    dispatch(slice.actions.createAppUser());
+    await axios.post('/customer', params);
+    dispatch(slice.actions.createCustomer());
   };
 }
 
-export function updateAppUser(params: UpdateAppUserSchema) {
+export function updateCustomer(params: UpdateCustomerSchema) {
   return async () => {
     dispatch(slice.actions.startLoading(BaseLoading.UPDATE));
-    await axios.put('/user', { ...params, inWarehouseId: params.inWarehouse?.id });
-    dispatch(slice.actions.updateAppUser());
+    await axios.put('/customer', params);
+    dispatch(slice.actions.updateCustomer());
   };
 }
 
-export function deleteAppUser(params: DeleteAppUserSchema) {
+export function deleteCustomer(params: DeleteCustomerSchema) {
   return async () => {
     dispatch(slice.actions.startLoading(BaseLoading.DELETE));
-    await axios.delete('/user', { data: [...params.ids] });
-    dispatch(slice.actions.deleteAppUser());
-  };
-}
-
-export function deleteMulAppUser(params: DeleteAppUserSchema) {
-  return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.DELETE));
-    await axios.delete('/user', { data: [...params.ids] });
-    dispatch(slice.actions.deleteAppUser());
+    await axios.delete('/customer', { data: [...params.ids] });
+    dispatch(slice.actions.deleteCustomer());
   };
 }

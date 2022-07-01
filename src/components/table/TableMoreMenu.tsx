@@ -24,9 +24,9 @@ export default function TableMoreMenu({ actions, open, onClose, onOpen }: Props)
         open={Boolean(open)}
         anchorEl={open}
         onClose={onClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        arrow="right-top"
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        arrow="left-top"
         sx={{
           mt: -1,
           width: 160,

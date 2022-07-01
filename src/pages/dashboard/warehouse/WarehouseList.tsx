@@ -1,11 +1,7 @@
-import { paramCase } from 'change-case';
 import { useEffect, useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // @mui
 import {
   Box,
-  Tab,
-  Tabs,
   Card,
   Table,
   Switch,
@@ -21,69 +17,48 @@ import {
   Drawer,
 } from '@mui/material';
 // routes
-import { PATH_DASHBOARD } from '../../routes/paths';
+import { PATH_DASHBOARD } from '../../../routes/paths';
 // hooks
-import useTabs from '../../hooks/useTabs';
-import useSettings from '../../hooks/useSettings';
-import useTable, { getComparator, emptyRows } from '../../hooks/useTable';
-// @types
-import { UserManager } from '../../@types/user';
-// _mock_
-import { _userList } from '../../_mock';
-// components
-import Page from '../../components/Page';
-import Iconify from '../../components/Iconify';
-import Scrollbar from '../../components/Scrollbar';
-import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+import useTabs from '../../../hooks/useTabs';
+import useSettings from '../../../hooks/useSettings';
+import useTable, { emptyRows } from '../../../hooks/useTable';
+import Page from '../../../components/Page';
+import Iconify from '../../../components/Iconify';
+import Scrollbar from '../../../components/Scrollbar';
+import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
 import {
   TableNoData,
   TableEmptyRows,
   TableHeadCustom,
   TableSelectedActions,
-} from '../../components/table';
-// sections
+} from '../../../components/table';
 import { useDispatch, useSelector } from 'src/redux/store';
-import { deleteAppUser, getAppUser, searchAppUser } from 'src/redux/slices/appUser';
 import useToggle from 'src/hooks/useToggle';
-import { AppUserTableRow, AppUserTableToolbar } from 'src/sections/@dashboard/app-user/list';
-import AppUserEditForm from 'src/sections/@dashboard/app-user/form/AppUserEditForm';
+import Loading from 'src/components/Loading';
+import { BaseLoading } from 'src/@types/generic';
+import { deleteWarehouse, getWarehouse, searchWarehouse } from 'src/redux/slices/warehouse';
+import { WarehouseTableRow, WarehouseTableToolbar } from 'src/sections/@dashboard/warehouse/list';
+import WarehouseEditForm from 'src/sections/@dashboard/warehouse/form/WarehouseEditForm';
+import WarehouseAddForm from 'src/sections/@dashboard/warehouse/form/WarehouseAddForm';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = ['all', 'active', 'banned'];
-
-const ROLE_OPTIONS = [
-  'all',
-  'ux designer',
-  'full stack designer',
-  'backend developer',
-  'project manager',
-  'leader',
-  'ui designer',
-  'ui/ux designer',
-  'front end developer',
-  'full stack developer',
-];
-
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', align: 'left' },
-  { id: 'username', label: 'Username', align: 'left' },
-  { id: 'email', label: 'Email', align: 'left' },
-  { id: 'phone', label: 'Phone', align: 'left' },
-  { id: 'gender', label: 'Gender', align: 'center' },
-  { id: 'isActive', label: 'Active', align: 'center' },
-  { id: 'inWarehouse', label: 'Warehouse', align: 'left' },
+  { id: 'address', label: 'Address', align: 'left' },
   { id: '' },
 ];
 
 // ----------------------------------------------------------------------
 
-export default function UserList() {
+export default function WarehouseList() {
   const dispatch = useDispatch();
 
-  const { list, single } = useSelector((state) => state.appUser);
+  const { list, single, loading } = useSelector((state) => state.warehouse);
 
   const { toggle, setToggle } = useToggle();
+
+  const [isEdit, setIsEdit] = useState(false);
 
   const { items: tableData, totalRows: total } = list;
 
@@ -108,43 +83,29 @@ export default function UserList() {
 
   const { themeStretch } = useSettings();
 
-  const navigate = useNavigate();
-
-  const [filterName, setFilterName] = useState('');
-
-  const [filterRole, setFilterRole] = useState('all');
-
   const { currentTab: filterStatus, onChangeTab: onChangeFilterStatus } = useTabs('all');
 
   const [filterKeyword, setFilterKeyword] = useState('');
 
   useEffect(() => {
-    dispatch(searchAppUser({ name: filterKeyword, pageIndex: page + 1, pageSize: rowsPerPage }));
+    dispatch(searchWarehouse({ name: filterKeyword, pageIndex: page + 1, pageSize: rowsPerPage }));
   }, [dispatch, filterKeyword, page, rowsPerPage]);
 
-  const handleFilterName = (filterName: string) => {
-    setFilterName(filterName);
-    setPage(0);
-  };
-
-  const handleFilterRole = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFilterRole(event.target.value);
-  };
-
   const handleDeleteRow = async (id: string) => {
-    await dispatch(deleteAppUser({ id: id }));
-    dispatch(searchAppUser({ pageIndex: 1 }));
+    await dispatch(deleteWarehouse({ ids: [id] }));
+    dispatch(searchWarehouse({ pageIndex: 1 }));
     setSelected([]);
   };
 
   const handleDeleteRows = async (ids: string[]) => {
-    await dispatch(deleteAppUser({ id: ids[0] }));
-    dispatch(searchAppUser({ pageIndex: 1 }));
+    await dispatch(deleteWarehouse({ ids }));
+    dispatch(searchWarehouse({ pageIndex: 1 }));
     setSelected([]);
   };
 
   const handleEditRow = (id: string) => {
-    dispatch(getAppUser({ id }));
+    setIsEdit(true);
+    dispatch(getWarehouse({ id }));
     setToggle(true);
   };
 
@@ -166,44 +127,33 @@ export default function UserList() {
   const isNotFound = !tableData.length && !!filterKeyword;
 
   return (
-    <Page title="User: List">
+    <Page title="Warehouse: List">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="User List"
+          heading="Warehouse List"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'User', href: PATH_DASHBOARD.user.root },
+            { name: 'Warehouse', href: PATH_DASHBOARD.warehouse.root },
             { name: 'List' },
           ]}
           action={
             <Button
               variant="contained"
-              component={RouterLink}
-              to={PATH_DASHBOARD.user.new}
               startIcon={<Iconify icon={'eva:plus-fill'} />}
+              onClick={() => {
+                setToggle(true);
+                setIsEdit(false);
+              }}
             >
-              New User
+              New Warehouse
             </Button>
           }
         />
 
         <Card>
-          <Tabs
-            allowScrollButtonsMobile
-            variant="scrollable"
-            scrollButtons="auto"
-            value={filterStatus}
-            onChange={onChangeFilterStatus}
-            sx={{ px: 2, bgcolor: 'background.neutral' }}
-          >
-            {STATUS_OPTIONS.map((tab) => (
-              <Tab disableRipple key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
-
           <Divider />
 
-          <AppUserTableToolbar
+          <WarehouseTableToolbar
             filterKeyword={filterKeyword}
             onFilterKeyword={handleFilterKeyword}
           />
@@ -251,7 +201,7 @@ export default function UserList() {
                   {tableData
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
-                      <AppUserTableRow
+                      <WarehouseTableRow
                         key={row.id}
                         row={row}
                         selected={selected.includes(row.id)}
@@ -303,7 +253,13 @@ export default function UserList() {
               <Iconify icon={'ant-design:close-circle-outlined'} />
             </IconButton>
           </Box>
-          {single ? <AppUserEditForm payload={single!} /> : ''}
+          {loading === BaseLoading.GET && <Loading />}
+          {isEdit && !loading && single ? (
+            <WarehouseEditForm payload={single!} onSuccess={() => setToggle(false)} />
+          ) : (
+            ''
+          )}
+          {!isEdit ? <WarehouseAddForm onSuccess={() => setToggle(false)} /> : ''}
         </Box>
       </Drawer>
     </Page>
