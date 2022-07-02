@@ -115,6 +115,10 @@ export default function Router() {
           children: [{ path: 'list', element: <CustomerList /> }],
         },
         {
+          path: 'category',
+          children: [{ path: 'list', element: <CategoryList /> }],
+        },
+        {
           path: 'invoice',
           children: [
             { element: <Navigate to="/dashboard/invoice/list" replace />, index: true },
@@ -235,6 +239,9 @@ const WarehouseList = Loadable(lazy(() => import('../pages/dashboard/warehouse/W
 
 // CUSTOMER
 const CustomerList = Loadable(lazy(() => import('../pages/dashboard/customer/CustomerList')));
+
+// PRODUCT
+const CategoryList = Loadable(lazy(() => import('../pages/dashboard/category/CategoryList')));
 
 // APP
 const Chat = Loadable(lazy(() => import('../pages/dashboardd/Chat')));

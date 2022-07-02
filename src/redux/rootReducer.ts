@@ -10,6 +10,7 @@ import kanbanReducer from './slices/kanban';
 import appUserReducer from './slices/appUser';
 import warehouseReducer from './slices/warehouse';
 import customerReducer from './slices/customer';
+import categoryReducer from './slices/category';
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +32,8 @@ const rootReducer = combineReducers({
   appUser: appUserReducer,
   warehouse: warehouseReducer,
   customer: customerReducer,
+  category: categoryReducer,
+
   mail: mailReducer,
   chat: chatReducer,
   calendar: calendarReducer,
