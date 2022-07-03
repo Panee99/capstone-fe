@@ -11,6 +11,7 @@ import appUserReducer from './slices/appUser';
 import warehouseReducer from './slices/warehouse';
 import customerReducer from './slices/customer';
 import categoryReducer from './slices/category';
+import userGroupReducer from './slices/userGroup';
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
   warehouse: warehouseReducer,
   customer: customerReducer,
   category: categoryReducer,
+  userGroup: userGroupReducer,
 
   mail: mailReducer,
   chat: chatReducer,

@@ -119,6 +119,10 @@ export default function Router() {
           children: [{ path: 'list', element: <CategoryList /> }],
         },
         {
+          path: 'usergroup',
+          children: [{ path: 'list', element: <UserGroupList />}],
+        },
+        {
           path: 'invoice',
           children: [
             { element: <Navigate to="/dashboard/invoice/list" replace />, index: true },
@@ -242,6 +246,9 @@ const CustomerList = Loadable(lazy(() => import('../pages/dashboard/customer/Cus
 
 // PRODUCT
 const CategoryList = Loadable(lazy(() => import('../pages/dashboard/category/CategoryList')));
+
+//USER GROUP
+const UserGroupList = Loadable(lazy(() => import('../pages/dashboard/userGroup/UserGroupList')));
 
 // APP
 const Chat = Loadable(lazy(() => import('../pages/dashboardd/Chat')));
