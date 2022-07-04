@@ -87,6 +87,13 @@ const navConfig = [
         icon: ICONS.speeker,
         children: [{ title: 'list', path: PATH_DASHBOARD.category.list }],
       },
+      {
+        title: 'usergroup',
+        path: PATH_DASHBOARD.category.root,
+        icon: ICONS.speeker,
+        children: [{ title: 'list', path: PATH_DASHBOARD.category.list }],
+      },
+
 
       // E-COMMERCE
       // {
