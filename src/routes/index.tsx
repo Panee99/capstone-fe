@@ -94,6 +94,10 @@ export default function Router() {
           children: [{ path: 'list', element: <ProductList /> }],
         },
         {
+          path: 'usergroup',
+          children: [{ path: 'list', element: <UserGroupList /> }],
+        },
+        {
           path: 'beginning-voucher',
           children: [{ path: 'list', element: <BeginningVoucherList /> }],
         },
@@ -148,6 +152,9 @@ const CategoryList = Loadable(lazy(() => import('../pages/dashboard/category/Cat
 
 // PRODUCT
 const ProductList = Loadable(lazy(() => import('../pages/dashboard/product/ProductList')));
+
+//USER GROUP
+const UserGroupList = Loadable(lazy(() => import('../pages/dashboard/userGroup/UserGroupList')));
 
 // BEGINNING VOUCHER
 const BeginningVoucherList = Loadable(

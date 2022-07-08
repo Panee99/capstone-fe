@@ -89,6 +89,10 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_DASHBOARD, '/beginning-voucher'),
     list: path(ROOTS_DASHBOARD, '/beginning-voucher/list'),
   },
+  userGroup: {
+    root: path(ROOTS_DASHBOARD, '/user-group'),
+    list: path(ROOTS_DASHBOARD, '/user-group/list'),
+  },
   eCommerce: {
     root: path(ROOTS_DASHBOARD, '/e-commerce'),
     shop: path(ROOTS_DASHBOARD, '/e-commerce/shop'),
