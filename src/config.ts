@@ -1,3 +1,4 @@
+import { _appFeatured } from './_mock/_app';
 // @mui
 import { enUS, frFR, zhCN, viVN, arSD } from '@mui/material/locale';
 // components

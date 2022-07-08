@@ -1,11 +1,11 @@
 import {
-  GetProductSchema,
-  CreateProductSchema,
-  UpdateProductSchema,
-  SearchProductSchema,
-  DeleteProductSchema,
-  ProductState,
-} from '../../@types/product';
+  GetBeginningVoucherSchema,
+  CreateBeginningVoucherSchema,
+  UpdateBeginningVoucherSchema,
+  SearchBeginningVoucherSchema,
+  DeleteBeginningVoucherSchema,
+  BeginningVoucherState,
+} from '../../@types/vouchers/beginningVoucher';
 import { BaseLoading } from '../../@types/generic';
 import { createSlice } from '@reduxjs/toolkit';
 import { dispatch } from '../store';
@@ -15,7 +15,7 @@ const DEFAULT_PAGE_SIZE = 5;
 
 // ----------------------------------------------------------------------
 
-const initialState: ProductState = {
+const initialState: BeginningVoucherState = {
   loading: null,
   error: null,
   list: {
@@ -28,7 +28,7 @@ const initialState: ProductState = {
 };
 
 const slice = createSlice({
-  name: 'product',
+  name: 'beginningVoucher',
   initialState,
   reducers: {
     startLoading(state, action) {
@@ -42,24 +42,24 @@ const slice = createSlice({
       state.loading = null;
       state.error = null;
     },
-    searchProduct(state, action) {
+    searchBeginningVoucher(state, action) {
       state.loading = null;
       state.list = action.payload;
     },
-    getProduct(state, action) {
+    getBeginningVoucher(state, action) {
       state.loading = null;
       state.single = action.payload;
     },
-    createProduct(state) {
+    createBeginningVoucher(state) {
       state.loading = null;
     },
-    updateProduct(state) {
+    updateBeginningVoucher(state) {
       state.loading = null;
     },
-    deleteProduct(state) {
+    deleteBeginningVoucher(state) {
       state.loading = null;
     },
-    deleteMulProduct(state) {
+    deleteMulBeginningVoucher(state) {
       state.loading = null;
     },
   },
@@ -68,43 +68,45 @@ const slice = createSlice({
 export default slice.reducer;
 export const { hasError, clearError } = slice.actions;
 
-export function searchProduct(params: SearchProductSchema) {
+export function searchBeginningVoucher(params: SearchBeginningVoucherSchema) {
   return async () => {
     dispatch(slice.actions.startLoading(BaseLoading.SEARCH));
-    const response = await axios.post('/product/search', params);
+    const response = await axios.post('/beginning-voucher/search', params);
 
-    dispatch(slice.actions.searchProduct(response.data));
+    dispatch(slice.actions.searchBeginningVoucher(response.data));
   };
 }
 
-export function getProduct(params: GetProductSchema) {
+export function getBeginningVoucher(params: GetBeginningVoucherSchema) {
   return async () => {
     dispatch(slice.actions.startLoading(BaseLoading.GET));
-    const response = await axios.get('/product', { params });
-    dispatch(slice.actions.getProduct(response.data));
+    const response = await axios.get('/beginning-voucher', { params });
+    console.log(response.data);
+
+    dispatch(slice.actions.getBeginningVoucher(response.data));
   };
 }
 
-export function createProduct(params: CreateProductSchema) {
+export function createBeginningVoucher(params: CreateBeginningVoucherSchema) {
   return async () => {
     dispatch(slice.actions.startLoading(BaseLoading.CREATE));
-    await axios.post('/product', params);
-    dispatch(slice.actions.createProduct());
+    await axios.post('/beginning-voucher', params);
+    dispatch(slice.actions.createBeginningVoucher());
   };
 }
 
-export function updateProduct(params: UpdateProductSchema) {
+export function updateBeginningVoucher(params: UpdateBeginningVoucherSchema) {
   return async () => {
     dispatch(slice.actions.startLoading(BaseLoading.UPDATE));
-    await axios.put('/product', params);
-    dispatch(slice.actions.updateProduct());
+    await axios.put('/beginning-voucher', params);
+    dispatch(slice.actions.updateBeginningVoucher());
   };
 }
 
-export function deleteProduct(params: DeleteProductSchema) {
+export function deleteBeginningVoucher(params: DeleteBeginningVoucherSchema) {
   return async () => {
     dispatch(slice.actions.startLoading(BaseLoading.DELETE));
-    await axios.delete('/product', { data: [...params.ids] });
-    dispatch(slice.actions.deleteProduct());
+    await axios.delete('/beginning-voucher', { data: [...params.ids] });
+    dispatch(slice.actions.deleteBeginningVoucher());
   };
 }

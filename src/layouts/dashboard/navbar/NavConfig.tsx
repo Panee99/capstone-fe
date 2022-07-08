@@ -1,5 +1,5 @@
 // routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
+import { PATH_DASHBOARD, PATH_PAGE } from '../../../routes/paths';
 // components
 import Iconify from '../../../components/Iconify';
 import SvgIconStyle from '../../../components/SvgIconStyle';
@@ -36,7 +36,7 @@ const navConfig = [
   {
     subheader: 'general',
     items: [
-      // { title: 'app', path: PATH_DASHBOARD.general.app, icon: ICONS.dashboard },
+      { title: 'app', path: PATH_DASHBOARD.general.app, icon: ICONS.dashboard },
       // { title: 'ecommerce', path: PATH_DASHBOARD.general.ecommerce, icon: ICONS.ecommerce },
       // { title: 'analytics', path: PATH_DASHBOARD.general.analytics, icon: ICONS.analytics },
       // { title: 'banking', path: PATH_DASHBOARD.general.banking, icon: ICONS.banking },
@@ -87,6 +87,12 @@ const navConfig = [
         icon: ICONS.speeker,
         children: [{ title: 'list', path: PATH_DASHBOARD.category.list }],
       },
+      {
+        title: 'product',
+        path: PATH_DASHBOARD.product.root,
+        icon: ICONS.speeker,
+        children: [{ title: 'list', path: PATH_DASHBOARD.product.list }],
+      },
 
       // E-COMMERCE
       // {
@@ -129,70 +135,87 @@ const navConfig = [
       // },
     ],
   },
+  {
+    subheader: 'Voucher',
+    items: [
+      {
+        title: 'Beginning Voucher',
+        path: PATH_DASHBOARD.beginningVoucher.root,
+        icon: ICONS.speeker,
+        children: [{ title: 'list', path: PATH_DASHBOARD.beginningVoucher.list }],
+      },
+      {
+        title: 'Beginning Voucher',
+        path: PATH_PAGE.comingSoon,
+        icon: ICONS.speeker,
+        children: [{ title: 'list', path: PATH_PAGE.comingSoon }],
+      },
+    ],
+  },
 
   // APP
   // ----------------------------------------------------------------------
-  {
-    subheader: 'app',
-    items: [
-      // {
-      //   title: 'mail',
-      //   path: PATH_DASHBOARD.mail.root,
-      //   icon: ICONS.mail,
-      //   info: <Label color="error">+32</Label>,
-      // },
-      // { title: 'chat', path: PATH_DASHBOARD.chat.root, icon: ICONS.chat },
-      // { title: 'calendar', path: PATH_DASHBOARD.calendar, icon: ICONS.calendar },
-      // { title: 'kanban', path: PATH_DASHBOARD.kanban, icon: ICONS.kanban },
-    ],
-  },
+  // {
+  //   subheader: 'app',
+  //   items: [
+  //     // {
+  //     //   title: 'mail',
+  //     //   path: PATH_DASHBOARD.mail.root,
+  //     //   icon: ICONS.mail,
+  //     //   info: <Label color="error">+32</Label>,
+  //     // },
+  //     // { title: 'chat', path: PATH_DASHBOARD.chat.root, icon: ICONS.chat },
+  //     // { title: 'calendar', path: PATH_DASHBOARD.calendar, icon: ICONS.calendar },
+  //     // { title: 'kanban', path: PATH_DASHBOARD.kanban, icon: ICONS.kanban },
+  //   ],
+  // },
 
   // DEMO MENU STATES
-  {
-    subheader: 'Other cases',
-    items: [
-      // {
-      //   // default roles : All roles can see this entry.
-      //   // roles: ['user'] Only users can see this item.
-      //   // roles: ['admin'] Only admin can see this item.
-      //   // roles: ['admin', 'manager'] Only admin/manager can see this item.
-      //   // Reference from 'src/guards/RoleBasedGuard'.
-      //   title: 'item_by_roles',
-      //   path: PATH_DASHBOARD.permissionDenied,
-      //   icon: ICONS.menuItem,
-      //   roles: ['admin'],
-      //   caption: 'only_admin_can_see_this_item',
-      // },
-      // {
-      //   title: 'menu_level_1',
-      //   path: '#1',
-      //   icon: ICONS.menuItem,
-      //   children: [
-      //     { title: 'menu_level_2', path: '#2', disabled: true },
-      //     {
-      //       title: 'menu_level_2',
-      //       path: '#3',
-      //       children: [
-      //         { title: 'menu_level_3', path: '#4' },
-      //         { title: 'menu_level_3', path: '#5' },
-      //       ],
-      //     },
-      //   ],
-      // },
-      // { title: 'item_disabled', path: '#disabled', icon: ICONS.menuItem, disabled: true },
-      // {
-      //   title: 'item_label',
-      //   path: '#label',
-      //   icon: ICONS.menuItem,
-      //   info: (
-      //     <Label color="info" startIcon={<Iconify icon="eva:email-fill" />}>
-      //       NEW
-      //     </Label>
-      //   ),
-      // },
-      // { title: 'item_caption', path: '#caption', icon: ICONS.menuItem, caption: 'description' },
-    ],
-  },
+  // {
+  //   subheader: 'Other cases',
+  //   items: [
+  // {
+  //   // default roles : All roles can see this entry.
+  //   // roles: ['user'] Only users can see this item.
+  //   // roles: ['admin'] Only admin can see this item.
+  //   // roles: ['admin', 'manager'] Only admin/manager can see this item.
+  //   // Reference from 'src/guards/RoleBasedGuard'.
+  //   title: 'item_by_roles',
+  //   path: PATH_DASHBOARD.permissionDenied,
+  //   icon: ICONS.menuItem,
+  //   roles: ['admin'],
+  //   caption: 'only_admin_can_see_this_item',
+  // },
+  // {
+  //   title: 'menu_level_1',
+  //   path: '#1',
+  //   icon: ICONS.menuItem,
+  //   children: [
+  //     { title: 'menu_level_2', path: '#2', disabled: true },
+  //     {
+  //       title: 'menu_level_2',
+  //       path: '#3',
+  //       children: [
+  //         { title: 'menu_level_3', path: '#4' },
+  //         { title: 'menu_level_3', path: '#5' },
+  //       ],
+  //     },
+  //   ],
+  // },
+  // { title: 'item_disabled', path: '#disabled', icon: ICONS.menuItem, disabled: true },
+  // {
+  //   title: 'item_label',
+  //   path: '#label',
+  //   icon: ICONS.menuItem,
+  //   info: (
+  //     <Label color="info" startIcon={<Iconify icon="eva:email-fill" />}>
+  //       NEW
+  //     </Label>
+  //   ),
+  // },
+  // { title: 'item_caption', path: '#caption', icon: ICONS.menuItem, caption: 'description' },
+  //   ],
+  // },
 ];
 
 export default navConfig;

@@ -32,6 +32,9 @@ export default function DataGrid(theme: Theme) {
           '& .MuiDataGrid-columnHeader[data-field="__check__"]': {
             padding: 0,
           },
+          '& .MuiDataGrid-cell:focus': {
+            outline: 'none',
+          },
         },
       },
     },
