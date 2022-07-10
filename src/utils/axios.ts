@@ -3,6 +3,7 @@ import axios from 'axios';
 import { HOST_API } from '../config';
 // path
 import { PATH_AUTH } from '../routes/paths';
+import { DEFAULT_ERROR } from './constants';
 // jwt
 import { refreshToken as renew, isExpiredToken } from './jwt';
 
@@ -29,7 +30,7 @@ axiosInstance.interceptors.request.use(async (config) => {
 
 axiosInstance.interceptors.response.use(
   (response) => response.data,
-  (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
+  (error) => Promise.reject((error.response && error.response.data) || DEFAULT_ERROR)
 );
 
 export default axiosInstance;

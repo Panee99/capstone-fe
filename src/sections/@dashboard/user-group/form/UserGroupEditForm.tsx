@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from '../../../../redux/store';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { UpdateUserGroupSchema } from 'src/@types/userGroup';
 import { phoneRegExp } from 'src/utils/regexPattern';
-import { searchUserGroup, updateUserGroup, hasError } from 'src/redux/slices/userGroup';
+import { searchUserGroup, updateUserGroup } from 'src/redux/slices/userGroup';
 import { GENDER_OPTION } from 'src/utils/constants';
 import NetworkAutocomplete from 'src/components/hook-form/NetworkAutocomplete';
 import { debugError } from 'src/utils/foundation';
@@ -41,7 +41,6 @@ type Props = {
 
 export default function UserGroupEditForm({ payload, onSuccess }: Props) {
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => state.customer);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -99,7 +98,6 @@ export default function UserGroupEditForm({ payload, onSuccess }: Props) {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-        {error && <Alert severity="error">{error}</Alert>}
         <RHFTextField name="name" label="Name" autoFocus />
         <RHFTextField name="description" label="Description" />
       </Stack>

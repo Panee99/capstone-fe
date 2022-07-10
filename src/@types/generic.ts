@@ -40,17 +40,10 @@ export type Attachment = {};
 
 export type BaseState<T> = {
   loading: BaseLoading | null;
-  error: Error | null;
   list: SearchResult<T>;
   single: T | null;
   page: number;
   pageSize: number;
 };
 
-export enum BaseLoading {
-  SEARCH,
-  GET,
-  CREATE,
-  UPDATE,
-  DELETE,
-}
+export type BaseLoading = 'SEARCH' | 'GET' | 'CREATE' | 'UPDATE' | 'DELETE' | 'DELETE_MUL';

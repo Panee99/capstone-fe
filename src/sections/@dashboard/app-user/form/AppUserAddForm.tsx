@@ -14,14 +14,14 @@ import {
 import { LoadingButton } from '@mui/lab';
 import { Stack, Alert } from '@mui/material';
 // redux
-import { useDispatch, useSelector } from '../../../../redux/store';
+import { useDispatch } from '../../../../redux/store';
 // routes
 import { CreateAppUserSchema, ENUM_GENDER } from 'src/@types/appUser';
 import { phoneRegExp } from 'src/utils/regexPattern';
 import { searchAppUser, createAppUser } from 'src/redux/slices/appUser';
-import { GENDER_OPTION } from 'src/utils/constants';
+import { DEFAULT_ERROR, GENDER_OPTION } from 'src/utils/constants';
 import NetworkAutocomplete from 'src/components/hook-form/NetworkAutocomplete';
-import { debugError } from 'src/utils/foundation';
+import { unwrapResult } from '@reduxjs/toolkit';
 // @types
 // components
 
@@ -37,7 +37,6 @@ type Props = {
 
 export default function AppUserAddForm({ onSuccess }: Props) {
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => state.appUser);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -53,12 +52,13 @@ export default function AppUserAddForm({ onSuccess }: Props) {
 
   const defaultValues = useMemo(
     () => ({
-      username: '',
-      email: '',
-      firstName: '',
-      lastName: '',
-      phoneNumber: '',
+      username: 'test',
+      email: 'test@gmail.com',
+      firstName: 'hoang',
+      lastName: 'nguyen',
+      phoneNumber: '123123123',
       gender: ENUM_GENDER.MALE,
+      inWarehouse: null,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -70,7 +70,6 @@ export default function AppUserAddForm({ onSuccess }: Props) {
   });
 
   const {
-    reset,
     handleSubmit,
     setError,
     formState: { isSubmitting, errors },
@@ -82,15 +81,14 @@ export default function AppUserAddForm({ onSuccess }: Props) {
     };
 
     try {
-      await dispatch(createAppUser(data));
+      const result = await dispatch(createAppUser(data));
+      unwrapResult(result);
       enqueueSnackbar('Create user success!');
       if (onSuccess) {
         onSuccess();
       }
-      await dispatch(searchAppUser({}));
     } catch (error) {
-      debugError(error);
-      setError('afterSubmit', { message: error.message || error });
+      setError('afterSubmit', { message: error?.message || error || DEFAULT_ERROR });
     }
   };
 
@@ -98,7 +96,6 @@ export default function AppUserAddForm({ onSuccess }: Props) {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-        {error && <Alert severity="error">{error}</Alert>}
         <RHFTextField name="username" label="Username" autoFocus />
         <RHFTextField name="email" label="Email" />
         <RHFTextField name="firstName" label="firstName" />

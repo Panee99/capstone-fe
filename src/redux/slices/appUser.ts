@@ -1,5 +1,4 @@
-import { BaseLoading } from '../../@types/generic';
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   AppUserState,
   CreateAppUserSchema,
@@ -8,16 +7,12 @@ import {
   SearchAppUserSchema,
   UpdateAppUserSchema,
 } from 'src/@types/appUser';
-import { dispatch } from '../store';
 import axios from '../../utils/axios';
 
 const DEFAULT_PAGE_SIZE = 5;
 
-// ----------------------------------------------------------------------
-
 const initialState: AppUserState = {
   loading: null,
-  error: null,
   list: {
     items: [],
     totalRows: 0,
@@ -27,94 +22,117 @@ const initialState: AppUserState = {
   pageSize: DEFAULT_PAGE_SIZE,
 };
 
+export const createAppUser = createAsyncThunk<void, CreateAppUserSchema>(
+  'user/create',
+  async (params) => {
+    await axios.post('/user', params);
+  }
+);
+
+export const getAppUser = createAsyncThunk<void, GetAppUserSchema>(
+  'user/get',
+  async (params, api) => {
+    const response = await axios.get('/user', { params });
+    api.dispatch(slice.actions.getAppUser(response.data));
+  }
+);
+
+export const searchAppUser = createAsyncThunk<void, SearchAppUserSchema>(
+  'user/search',
+  async (params, api) => {
+    const response = await axios.post('/user/search', params);
+    api.dispatch(slice.actions.searchAppUser(response.data));
+  }
+);
+
+export const updateAppUser = createAsyncThunk<void, UpdateAppUserSchema>(
+  'user/update',
+  async (params) => {
+    await axios.put('/user', { ...params, inWarehouseId: params.inWarehouse?.id });
+  }
+);
+
+export const deleteAppUser = createAsyncThunk<void, DeleteAppUserSchema>(
+  'user/delete',
+  async (params) => {
+    await axios.delete('/user', { data: [...params.ids] });
+  }
+);
+
+export const deleteMulAppUser = createAsyncThunk<void, DeleteAppUserSchema>(
+  'user/deleteMul',
+  async (params) => {
+    await axios.delete('/user', { data: [...params.ids] });
+  }
+);
+
 const slice = createSlice({
   name: 'appUser',
   initialState,
   reducers: {
-    startLoading(state, action) {
-      state.loading = action.payload;
-    },
-    hasError(state, action) {
-      state.loading = null;
-      state.error = action.payload;
-    },
-    clearError(state) {
-      state.loading = null;
-      state.error = null;
-    },
     searchAppUser(state, action) {
-      state.loading = null;
       state.list = action.payload;
     },
     getAppUser(state, action) {
-      state.loading = null;
       state.single = action.payload;
     },
-    createAppUser(state) {
+  },
+  extraReducers(builder) {
+    builder.addCase(createAppUser.pending, (state) => {
+      state.loading = 'CREATE';
+    });
+    builder.addCase(createAppUser.fulfilled, (state) => {
       state.loading = null;
-    },
-    updateAppUser(state) {
+    });
+    builder.addCase(createAppUser.rejected, (state) => {
       state.loading = null;
-    },
-    deleteAppUser(state) {
+    });
+    builder.addCase(getAppUser.pending, (state) => {
+      state.loading = 'GET';
+    });
+    builder.addCase(getAppUser.fulfilled, (state) => {
       state.loading = null;
-    },
-    deleteMulAppUser(state) {
+    });
+    builder.addCase(getAppUser.rejected, (state) => {
       state.loading = null;
-    },
+    });
+    builder.addCase(searchAppUser.pending, (state) => {
+      state.loading = 'SEARCH';
+    });
+    builder.addCase(searchAppUser.fulfilled, (state) => {
+      state.loading = null;
+    });
+    builder.addCase(searchAppUser.rejected, (state) => {
+      state.loading = null;
+    });
+    builder.addCase(updateAppUser.pending, (state) => {
+      state.loading = 'UPDATE';
+    });
+    builder.addCase(updateAppUser.fulfilled, (state) => {
+      state.loading = null;
+    });
+    builder.addCase(updateAppUser.rejected, (state) => {
+      state.loading = null;
+    });
+    builder.addCase(deleteAppUser.pending, (state) => {
+      state.loading = 'DELETE';
+    });
+    builder.addCase(deleteAppUser.fulfilled, (state) => {
+      state.loading = null;
+    });
+    builder.addCase(deleteAppUser.rejected, (state) => {
+      state.loading = null;
+    });
+    builder.addCase(deleteMulAppUser.pending, (state) => {
+      state.loading = 'DELETE_MUL';
+    });
+    builder.addCase(deleteMulAppUser.fulfilled, (state) => {
+      state.loading = null;
+    });
+    builder.addCase(deleteMulAppUser.rejected, (state) => {
+      state.loading = null;
+    });
   },
 });
 
 export default slice.reducer;
-export const { hasError, clearError } = slice.actions;
-
-export function searchAppUser(params: SearchAppUserSchema) {
-  return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.SEARCH));
-    const response = await axios.post('/user/search', params);
-
-    dispatch(slice.actions.searchAppUser(response.data));
-  };
-}
-
-export function getAppUser(params: GetAppUserSchema) {
-  return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.GET));
-    console.log('loading');
-
-    const response = await axios.get('/user', { params });
-    dispatch(slice.actions.getAppUser(response.data));
-  };
-}
-
-export function createAppUser(params: CreateAppUserSchema) {
-  return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.CREATE));
-    await axios.post('/user', params);
-    dispatch(slice.actions.createAppUser());
-  };
-}
-
-export function updateAppUser(params: UpdateAppUserSchema) {
-  return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.UPDATE));
-    await axios.put('/user', { ...params, inWarehouseId: params.inWarehouse?.id });
-    dispatch(slice.actions.updateAppUser());
-  };
-}
-
-export function deleteAppUser(params: DeleteAppUserSchema) {
-  return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.DELETE));
-    await axios.delete('/user', { data: [...params.ids] });
-    dispatch(slice.actions.deleteAppUser());
-  };
-}
-
-export function deleteMulAppUser(params: DeleteAppUserSchema) {
-  return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.DELETE));
-    await axios.delete('/user', { data: [...params.ids] });
-    dispatch(slice.actions.deleteAppUser());
-  };
-}

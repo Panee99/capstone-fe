@@ -17,7 +17,6 @@ const DEFAULT_PAGE_SIZE = 5;
 
 const initialState: ProductState = {
   loading: null,
-  error: null,
   list: {
     items: [],
     totalRows: 0,
@@ -33,14 +32,6 @@ const slice = createSlice({
   reducers: {
     startLoading(state, action) {
       state.loading = action.payload;
-    },
-    hasError(state, action) {
-      state.loading = null;
-      state.error = action.payload;
-    },
-    clearError(state) {
-      state.loading = null;
-      state.error = null;
     },
     searchProduct(state, action) {
       state.loading = null;
@@ -66,11 +57,9 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
-export const { hasError, clearError } = slice.actions;
 
 export function searchProduct(params: SearchProductSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.SEARCH));
     const response = await axios.post('/product/search', params);
 
     dispatch(slice.actions.searchProduct(response.data));
@@ -79,7 +68,6 @@ export function searchProduct(params: SearchProductSchema) {
 
 export function getProduct(params: GetProductSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.GET));
     const response = await axios.get('/product', { params });
     dispatch(slice.actions.getProduct(response.data));
   };
@@ -87,7 +75,6 @@ export function getProduct(params: GetProductSchema) {
 
 export function createProduct(params: CreateProductSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.CREATE));
     await axios.post('/product', params);
     dispatch(slice.actions.createProduct());
   };
@@ -95,7 +82,6 @@ export function createProduct(params: CreateProductSchema) {
 
 export function updateProduct(params: UpdateProductSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.UPDATE));
     await axios.put('/product', params);
     dispatch(slice.actions.updateProduct());
   };
@@ -103,7 +89,6 @@ export function updateProduct(params: UpdateProductSchema) {
 
 export function deleteProduct(params: DeleteProductSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.DELETE));
     await axios.delete('/product', { data: [...params.ids] });
     dispatch(slice.actions.deleteProduct());
   };

@@ -251,7 +251,7 @@ export default function CategoryList() {
               <Iconify icon={'ant-design:close-circle-outlined'} />
             </IconButton>
           </Box>
-          {loading === BaseLoading.GET && <Loading />}
+          {/* {loading === BaseLoading.GET && <Loading />} */}
           {isEdit && !loading && single ? (
             <CategoryEditForm payload={single!} onSuccess={() => setToggle(false)} />
           ) : (

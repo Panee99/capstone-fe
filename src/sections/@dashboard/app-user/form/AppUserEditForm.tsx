@@ -21,10 +21,11 @@ import { useDispatch, useSelector } from '../../../../redux/store';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { UpdateAppUserSchema } from 'src/@types/appUser';
 import { phoneRegExp } from 'src/utils/regexPattern';
-import { searchAppUser, updateAppUser, hasError } from 'src/redux/slices/appUser';
-import { GENDER_OPTION } from 'src/utils/constants';
+import { searchAppUser, updateAppUser } from 'src/redux/slices/appUser';
+import { DEFAULT_ERROR, GENDER_OPTION } from 'src/utils/constants';
 import NetworkAutocomplete from 'src/components/hook-form/NetworkAutocomplete';
 import { debugError } from 'src/utils/foundation';
+import { unwrapResult } from '@reduxjs/toolkit';
 // @types
 // components
 
@@ -41,7 +42,6 @@ type Props = {
 
 export default function AppUserEditForm({ payload, onSuccess }: Props) {
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => state.appUser);
 
   const isMountedRef = useIsMountedRef();
 
@@ -94,15 +94,14 @@ export default function AppUserEditForm({ payload, onSuccess }: Props) {
     };
 
     try {
-      await dispatch(updateAppUser(data));
+      const result = await dispatch(updateAppUser(data));
+      unwrapResult(result);
       enqueueSnackbar('Update success!');
       if (onSuccess) {
         onSuccess();
       }
-      await dispatch(searchAppUser({}));
     } catch (error) {
-      debugError(error);
-      setError('afterSubmit', { message: error.message || error });
+      setError('afterSubmit', { message: error?.message || error || DEFAULT_ERROR });
     }
   };
 
@@ -110,7 +109,6 @@ export default function AppUserEditForm({ payload, onSuccess }: Props) {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-        {error && <Alert severity="error">{error}</Alert>}
         <RHFTextField name="email" label="Email" />
         <RHFTextField name="firstName" label="firstName" />
         <RHFTextField name="lastName" label="lastName" />

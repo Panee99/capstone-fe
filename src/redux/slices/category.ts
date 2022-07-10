@@ -17,7 +17,6 @@ const DEFAULT_PAGE_SIZE = 5;
 
 const initialState: CategoryState = {
   loading: null,
-  error: null,
   list: {
     items: [],
     totalRows: 0,
@@ -33,14 +32,6 @@ const slice = createSlice({
   reducers: {
     startLoading(state, action) {
       state.loading = action.payload;
-    },
-    hasError(state, action) {
-      state.loading = null;
-      state.error = action.payload;
-    },
-    clearError(state) {
-      state.loading = null;
-      state.error = null;
     },
     searchCategory(state, action) {
       state.loading = null;
@@ -66,20 +57,16 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
-export const { hasError, clearError } = slice.actions;
 
 export function searchCategory(params: SearchCategorySchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.SEARCH));
     const response = await axios.post('/category/search', params);
-
     dispatch(slice.actions.searchCategory(response.data));
   };
 }
 
 export function getCategory(params: GetCategorySchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.GET));
     const response = await axios.get('/category', { params });
     dispatch(slice.actions.getCategory(response.data));
   };
@@ -87,7 +74,6 @@ export function getCategory(params: GetCategorySchema) {
 
 export function createCategory(params: CreateCategorySchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.CREATE));
     await axios.post('/category', params);
     dispatch(slice.actions.createCategory());
   };
@@ -95,7 +81,6 @@ export function createCategory(params: CreateCategorySchema) {
 
 export function updateCategory(params: UpdateCategorySchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.UPDATE));
     await axios.put('/category', params);
     dispatch(slice.actions.updateCategory());
   };
@@ -103,7 +88,6 @@ export function updateCategory(params: UpdateCategorySchema) {
 
 export function deleteCategory(params: DeleteCategorySchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.DELETE));
     await axios.delete('/category', { data: [...params.ids] });
     dispatch(slice.actions.deleteCategory());
   };

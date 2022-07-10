@@ -17,7 +17,6 @@ const DEFAULT_PAGE_SIZE = 5;
 
 const initialState: BeginningVoucherState = {
   loading: null,
-  error: null,
   list: {
     items: [],
     totalRows: 0,
@@ -33,14 +32,6 @@ const slice = createSlice({
   reducers: {
     startLoading(state, action) {
       state.loading = action.payload;
-    },
-    hasError(state, action) {
-      state.loading = null;
-      state.error = action.payload;
-    },
-    clearError(state) {
-      state.loading = null;
-      state.error = null;
     },
     searchBeginningVoucher(state, action) {
       state.loading = null;
@@ -66,30 +57,23 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
-export const { hasError, clearError } = slice.actions;
 
 export function searchBeginningVoucher(params: SearchBeginningVoucherSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.SEARCH));
     const response = await axios.post('/beginning-voucher/search', params);
-
     dispatch(slice.actions.searchBeginningVoucher(response.data));
   };
 }
 
 export function getBeginningVoucher(params: GetBeginningVoucherSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.GET));
     const response = await axios.get('/beginning-voucher', { params });
-    console.log(response.data);
-
     dispatch(slice.actions.getBeginningVoucher(response.data));
   };
 }
 
 export function createBeginningVoucher(params: CreateBeginningVoucherSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.CREATE));
     await axios.post('/beginning-voucher', params);
     dispatch(slice.actions.createBeginningVoucher());
   };
@@ -97,7 +81,6 @@ export function createBeginningVoucher(params: CreateBeginningVoucherSchema) {
 
 export function updateBeginningVoucher(params: UpdateBeginningVoucherSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.UPDATE));
     await axios.put('/beginning-voucher', params);
     dispatch(slice.actions.updateBeginningVoucher());
   };
@@ -105,7 +88,6 @@ export function updateBeginningVoucher(params: UpdateBeginningVoucherSchema) {
 
 export function deleteBeginningVoucher(params: DeleteBeginningVoucherSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.DELETE));
     await axios.delete('/beginning-voucher', { data: [...params.ids] });
     dispatch(slice.actions.deleteBeginningVoucher());
   };

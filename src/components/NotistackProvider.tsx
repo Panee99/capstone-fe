@@ -80,7 +80,7 @@ export default function NotistackProvider({ children }: Props) {
         ref={notistackRef}
         dense
         maxSnack={5}
-        preventDuplicate
+        // preventDuplicate
         autoHideDuration={3000}
         TransitionComponent={isRTL ? Collapse : undefined}
         variant="success" // Set default variant

@@ -17,7 +17,6 @@ const DEFAULT_PAGE_SIZE = 5;
 
 const initialState: CustomerState = {
   loading: null,
-  error: null,
   list: {
     items: [],
     totalRows: 0,
@@ -33,14 +32,6 @@ const slice = createSlice({
   reducers: {
     startLoading(state, action) {
       state.loading = action.payload;
-    },
-    hasError(state, action) {
-      state.loading = null;
-      state.error = action.payload;
-    },
-    clearError(state) {
-      state.loading = null;
-      state.error = null;
     },
     searchCustomer(state, action) {
       state.loading = null;
@@ -66,11 +57,9 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
-export const { hasError, clearError } = slice.actions;
 
 export function searchCustomer(params: SearchCustomerSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.SEARCH));
     const response = await axios.post('/customer/search', params);
 
     dispatch(slice.actions.searchCustomer(response.data));
@@ -79,7 +68,6 @@ export function searchCustomer(params: SearchCustomerSchema) {
 
 export function getCustomer(params: GetCustomerSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.GET));
     console.log('loading');
 
     const response = await axios.get('/customer', { params });
@@ -89,7 +77,6 @@ export function getCustomer(params: GetCustomerSchema) {
 
 export function createCustomer(params: CreateCustomerSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.CREATE));
     await axios.post('/customer', params);
     dispatch(slice.actions.createCustomer());
   };
@@ -97,7 +84,6 @@ export function createCustomer(params: CreateCustomerSchema) {
 
 export function updateCustomer(params: UpdateCustomerSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.UPDATE));
     await axios.put('/customer', params);
     dispatch(slice.actions.updateCustomer());
   };
@@ -105,7 +91,6 @@ export function updateCustomer(params: UpdateCustomerSchema) {
 
 export function deleteCustomer(params: DeleteCustomerSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.DELETE));
     await axios.delete('/customer', { data: [...params.ids] });
     dispatch(slice.actions.deleteCustomer());
   };

@@ -253,7 +253,7 @@ export default function WarehouseList() {
               <Iconify icon={'ant-design:close-circle-outlined'} />
             </IconButton>
           </Box>
-          {loading === BaseLoading.GET && <Loading />}
+          {/* {loading === BaseLoading.GET && <Loading />} */}
           {isEdit && !loading && single ? (
             <WarehouseEditForm payload={single!} onSuccess={() => setToggle(false)} />
           ) : (

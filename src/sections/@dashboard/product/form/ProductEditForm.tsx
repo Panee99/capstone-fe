@@ -23,7 +23,6 @@ type Props = {
 
 export default function ProductEditForm({ payload, onSuccess }: Props) {
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => state.product);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -88,7 +87,6 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-        {error && <Alert severity="error">{error}</Alert>}
         <RHFTextField name="name" label="Name" autoFocus />
         <RHFTextField name="description" label="Description" />
         <RHFTextField name="onHandMin" label="On Hand Min" type="number" />

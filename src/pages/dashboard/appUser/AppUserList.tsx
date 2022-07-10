@@ -19,6 +19,7 @@ import {
   TablePagination,
   FormControlLabel,
   Drawer,
+  Alert,
 } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
@@ -40,6 +41,7 @@ import {
   TableEmptyRows,
   TableHeadCustom,
   TableSelectedActions,
+  TableSkeleton,
 } from '../../../components/table';
 // sections
 import { useDispatch, useSelector } from 'src/redux/store';
@@ -50,6 +52,9 @@ import AppUserEditForm from 'src/sections/@dashboard/app-user/form/AppUserEditFo
 import Loading from 'src/components/Loading';
 import { BaseLoading } from 'src/@types/generic';
 import AppUserAddForm from 'src/sections/@dashboard/app-user/form/AppUserAddForm';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { DEFAULT_ERROR } from 'src/utils/constants';
+import { useSnackbar } from 'notistack';
 
 // ----------------------------------------------------------------------
 
@@ -84,13 +89,15 @@ const TABLE_HEAD = [
 export default function UserList() {
   const dispatch = useDispatch();
 
-  const { list, single, loading } = useSelector((state) => state.appUser);
+  const {
+    list: { totalRows, items },
+    single,
+    loading,
+  } = useSelector((state) => state.appUser);
 
   const { toggle, setToggle } = useToggle();
 
   const [isEdit, setIsEdit] = useState(false);
-
-  const { items: tableData, totalRows: total } = list;
 
   const {
     dense,
@@ -123,8 +130,23 @@ export default function UserList() {
 
   const [filterKeyword, setFilterKeyword] = useState('');
 
+  const [errorSearch, setErrorSearch] = useState<string | null>(null);
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const search = async () => {
+    try {
+      const actionResult = await dispatch(
+        searchAppUser({ name: filterKeyword, pageIndex: page + 1, pageSize: rowsPerPage })
+      );
+      unwrapResult(actionResult);
+    } catch (error) {
+      setErrorSearch(error?.message || error || DEFAULT_ERROR);
+    }
+  };
+
   useEffect(() => {
-    dispatch(searchAppUser({ name: filterKeyword, pageIndex: page + 1, pageSize: rowsPerPage }));
+    search();
   }, [dispatch, filterKeyword, page, rowsPerPage]);
 
   const handleFilterName = (filterName: string) => {
@@ -137,15 +159,27 @@ export default function UserList() {
   };
 
   const handleDeleteRow = async (id: string) => {
-    await dispatch(deleteAppUser({ ids: [id] }));
-    dispatch(searchAppUser({ pageIndex: 1 }));
-    setSelected([]);
+    try {
+      const result = await dispatch(deleteAppUser({ ids: [id] }));
+      unwrapResult(result);
+      search();
+      setSelected([]);
+      enqueueSnackbar('Deleted 1 row success');
+    } catch (error) {
+      enqueueSnackbar(error?.message || error || DEFAULT_ERROR);
+    }
   };
 
   const handleDeleteRows = async (ids: string[]) => {
-    await dispatch(deleteAppUser({ ids }));
-    dispatch(searchAppUser({ pageIndex: 1 }));
-    setSelected([]);
+    try {
+      const result = await dispatch(deleteAppUser({ ids }));
+      unwrapResult(result);
+      search();
+      setSelected([]);
+      enqueueSnackbar(`Deleted ${ids.length} rows success`);
+    } catch (error) {
+      enqueueSnackbar(error?.message || error || DEFAULT_ERROR);
+    }
   };
 
   const handleEditRow = (id: string) => {
@@ -159,17 +193,14 @@ export default function UserList() {
     setPage(0);
   };
 
-  //   const dataFiltered = applySortFilter({
-  //     tableData,
-  //     comparator: getComparator(order, orderBy),
-  //     filterName,
-  //     filterRole,
-  //     filterStatus,
-  //   });
+  const onCreateSuccess = () => {
+    search();
+    setToggle(false);
+  };
 
   const denseHeight = dense ? 52 : 72;
 
-  const isNotFound = !tableData.length && !!filterKeyword;
+  const isNotFound = !items.length && !!filterKeyword;
 
   return (
     <Page title="User: List">
@@ -215,6 +246,7 @@ export default function UserList() {
             filterKeyword={filterKeyword}
             onFilterKeyword={handleFilterKeyword}
           />
+          {!!errorSearch && <Alert severity="error">{errorSearch}</Alert>}
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800, position: 'relative' }}>
@@ -222,11 +254,11 @@ export default function UserList() {
                 <TableSelectedActions
                   dense={dense}
                   numSelected={selected.length}
-                  rowCount={tableData.length}
+                  rowCount={items.length}
                   onSelectAllRows={(checked) =>
                     onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.id)
+                      items.map((row) => row.id)
                     )
                   }
                   actions={
@@ -244,21 +276,20 @@ export default function UserList() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={tableData.length}
+                  rowCount={items.length}
                   numSelected={selected.length}
                   onSort={onSort}
                   onSelectAllRows={(checked) =>
                     onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.id)
+                      items.map((row) => row.id)
                     )
                   }
                 />
 
                 <TableBody>
-                  {tableData
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => (
+                  {(loading === 'SEARCH' ? [...Array(rowsPerPage)] : items).map((row, index) =>
+                    row ? (
                       <AppUserTableRow
                         key={row.id}
                         row={row}
@@ -267,13 +298,10 @@ export default function UserList() {
                         onDeleteRow={() => handleDeleteRow(row.id)}
                         onEditRow={() => handleEditRow(row.id)}
                       />
-                    ))}
-
-                  <TableEmptyRows
-                    height={denseHeight}
-                    emptyRows={emptyRows(page, rowsPerPage, tableData.length)}
-                  />
-
+                    ) : (
+                      !isNotFound && <TableSkeleton key={index} sx={{ height: denseHeight }} />
+                    )
+                  )}
                   <TableNoData isNotFound={isNotFound} />
                 </TableBody>
               </Table>
@@ -284,7 +312,7 @@ export default function UserList() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={tableData.length}
+              count={totalRows}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={onChangePage}
@@ -311,17 +339,15 @@ export default function UserList() {
               <Iconify icon={'ant-design:close-circle-outlined'} />
             </IconButton>
           </Box>
-          {loading === BaseLoading.GET && <Loading />}
+          {loading === 'GET' && <Loading />}
           {isEdit && !loading && single ? (
-            <AppUserEditForm payload={single!} onSuccess={() => setToggle(false)} />
+            <AppUserEditForm payload={single!} onSuccess={onCreateSuccess} />
           ) : (
             ''
           )}
-          {!isEdit ? <AppUserAddForm onSuccess={() => setToggle(false)} /> : ''}
+          {!isEdit ? <AppUserAddForm onSuccess={onCreateSuccess} /> : ''}
         </Box>
       </Drawer>
     </Page>
   );
 }
-
-// ----------------------------------------------------------------------

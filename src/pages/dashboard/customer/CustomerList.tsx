@@ -254,7 +254,7 @@ export default function CustomerList() {
               <Iconify icon={'ant-design:close-circle-outlined'} />
             </IconButton>
           </Box>
-          {loading === BaseLoading.GET && <Loading />}
+          {/* {loading === BaseLoading.GET && <Loading />} */}
           {isEdit && !loading && single ? (
             <CustomerEditForm payload={single!} onSuccess={() => setToggle(false)} />
           ) : (

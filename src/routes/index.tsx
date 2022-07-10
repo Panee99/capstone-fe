@@ -99,7 +99,12 @@ export default function Router() {
         },
         {
           path: 'beginning-voucher',
-          children: [{ path: 'list', element: <BeginningVoucherList /> }],
+          children: [
+            { path: 'list', element: <BeginningVoucherList /> },
+            { path: ':id', element: <BeginningVoucherDetails /> },
+            { path: ':id/edit', element: <BeginningVoucherEdit /> },
+            { path: 'new', element: <BeginningVoucherCreate /> },
+          ],
         },
       ],
     },
@@ -159,6 +164,15 @@ const UserGroupList = Loadable(lazy(() => import('../pages/dashboard/userGroup/U
 // BEGINNING VOUCHER
 const BeginningVoucherList = Loadable(
   lazy(() => import('../pages/dashboard/beginningVoucher/BeginningVoucherList'))
+);
+const BeginningVoucherDetails = Loadable(
+  lazy(() => import('../pages/dashboard/beginningVoucher/BeginningVoucherDetails'))
+);
+const BeginningVoucherCreate = Loadable(
+  lazy(() => import('../pages/dashboard/beginningVoucher/BeginningVoucherCreate'))
+);
+const BeginningVoucherEdit = Loadable(
+  lazy(() => import('../pages/dashboard/beginningVoucher/BeginningVoucherEdit'))
 );
 
 // MAIN

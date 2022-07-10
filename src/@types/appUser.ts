@@ -11,10 +11,10 @@ export type AppUser = {
   email: string;
   firstName: string;
   lastName: string;
-  phoneNumber?: string | null;
-  gender?: string | null;
+  phoneNumber: string | null;
+  gender: string | null;
   isActive: boolean;
-  inWarehouse?: FetchModel;
+  inWarehouse: FetchModel | null;
 };
 
 export type AppUserState = BaseState<AppUser>;
@@ -32,8 +32,8 @@ export type CreateAppUserSchema = {
   email: string;
   firstName: string;
   lastName: string;
-  phoneNumber?: string | null;
-  gender?: string | null;
+  phoneNumber: string | null;
+  gender: string | null;
 };
 
 export type UpdateAppUserSchema = {
@@ -44,7 +44,7 @@ export type UpdateAppUserSchema = {
   phoneNumber?: string | null;
   gender?: string | null;
   isActive?: boolean | null;
-  inWarehouse?: FetchModel;
+  inWarehouse?: FetchModel | null;
 };
 
 export type DeleteAppUserSchema = {

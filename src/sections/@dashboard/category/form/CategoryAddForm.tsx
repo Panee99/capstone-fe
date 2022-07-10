@@ -21,7 +21,6 @@ type Props = {
 
 export default function CategoryAddForm({ onSuccess }: Props) {
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => state.category);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -71,7 +70,6 @@ export default function CategoryAddForm({ onSuccess }: Props) {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-        {error && <Alert severity="error">{error}</Alert>}
         <RHFTextField name="name" label="Name" autoFocus />
         <RHFTextField name="description" label="Description" />
       </Stack>

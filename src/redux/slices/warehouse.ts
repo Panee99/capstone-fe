@@ -17,7 +17,6 @@ const DEFAULT_PAGE_SIZE = 5;
 
 const initialState: WarehouseState = {
   loading: null,
-  error: null,
   list: {
     items: [],
     totalRows: 0,
@@ -33,14 +32,6 @@ const slice = createSlice({
   reducers: {
     startLoading(state, action) {
       state.loading = action.payload;
-    },
-    hasError(state, action) {
-      state.loading = null;
-      state.error = action.payload;
-    },
-    clearError(state) {
-      state.loading = null;
-      state.error = null;
     },
     searchWarehouse(state, action) {
       state.loading = null;
@@ -66,11 +57,9 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
-export const { hasError, clearError } = slice.actions;
 
 export function searchWarehouse(params: SearchWarehouseSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.SEARCH));
     const response = await axios.post('/warehouse/search', params);
 
     dispatch(slice.actions.searchWarehouse(response.data));
@@ -79,7 +68,6 @@ export function searchWarehouse(params: SearchWarehouseSchema) {
 
 export function getWarehouse(params: GetWarehouseSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.GET));
     const response = await axios.get('/warehouse', { params });
     dispatch(slice.actions.getWarehouse(response.data));
   };
@@ -87,7 +75,6 @@ export function getWarehouse(params: GetWarehouseSchema) {
 
 export function createWarehouse(params: CreateWarehouseSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.CREATE));
     await axios.post('/warehouse', params);
     dispatch(slice.actions.createWarehouse());
   };
@@ -95,7 +82,6 @@ export function createWarehouse(params: CreateWarehouseSchema) {
 
 export function updateWarehouse(params: UpdateWarehouseSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.UPDATE));
     await axios.put('/warehouse', params);
     dispatch(slice.actions.updateWarehouse());
   };
@@ -103,7 +89,6 @@ export function updateWarehouse(params: UpdateWarehouseSchema) {
 
 export function deleteWarehouse(params: DeleteWarehouseSchema) {
   return async () => {
-    dispatch(slice.actions.startLoading(BaseLoading.DELETE));
     await axios.delete('/warehouse', { data: [...params.ids] });
     dispatch(slice.actions.deleteWarehouse());
   };

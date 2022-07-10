@@ -42,7 +42,7 @@ import {
 import { useDispatch, useSelector } from 'src/redux/store';
 import { deleteUserGroup, getUserGroup, searchUserGroup } from 'src/redux/slices/userGroup';
 import useToggle from 'src/hooks/useToggle';
-import  UserGroupTableRow  from 'src/sections/@dashboard/user-group/list/UserGroupTableRow';
+import UserGroupTableRow from 'src/sections/@dashboard/user-group/list/UserGroupTableRow';
 import UserGroupTableToolbar from 'src/sections/@dashboard/user-group/list/UserGroupTableToolbar';
 import UserGroupEditForm from 'src/sections/@dashboard/user-group/form/UserGroupEditForm';
 import Loading from 'src/components/Loading';
@@ -50,9 +50,6 @@ import { BaseLoading } from 'src/@types/generic';
 import UserGroupAddForm from 'src/sections/@dashboard/user-group/form/UserGroupAddForm';
 
 // ----------------------------------------------------------------------
-
-
-
 
 const STATUS_OPTIONS = ['all', 'active', 'banned'];
 
@@ -69,94 +66,94 @@ const ROLE_OPTIONS = [
   'full stack developer',
 ];
 const TABLE_HEAD = [
-    { id: 'name', label: 'Name', align: 'left' },
-    { id: 'description', label: 'Description', align: 'center' },
-    { id: 'inWarehouseId', label: 'WarehouseId', align: 'left' },
-    { id: 'userPermisson', label: 'UserPermisson', align: 'left' },
-    { id: 'warehousePermisson', label: 'WarehousePermisson', align: 'left' },
-    { id: 'productPermisson', label: 'productPermisson', align: 'left' },
-    { id: '' },
-  ];
-  // ----------------------------------------------------------------------
+  { id: 'name', label: 'Name', align: 'left' },
+  { id: 'description', label: 'Description', align: 'center' },
+  { id: 'inWarehouseId', label: 'WarehouseId', align: 'left' },
+  { id: 'userPermisson', label: 'UserPermisson', align: 'left' },
+  { id: 'warehousePermisson', label: 'WarehousePermisson', align: 'left' },
+  { id: 'productPermisson', label: 'productPermisson', align: 'left' },
+  { id: '' },
+];
+// ----------------------------------------------------------------------
 
 export default function UserGroupList() {
-    const dispatch = useDispatch();
-  
-    const { list, single, loading } = useSelector((state) => state.userGroup);
-  
-    const { toggle, setToggle } = useToggle();
-  
-    const [isEdit, setIsEdit] = useState(false);
-  
-    const { items: tableData, totalRows: total } = list;
-  
-    const {
-      dense,
-      page,
-      order,
-      orderBy,
-      rowsPerPage,
-      setPage,
-      //
-      selected,
-      setSelected,
-      onSelectRow,
-      onSelectAllRows,
-      //
-      onSort,
-      onChangeDense,
-      onChangePage,
-      onChangeRowsPerPage,
-    } = useTable();
-  
-    const { themeStretch } = useSettings();
-  
-    const navigate = useNavigate();
-  
-    const [filterName, setFilterName] = useState('');
-  
-    const [filterRole, setFilterRole] = useState('all');
-  
-    const { currentTab: filterStatus, onChangeTab: onChangeFilterStatus } = useTabs('all');
-  
-    const [filterKeyword, setFilterKeyword] = useState('');
-  
-    useEffect(() => {
-      dispatch(searchUserGroup({ name: filterKeyword, pageIndex: page + 1, pageSize: rowsPerPage }));
-    }, [dispatch, filterKeyword, page, rowsPerPage]);
-  
-    const handleFilterName = (filterName: string) => {
-      setFilterName(filterName);
-      setPage(0);
-    };
-  
-    const handleFilterRole = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setFilterRole(event.target.value);
-    };
-  
-    const handleDeleteRow = async (id: string) => {
-      await dispatch(deleteUserGroup({ ids: [id] }));
-      dispatch(searchUserGroup({ pageIndex: 1 }));
-      setSelected([]);
-    };
-  
-    const handleDeleteRows = async (ids: string[]) => {
-      await dispatch(deleteUserGroup({ ids }));
-      dispatch(searchUserGroup({ pageIndex: 1 }));
-      setSelected([]);
-    };
-  
-    const handleEditRow = (id: string) => {
-      setIsEdit(true);
-      dispatch(getUserGroup({ id }));
-      setToggle(true);
-    };
-  
-    const handleFilterKeyword = (filterKeyword: string) => {
-      setFilterKeyword(filterKeyword);
-      setPage(0);
-    };
-    const denseHeight = dense ? 52 : 72;
+  const dispatch = useDispatch();
+
+  const { list, single, loading } = useSelector((state) => state.userGroup);
+
+  const { toggle, setToggle } = useToggle();
+
+  const [isEdit, setIsEdit] = useState(false);
+
+  const { items: tableData, totalRows: total } = list;
+
+  const {
+    dense,
+    page,
+    order,
+    orderBy,
+    rowsPerPage,
+    setPage,
+    //
+    selected,
+    setSelected,
+    onSelectRow,
+    onSelectAllRows,
+    //
+    onSort,
+    onChangeDense,
+    onChangePage,
+    onChangeRowsPerPage,
+  } = useTable();
+
+  const { themeStretch } = useSettings();
+
+  const navigate = useNavigate();
+
+  const [filterName, setFilterName] = useState('');
+
+  const [filterRole, setFilterRole] = useState('all');
+
+  const { currentTab: filterStatus, onChangeTab: onChangeFilterStatus } = useTabs('all');
+
+  const [filterKeyword, setFilterKeyword] = useState('');
+
+  useEffect(() => {
+    dispatch(searchUserGroup({ name: filterKeyword, pageIndex: page + 1, pageSize: rowsPerPage }));
+  }, [dispatch, filterKeyword, page, rowsPerPage]);
+
+  const handleFilterName = (filterName: string) => {
+    setFilterName(filterName);
+    setPage(0);
+  };
+
+  const handleFilterRole = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterRole(event.target.value);
+  };
+
+  const handleDeleteRow = async (id: string) => {
+    await dispatch(deleteUserGroup({ ids: [id] }));
+    dispatch(searchUserGroup({ pageIndex: 1 }));
+    setSelected([]);
+  };
+
+  const handleDeleteRows = async (ids: string[]) => {
+    await dispatch(deleteUserGroup({ ids }));
+    dispatch(searchUserGroup({ pageIndex: 1 }));
+    setSelected([]);
+  };
+
+  const handleEditRow = (id: string) => {
+    setIsEdit(true);
+    dispatch(getUserGroup({ id }));
+    setToggle(true);
+  };
+
+  const handleFilterKeyword = (filterKeyword: string) => {
+    setFilterKeyword(filterKeyword);
+    setPage(0);
+  };
+  const denseHeight = dense ? 52 : 72;
 
   const isNotFound = !tableData.length && !!filterKeyword;
 
@@ -184,7 +181,7 @@ export default function UserGroupList() {
           }
         />
 
-      <Card>
+        <Card>
           <Tabs
             allowScrollButtonsMobile
             variant="scrollable"
@@ -300,7 +297,7 @@ export default function UserGroupList() {
               <Iconify icon={'ant-design:close-circle-outlined'} />
             </IconButton>
           </Box>
-          {loading === BaseLoading.GET && <Loading />}
+          {/* {loading === BaseLoading.GET && <Loading />} */}
           {isEdit && !loading && single ? (
             <UserGroupEditForm payload={single!} onSuccess={() => setToggle(false)} />
           ) : (
