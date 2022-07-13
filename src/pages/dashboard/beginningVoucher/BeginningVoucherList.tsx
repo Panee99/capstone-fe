@@ -37,7 +37,7 @@ import useToggle from 'src/hooks/useToggle';
 import Loading from 'src/components/Loading';
 import { BaseLoading } from 'src/@types/generic';
 import {
-  deleteBeginningVoucher,
+  deleteMulBeginningVoucher,
   getBeginningVoucher,
   searchBeginningVoucher,
 } from 'src/redux/slices/beginningVoucher';
@@ -46,6 +46,7 @@ import {
   BeginningVoucherTableToolbar,
 } from 'src/sections/@dashboard/beginningVoucher/list';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -103,13 +104,13 @@ export default function BeginningVoucherList() {
   };
 
   const handleDeleteRow = async (id: string) => {
-    await dispatch(deleteBeginningVoucher({ ids: [id] }));
+    await dispatch(deleteMulBeginningVoucher({ ids: [id] }));
     dispatch(searchBeginningVoucher({ pageIndex: 1 }));
     setSelected([]);
   };
 
   const handleDeleteRows = async (ids: string[]) => {
-    await dispatch(deleteBeginningVoucher({ ids }));
+    await dispatch(deleteMulBeginningVoucher({ ids }));
     dispatch(searchBeginningVoucher({ pageIndex: 1 }));
     setSelected([]);
   };
@@ -146,7 +147,12 @@ export default function BeginningVoucherList() {
             { name: 'List' },
           ]}
           action={
-            <Button variant="contained" startIcon={<Iconify icon={'eva:plus-fill'} />}>
+            <Button
+              variant="contained"
+              startIcon={<Iconify icon={'eva:plus-fill'} />}
+              component={Link}
+              to={PATH_DASHBOARD.beginningVoucher.new}
+            >
               New BeginningVoucher
             </Button>
           }

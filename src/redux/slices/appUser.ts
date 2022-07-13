@@ -8,8 +8,7 @@ import {
   UpdateAppUserSchema,
 } from 'src/@types/appUser';
 import axios from '../../utils/axios';
-
-const DEFAULT_PAGE_SIZE = 5;
+import { DEFAULT_PAGE_SIZE } from 'src/utils/constants';
 
 const initialState: AppUserState = {
   loading: null,

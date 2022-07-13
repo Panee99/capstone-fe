@@ -28,7 +28,10 @@ export type GetBeginningVoucherSchema = {
 export type CreateBeginningVoucherSchema = {
   reportingDate: Date;
   description: string;
-  details: BeginningVoucherDetail[];
+  details: {
+    productId: string;
+    quantity: number;
+  }[];
 };
 
 export type UpdateBeginningVoucherSchema = {

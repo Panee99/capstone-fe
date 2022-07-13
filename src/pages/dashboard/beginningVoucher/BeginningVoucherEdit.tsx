@@ -10,6 +10,7 @@ import HeaderBreadcrumbs from 'src/components/HeaderBreadcrumbs';
 import { dispatch, useSelector } from 'src/redux/store';
 import { getBeginningVoucher } from 'src/redux/slices/beginningVoucher';
 import BeginningVoucherEditForm from 'src/sections/@dashboard/beginningVoucher/form/BeginningVoucherEditForm';
+import BeginningNewEditForm from 'src/sections/@dashboard/beginningVoucher/form';
 
 export default function BeginningVoucherEdit() {
   const { themeStretch } = useSettings();
@@ -35,8 +36,7 @@ export default function BeginningVoucherEdit() {
             { name: single?.code || '' },
           ]}
         />
-        {single}
-        <BeginningVoucherEditForm isEdit payload={single!} />
+        {!!single ? <BeginningNewEditForm isEdit currentVoucher={single!} /> : <p>Not Found</p>}
       </Container>
     </Page>
   );

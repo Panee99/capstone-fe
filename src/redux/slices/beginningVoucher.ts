@@ -6,14 +6,10 @@ import {
   DeleteBeginningVoucherSchema,
   BeginningVoucherState,
 } from '../../@types/vouchers/beginningVoucher';
-import { BaseLoading } from '../../@types/generic';
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { dispatch } from '../store';
 import axios from '../../utils/axios';
-
-const DEFAULT_PAGE_SIZE = 5;
-
-// ----------------------------------------------------------------------
+import { DEFAULT_PAGE_SIZE } from 'src/utils/constants';
 
 const initialState: BeginningVoucherState = {
   loading: null,
@@ -26,69 +22,101 @@ const initialState: BeginningVoucherState = {
   pageSize: DEFAULT_PAGE_SIZE,
 };
 
+export const searchBeginningVoucher = createAsyncThunk<void, SearchBeginningVoucherSchema>(
+  'beginningVoucher/search',
+  async (params, api) => {
+    const response = await axios.post('/beginning-voucher/search', params);
+    api.dispatch(slice.actions.searchBeginningVoucher(response.data));
+  }
+);
+
+export const getBeginningVoucher = createAsyncThunk<void, GetBeginningVoucherSchema>(
+  'beginningVoucher/get',
+  async (params, api) => {
+    const response = await axios.get('/beginning-voucher', { params });
+    api.dispatch(slice.actions.getBeginningVoucher(response.data));
+  }
+);
+
+export const createBeginningVoucher = createAsyncThunk<void, CreateBeginningVoucherSchema>(
+  'beginningVoucher/create',
+  async (params) => {
+    await axios.post('/beginning-voucher', params);
+  }
+);
+
+export const updateBeginningVoucher = createAsyncThunk<void, UpdateBeginningVoucherSchema>(
+  'beginningVoucher/update',
+  async (params) => {
+    await axios.put('/beginning-voucher', params);
+  }
+);
+
+export const deleteMulBeginningVoucher = createAsyncThunk<void, DeleteBeginningVoucherSchema>(
+  'beginningVoucher/delete',
+  async (params) => {
+    await axios.delete('/beginning-voucher', { data: [...params.ids] });
+  }
+);
+
 const slice = createSlice({
   name: 'beginningVoucher',
   initialState,
   reducers: {
-    startLoading(state, action) {
-      state.loading = action.payload;
-    },
     searchBeginningVoucher(state, action) {
-      state.loading = null;
       state.list = action.payload;
     },
     getBeginningVoucher(state, action) {
-      state.loading = null;
       state.single = action.payload;
     },
-    createBeginningVoucher(state) {
+  },
+  extraReducers(builder) {
+    builder.addCase(createBeginningVoucher.pending, (state) => {
+      state.loading = 'CREATE';
+    });
+    builder.addCase(createBeginningVoucher.fulfilled, (state) => {
       state.loading = null;
-    },
-    updateBeginningVoucher(state) {
+    });
+    builder.addCase(createBeginningVoucher.rejected, (state) => {
       state.loading = null;
-    },
-    deleteBeginningVoucher(state) {
+    });
+    builder.addCase(getBeginningVoucher.pending, (state) => {
+      state.loading = 'GET';
+    });
+    builder.addCase(getBeginningVoucher.fulfilled, (state) => {
       state.loading = null;
-    },
-    deleteMulBeginningVoucher(state) {
+    });
+    builder.addCase(getBeginningVoucher.rejected, (state) => {
       state.loading = null;
-    },
+    });
+    builder.addCase(searchBeginningVoucher.pending, (state) => {
+      state.loading = 'SEARCH';
+    });
+    builder.addCase(searchBeginningVoucher.fulfilled, (state) => {
+      state.loading = null;
+    });
+    builder.addCase(searchBeginningVoucher.rejected, (state) => {
+      state.loading = null;
+    });
+    builder.addCase(updateBeginningVoucher.pending, (state) => {
+      state.loading = 'UPDATE';
+    });
+    builder.addCase(updateBeginningVoucher.fulfilled, (state) => {
+      state.loading = null;
+    });
+    builder.addCase(updateBeginningVoucher.rejected, (state) => {
+      state.loading = null;
+    });
+    builder.addCase(deleteMulBeginningVoucher.pending, (state) => {
+      state.loading = 'DELETE_MUL';
+    });
+    builder.addCase(deleteMulBeginningVoucher.fulfilled, (state) => {
+      state.loading = null;
+    });
+    builder.addCase(deleteMulBeginningVoucher.rejected, (state) => {
+      state.loading = null;
+    });
   },
 });
 
 export default slice.reducer;
-
-export function searchBeginningVoucher(params: SearchBeginningVoucherSchema) {
-  return async () => {
-    const response = await axios.post('/beginning-voucher/search', params);
-    dispatch(slice.actions.searchBeginningVoucher(response.data));
-  };
-}
-
-export function getBeginningVoucher(params: GetBeginningVoucherSchema) {
-  return async () => {
-    const response = await axios.get('/beginning-voucher', { params });
-    dispatch(slice.actions.getBeginningVoucher(response.data));
-  };
-}
-
-export function createBeginningVoucher(params: CreateBeginningVoucherSchema) {
-  return async () => {
-    await axios.post('/beginning-voucher', params);
-    dispatch(slice.actions.createBeginningVoucher());
-  };
-}
-
-export function updateBeginningVoucher(params: UpdateBeginningVoucherSchema) {
-  return async () => {
-    await axios.put('/beginning-voucher', params);
-    dispatch(slice.actions.updateBeginningVoucher());
-  };
-}
-
-export function deleteBeginningVoucher(params: DeleteBeginningVoucherSchema) {
-  return async () => {
-    await axios.delete('/beginning-voucher', { data: [...params.ids] });
-    dispatch(slice.actions.deleteBeginningVoucher());
-  };
-}
