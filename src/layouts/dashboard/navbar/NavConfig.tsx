@@ -26,8 +26,11 @@ const ICONS = {
   dashboard: getIcon('ic_dashboard'),
   menuItem: getIcon('ic_menu_item'),
   warehouse: <Iconify icon="fa6-solid:warehouse" />,
-  customer: <Iconify icon="clarity:users-solid" />,
-  speeker: <Iconify icon="bi:speaker-fill" />,
+  customer: <Iconify icon="raphael:customer" />,
+  speaker: <Iconify icon="bi:speaker-fill" />,
+  category: <Iconify icon={'icon-park-solid:category-management'} />,
+  userGroup: <Iconify icon={'akar-icons:people-group'} />,
+  beginningVoucher: <Iconify icon={'ep:ticket'} />,
 };
 
 const navConfig = [
@@ -36,7 +39,7 @@ const navConfig = [
   {
     subheader: 'general',
     items: [
-      { title: 'app', path: PATH_DASHBOARD.general.app, icon: ICONS.dashboard },
+      { title: 'dashboard', path: PATH_DASHBOARD.general.app, icon: ICONS.dashboard },
       // { title: 'ecommerce', path: PATH_DASHBOARD.general.ecommerce, icon: ICONS.ecommerce },
       // { title: 'analytics', path: PATH_DASHBOARD.general.analytics, icon: ICONS.analytics },
       // { title: 'banking', path: PATH_DASHBOARD.general.banking, icon: ICONS.banking },
@@ -84,20 +87,20 @@ const navConfig = [
       {
         title: 'category',
         path: PATH_DASHBOARD.category.root,
-        icon: ICONS.speeker,
+        icon: ICONS.category,
         children: [{ title: 'list', path: PATH_DASHBOARD.category.list }],
       },
       {
         title: 'product',
         path: PATH_DASHBOARD.product.root,
-        icon: ICONS.speeker,
+        icon: ICONS.speaker,
         children: [{ title: 'list', path: PATH_DASHBOARD.product.list }],
       },
       {
         title: 'usergroup',
-        path: PATH_DASHBOARD.category.root,
-        icon: ICONS.speeker,
-        children: [{ title: 'list', path: PATH_DASHBOARD.category.list }],
+        path: PATH_DASHBOARD.userGroup.root,
+        icon: ICONS.userGroup,
+        children: [{ title: 'list', path: PATH_DASHBOARD.userGroup.list }],
       },
 
       // E-COMMERCE
@@ -147,13 +150,13 @@ const navConfig = [
       {
         title: 'Beginning Voucher',
         path: PATH_DASHBOARD.beginningVoucher.root,
-        icon: ICONS.speeker,
+        icon: ICONS.beginningVoucher,
         children: [{ title: 'list', path: PATH_DASHBOARD.beginningVoucher.list }],
       },
       {
         title: 'Beginning Voucher',
         path: PATH_PAGE.comingSoon,
-        icon: ICONS.speeker,
+        icon: ICONS.speaker,
         children: [{ title: 'list', path: PATH_PAGE.comingSoon }],
       },
     ],
