@@ -8,6 +8,7 @@ type Props = {
   row: Product;
   selected: boolean;
   onEditRow: Function;
+  onEditCategory: Function;
   onSelectRow: VoidFunction;
   onDeleteRow: Function;
 };
@@ -16,6 +17,7 @@ export default function ProductTableRow({
   row,
   selected,
   onEditRow,
+  onEditCategory,
   onSelectRow,
   onDeleteRow,
 }: Props) {
@@ -64,6 +66,15 @@ export default function ProductTableRow({
               >
                 <Iconify icon={'eva:edit-fill'} />
                 Edit
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  onEditCategory(id);
+                  handleCloseMenu();
+                }}
+              >
+                <Iconify icon={'eva:archive-fill'} />
+                Category
               </MenuItem>
               <MenuItem
                 onClick={() => {

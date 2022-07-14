@@ -5,6 +5,7 @@ import {
   SearchProductSchema,
   DeleteProductSchema,
   ProductState,
+  UpdateProductCategorySchema,
 } from '../../@types/product';
 import { BaseLoading } from '../../@types/generic';
 import { createSlice } from '@reduxjs/toolkit';
@@ -47,6 +48,9 @@ const slice = createSlice({
     updateProduct(state) {
       state.loading = null;
     },
+    updateProductCategory(state) {
+      state.loading = null;
+    },
     deleteProduct(state) {
       state.loading = null;
     },
@@ -85,6 +89,13 @@ export function updateProduct(params: UpdateProductSchema) {
     await axios.put('/product', params);
     dispatch(slice.actions.updateProduct());
   };
+}
+
+export function updateProductCategory(params: UpdateProductCategorySchema) {
+  return async () => {
+    await axios.put('/product', params);
+    dispatch(slice.actions.updateProductCategory());
+  }
 }
 
 export function deleteProduct(params: DeleteProductSchema) {

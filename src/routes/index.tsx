@@ -94,7 +94,7 @@ export default function Router() {
           children: [{ path: 'list', element: <ProductList /> }],
         },
         {
-          path: 'usergroup',
+          path: 'user-group',
           children: [{ path: 'list', element: <UserGroupList /> }],
         },
         {

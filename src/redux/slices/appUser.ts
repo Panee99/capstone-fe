@@ -6,6 +6,7 @@ import {
   GetAppUserSchema,
   SearchAppUserSchema,
   UpdateAppUserSchema,
+  UpdateAppUserPermissionSchema,
 } from 'src/@types/appUser';
 import axios from '../../utils/axios';
 import { DEFAULT_PAGE_SIZE } from 'src/utils/constants';
@@ -50,6 +51,13 @@ export const updateAppUser = createAsyncThunk<void, UpdateAppUserSchema>(
     await axios.put('/user', { ...params, inWarehouseId: params.inWarehouse?.id });
   }
 );
+
+export const updatePermission = createAsyncThunk<void, UpdateAppUserPermissionSchema>(
+    '/userGroup',
+    async (params) => {
+      await axios.post('/warehouse/group/adduser', { ...params, groupId: params.groupId?.id })
+    }
+)
 
 export const deleteAppUser = createAsyncThunk<void, DeleteAppUserSchema>(
   'user/delete',
