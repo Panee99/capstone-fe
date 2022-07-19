@@ -106,6 +106,15 @@ export default function Router() {
             { path: 'new', element: <BeginningVoucherCreate /> },
           ],
         },
+        {
+          path: 'receive-voucher-request',
+          children: [
+            { path: 'list', element: <ReceiveVoucherRequestList /> },
+            { path: ':id', element: <ReceiveVoucherRequestDetails /> },
+            { path: ':id/edit', element: <ReceiveVoucherRequestEdit /> },
+            { path: 'new', element: <ReceiveVoucherRequestCreate /> },
+          ],
+        },
       ],
     },
 
@@ -173,6 +182,20 @@ const BeginningVoucherCreate = Loadable(
 );
 const BeginningVoucherEdit = Loadable(
   lazy(() => import('../pages/dashboard/beginningVoucher/BeginningVoucherEdit'))
+);
+
+// RECEIVE VOUCHER REQUEST
+const ReceiveVoucherRequestList = Loadable(
+  lazy(() => import('../pages/dashboard/receiveVoucherRequest/ReceiveVoucherRequestList'))
+);
+const ReceiveVoucherRequestDetails = Loadable(
+  lazy(() => import('../pages/dashboard/receiveVoucherRequest/ReceiveVoucherRequestDetails'))
+);
+const ReceiveVoucherRequestCreate = Loadable(
+  lazy(() => import('../pages/dashboard/receiveVoucherRequest/ReceiveVoucherRequestCreate'))
+);
+const ReceiveVoucherRequestEdit = Loadable(
+  lazy(() => import('../pages/dashboard/receiveVoucherRequest/ReceiveVoucherRequestEdit'))
 );
 
 // MAIN
