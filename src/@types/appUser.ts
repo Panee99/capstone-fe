@@ -47,6 +47,11 @@ export type UpdateAppUserSchema = {
   inWarehouse?: FetchModel | null;
 };
 
+export type UpdateAppUserPermissionSchema = {
+  id: string;
+  groupId?: FetchModel | null;
+};
+
 export type DeleteAppUserSchema = {
   ids: string[];
 };

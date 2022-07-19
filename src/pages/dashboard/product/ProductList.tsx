@@ -40,11 +40,12 @@ import { deleteProduct, getProduct, searchProduct } from 'src/redux/slices/produ
 import { ProductTableRow, ProductTableToolbar } from 'src/sections/@dashboard/product/list';
 import ProductEditForm from 'src/sections/@dashboard/product/form/ProductEditForm';
 import ProductAddForm from 'src/sections/@dashboard/product/form/ProductAddForm';
+import ProductEditCategoryForm from 'src/sections/@dashboard/product/form/ProductEditCategoryForm';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', align: 'left' },
-  { id: 'address', label: 'Address', align: 'left' },
+  { id: 'description', label: 'Description', align: 'left' },
   { id: 'onHandMin', label: 'On hand Min', align: 'center' },
   { id: 'onHandMax', label: 'On hand Max', align: 'center' },
   { id: '' },
@@ -60,6 +61,10 @@ export default function ProductList() {
   const { toggle, setToggle } = useToggle();
 
   const [isEdit, setIsEdit] = useState(false);
+
+  const [isEditCategory, setIsEditCategory] = useState(false);
+
+  const [isAdd, setIsAdd] = useState(false);
 
   const { items: tableData, totalRows: total } = list;
 
@@ -103,7 +108,17 @@ export default function ProductList() {
   };
 
   const handleEditRow = (id: string) => {
+    setIsEditCategory(false);
+    setIsAdd(false);
     setIsEdit(true);
+    dispatch(getProduct({ id }));
+    setToggle(true);
+  };
+
+  const handleEditCategory = (id: string) => {
+    setIsEdit(false);
+    setIsAdd(false);
+    setIsEditCategory(true);
     dispatch(getProduct({ id }));
     setToggle(true);
   };
@@ -140,8 +155,10 @@ export default function ProductList() {
               variant="contained"
               startIcon={<Iconify icon={'eva:plus-fill'} />}
               onClick={() => {
+                setIsAdd(true);
                 setToggle(true);
                 setIsEdit(false);
+                setIsEditCategory(false);
               }}
             >
               New Product
@@ -207,6 +224,7 @@ export default function ProductList() {
                         onSelectRow={() => onSelectRow(row.id)}
                         onDeleteRow={() => handleDeleteRow(row.id)}
                         onEditRow={() => handleEditRow(row.id)}
+                        onEditCategory={() => handleEditCategory(row.id)}
                       />
                     ))}
 
@@ -258,7 +276,8 @@ export default function ProductList() {
           ) : (
             ''
           )}
-          {!isEdit ? <ProductAddForm onSuccess={() => setToggle(false)} /> : ''}
+          {isAdd ? <ProductAddForm onSuccess={() => setToggle(false)} /> : ''}
+          {isEditCategory && single ? <ProductEditCategoryForm payload={single!} onSuccess={() => setToggle(false)} /> : ''}
         </Box>
       </Drawer>
     </Page>

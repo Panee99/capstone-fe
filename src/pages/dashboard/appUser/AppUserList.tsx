@@ -55,6 +55,7 @@ import AppUserAddForm from 'src/sections/@dashboard/app-user/form/AppUserAddForm
 import { unwrapResult } from '@reduxjs/toolkit';
 import { DEFAULT_ERROR } from 'src/utils/constants';
 import { useSnackbar } from 'notistack';
+import AppUserPermissionForm from "../../../sections/@dashboard/app-user/form/AppUserPermissionForm";
 
 // ----------------------------------------------------------------------
 
@@ -98,6 +99,10 @@ export default function UserList() {
   const { toggle, setToggle } = useToggle();
 
   const [isEdit, setIsEdit] = useState(false);
+
+  const [isEditPermission, setIsEditPermission] = useState(false);
+
+  const [isAdd, setIsAdd] = useState(false);
 
   const {
     dense,
@@ -183,10 +188,20 @@ export default function UserList() {
   };
 
   const handleEditRow = (id: string) => {
+    setIsEditPermission(false);
+    setIsAdd(false);
     setIsEdit(true);
     dispatch(getAppUser({ id }));
     setToggle(true);
   };
+
+  const handleEditPermission = (id : string) => {
+    setIsEdit(false);
+    setIsAdd(false);
+    setIsEditPermission(true);
+    dispatch(getAppUser({ id }));
+    setToggle(true);
+  }
 
   const handleFilterKeyword = (filterKeyword: string) => {
     setFilterKeyword(filterKeyword);
@@ -217,8 +232,10 @@ export default function UserList() {
               variant="contained"
               startIcon={<Iconify icon={'eva:plus-fill'} />}
               onClick={() => {
+                setIsAdd(true);
                 setToggle(true);
                 setIsEdit(false);
+                setIsEditPermission(false);
               }}
             >
               New User
@@ -297,6 +314,7 @@ export default function UserList() {
                         onSelectRow={() => onSelectRow(row.id)}
                         onDeleteRow={() => handleDeleteRow(row.id)}
                         onEditRow={() => handleEditRow(row.id)}
+                        onEditPermission={() => handleEditPermission(row.id)}
                       />
                     ) : (
                       !isNotFound && <TableSkeleton key={index} sx={{ height: denseHeight }} />
@@ -345,7 +363,8 @@ export default function UserList() {
           ) : (
             ''
           )}
-          {!isEdit ? <AppUserAddForm onSuccess={onCreateSuccess} /> : ''}
+          {isAdd ? <AppUserAddForm onSuccess={onCreateSuccess} /> : ''}
+          {isEditPermission && single ? <AppUserPermissionForm payload={single!} onSuccess={() => setToggle(false)} /> : ''}
         </Box>
       </Drawer>
     </Page>

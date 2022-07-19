@@ -12,6 +12,7 @@ type Props = {
   row: AppUser;
   selected: boolean;
   onEditRow: Function;
+  onEditPermission: Function;
   onSelectRow: VoidFunction;
   onDeleteRow: Function;
 };
@@ -20,6 +21,7 @@ export default function AppUserTableRow({
   row,
   selected,
   onEditRow,
+  onEditPermission,
   onSelectRow,
   onDeleteRow,
 }: Props) {
@@ -93,6 +95,15 @@ export default function AppUserTableRow({
               >
                 <Iconify icon={'eva:edit-fill'} />
                 Edit
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  onEditPermission();
+                  handleCloseMenu();
+                }}
+              >
+                <Iconify icon={'eva:person-done-outline'} />
+                Permission
               </MenuItem>
               <MenuItem
                 onClick={() => {
