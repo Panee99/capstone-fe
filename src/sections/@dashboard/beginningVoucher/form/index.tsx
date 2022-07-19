@@ -5,6 +5,7 @@ import {
   BeginningVoucher,
   BeginningVoucherDetail,
   CreateBeginningVoucherSchema,
+  UpdateBeginningVoucherSchema,
 } from 'src/@types/vouchers/beginningVoucher';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -15,7 +16,7 @@ import { LoadingButton } from '@mui/lab';
 import BeginningVoucherNewEditDetails from './BeginningVoucherNewEditDetails';
 import { FetchModel } from 'src/@types/generic';
 import { DEFAULT_ERROR } from 'src/utils/constants';
-import { createBeginningVoucher } from 'src/redux/slices/beginningVoucher';
+import { createBeginningVoucher, updateBeginningVoucher } from 'src/redux/slices/beginningVoucher';
 import { dispatch } from 'src/redux/store';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useSnackbar } from 'notistack';
@@ -83,16 +84,31 @@ export default function BeginningNewEditForm({ currentVoucher, isEdit }: Props) 
   }, [isEdit, currentVoucher]);
 
   const onSubmit = async () => {
-    const newVoucher: CreateBeginningVoucherSchema = {
-      ...values,
-      details: values.details.map((detail) => ({
-        productId: detail.product!.id,
-        quantity: detail.quantity,
-      })),
-    };
-
     try {
-      const result = await dispatch(createBeginningVoucher(newVoucher));
+      let result;
+      if (!isEdit) {
+        const newVoucher: CreateBeginningVoucherSchema = {
+          ...values,
+          details: values.details.map((detail) => ({
+            productId: detail.product!.id,
+            quantity: detail.quantity,
+          })),
+        };
+        result = await dispatch(createBeginningVoucher(newVoucher));
+      } else {
+        console.log(currentVoucher);
+        console.log(values);
+
+        const newVoucher: UpdateBeginningVoucherSchema = {
+          id: currentVoucher!.id,
+          ...values,
+          details: values.details.map((detail) => ({
+            productId: detail.product!.id,
+            quantity: detail.quantity,
+          })),
+        };
+        result = await dispatch(updateBeginningVoucher(newVoucher));
+      }
       unwrapResult(result);
       enqueueSnackbar('Create user success!');
       navigate(PATH_DASHBOARD.beginningVoucher.list);
@@ -100,6 +116,8 @@ export default function BeginningNewEditForm({ currentVoucher, isEdit }: Props) 
       setError('afterSubmit', { message: error?.message || error || DEFAULT_ERROR });
     }
   };
+
+  console.log(isEdit);
 
   return (
     <FormProvider methods={methods}>

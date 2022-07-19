@@ -38,7 +38,10 @@ export type UpdateBeginningVoucherSchema = {
   id: string;
   reportingDate: Date;
   description: string;
-  details: BeginningVoucherDetail[];
+  details: {
+    productId: string;
+    quantity: number;
+  }[];
 };
 
 export type DeleteBeginningVoucherSchema = {

@@ -11,6 +11,7 @@ import { dispatch, useSelector } from 'src/redux/store';
 import { getBeginningVoucher } from 'src/redux/slices/beginningVoucher';
 import BeginningVoucherEditForm from 'src/sections/@dashboard/beginningVoucher/form/BeginningVoucherEditForm';
 import BeginningNewEditForm from 'src/sections/@dashboard/beginningVoucher/form';
+import Loading from 'src/components/Loading';
 
 export default function BeginningVoucherEdit() {
   const { themeStretch } = useSettings();
@@ -18,8 +19,6 @@ export default function BeginningVoucherEdit() {
   const { id } = useParams();
 
   const { list, single, loading } = useSelector((state) => state.beginningVoucher);
-
-  console.log(JSON.stringify(single));
 
   useEffect(() => {
     if (!!id) dispatch(getBeginningVoucher({ id: id }));
@@ -36,7 +35,9 @@ export default function BeginningVoucherEdit() {
             { name: single?.code || '' },
           ]}
         />
-        {!!single ? <BeginningNewEditForm isEdit currentVoucher={single!} /> : <p>Not Found</p>}
+        {loading && <Loading />}
+        {!loading &&
+          (!!single ? <BeginningNewEditForm isEdit currentVoucher={single!} /> : <p>Not Found</p>)}
       </Container>
     </Page>
   );
