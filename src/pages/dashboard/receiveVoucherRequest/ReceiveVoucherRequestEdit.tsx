@@ -8,36 +8,41 @@ import Page from 'src/components/Page';
 import InvoiceNewEditForm from 'src/sections/@dashboard/invoice/new-edit-form';
 import HeaderBreadcrumbs from 'src/components/HeaderBreadcrumbs';
 import { dispatch, useSelector } from 'src/redux/store';
-import { getBeginningVoucher } from 'src/redux/slices/beginningVoucher';
-import BeginningVoucherEditForm from 'src/sections/@dashboard/beginningVoucher/form/BeginningVoucherEditForm';
-import BeginningNewEditForm from 'src/sections/@dashboard/beginningVoucher/form';
+import { getReceiveVoucherRequest } from 'src/redux/slices/receiveVoucherRequest';
+import ReceiveVoucherRequestEditForm from 'src/sections/@dashboard/receiveVoucherRequest/form/ReceiveVoucherRequestEditForm';
+// import ReceiveVoucherRequestNewEditForm from 'src/sections/@dashboard/receiveVoucherRequest/form';
+import ReceiveVoucherRequestNewEditForm from 'src/sections/@dashboard/receiveVoucherRequest/form';
 import Loading from 'src/components/Loading';
 
-export default function BeginningVoucherEdit() {
+export default function ReceiveVoucherRequestEdit() {
   const { themeStretch } = useSettings();
 
   const { id } = useParams();
 
-  const { list, single, loading } = useSelector((state) => state.beginningVoucher);
+  const { list, single, loading } = useSelector((state) => state.receiveVoucherRequest);
 
   useEffect(() => {
-    if (!!id) dispatch(getBeginningVoucher({ id: id }));
+    if (!!id) dispatch(getReceiveVoucherRequest({ id: id }));
   }, [dispatch]);
 
   return (
     <Page title="Invoices: Edit">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Edit Beginning Voucher"
+          heading="Edit ReceiveVoucherRequest Voucher"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Beginning Voucher', href: PATH_DASHBOARD.invoice.list },
+            { name: 'ReceiveVoucherRequest Voucher', href: PATH_DASHBOARD.invoice.list },
             { name: single?.code || '' },
           ]}
         />
         {loading && <Loading />}
         {!loading &&
-          (!!single ? <BeginningNewEditForm isEdit currentVoucher={single!} /> : <p>Not Found</p>)}
+          (!!single ? (
+            <ReceiveVoucherRequestNewEditForm isEdit currentVoucher={single!} />
+          ) : (
+            <p>Not Found</p>
+          ))}
       </Container>
     </Page>
   );

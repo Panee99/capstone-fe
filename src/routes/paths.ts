@@ -92,6 +92,13 @@ export const PATH_DASHBOARD = {
     edit: (id: string) => path(ROOTS_DASHBOARD, `/beginning-voucher/${id}/edit`),
     view: (id: string) => path(ROOTS_DASHBOARD, `/beginning-voucher/${id}`),
   },
+  receiveVoucherRequest: {
+    root: path(ROOTS_DASHBOARD, '/receive-voucher-request'),
+    list: path(ROOTS_DASHBOARD, '/receive-voucher-request/list'),
+    new: path(ROOTS_DASHBOARD, '/receive-voucher-request/new'),
+    edit: (id: string) => path(ROOTS_DASHBOARD, `/receive-voucher-request/${id}/edit`),
+    view: (id: string) => path(ROOTS_DASHBOARD, `/receive-voucher-request/${id}`),
+  },
   userGroup: {
     root: path(ROOTS_DASHBOARD, '/user-group'),
     list: path(ROOTS_DASHBOARD, '/user-group/list'),

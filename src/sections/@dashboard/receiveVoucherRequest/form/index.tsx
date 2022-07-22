@@ -2,27 +2,30 @@ import * as Yup from 'yup';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import {
-  BeginningVoucher,
-  BeginningVoucherDetail,
-  CreateBeginningVoucherSchema,
-  UpdateBeginningVoucherSchema,
-} from 'src/@types/vouchers/beginningVoucher';
+  ReceiveVoucherRequest,
+  ReceiveVoucherRequestDetail,
+  CreateReceiveVoucherRequestSchema,
+  UpdateReceiveVoucherRequestSchema,
+} from 'src/@types/vouchers/receiveVoucherRequest';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider } from 'src/components/hook-form';
 import { Alert, Card, Stack } from '@mui/material';
-import BeginningVoucherNewEditMaster from './BeginningVoucherNewEditMaster';
+import ReceiveVoucherRequestNewEditMaster from './ReceiveVoucherRequestNewEditMaster';
 import { LoadingButton } from '@mui/lab';
-import BeginningVoucherNewEditDetails from './BeginningVoucherNewEditDetails';
+import ReceiveVoucherRequestNewEditDetails from './ReceiveVoucherRequestNewEditDetails';
 import { FetchModel } from 'src/@types/generic';
 import { DEFAULT_ERROR } from 'src/utils/constants';
-import { createBeginningVoucher, updateBeginningVoucher } from 'src/redux/slices/beginningVoucher';
+import {
+  createReceiveVoucherRequest,
+  updateReceiveVoucherRequest,
+} from 'src/redux/slices/receiveVoucherRequest';
 import { dispatch } from 'src/redux/store';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useSnackbar } from 'notistack';
 import { PATH_DASHBOARD } from 'src/routes/paths';
 
-type IFormValuesProps = Omit<BeginningVoucher, 'id' | 'code' | 'warehouse' | 'details'>;
+type IFormValuesProps = Omit<ReceiveVoucherRequest, 'id' | 'code' | 'warehouse' | 'details'>;
 
 interface FormValuesProps extends IFormValuesProps {
   afterSubmit?: string;
@@ -31,10 +34,10 @@ interface FormValuesProps extends IFormValuesProps {
 
 type Props = {
   isEdit?: boolean;
-  currentVoucher?: BeginningVoucher;
+  currentVoucher?: ReceiveVoucherRequest;
 };
 
-export default function BeginningNewEditForm({ currentVoucher, isEdit }: Props) {
+export default function ReceiveVoucherRequestNewEditForm({ currentVoucher, isEdit }: Props) {
   const navigate = useNavigate();
 
   const [loadingSave, setLoadingSave] = useState(false);
@@ -50,9 +53,9 @@ export default function BeginningNewEditForm({ currentVoucher, isEdit }: Props) 
 
   const defaultValues = useMemo(
     () => ({
-      reportingDate: currentVoucher?.reportingDate || new Date(),
+      voucherDate: currentVoucher?.voucherDate || new Date(),
       details: currentVoucher?.details || [],
-      description: currentVoucher?.description || '',
+      note: currentVoucher?.note || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentVoucher]
@@ -87,19 +90,19 @@ export default function BeginningNewEditForm({ currentVoucher, isEdit }: Props) 
     try {
       let result;
       if (!isEdit) {
-        const newVoucher: CreateBeginningVoucherSchema = {
+        const newVoucher: CreateReceiveVoucherRequestSchema = {
           ...values,
           details: values.details.map((detail) => ({
             productId: detail.product!.id,
             quantity: detail.quantity,
           })),
         };
-        result = await dispatch(createBeginningVoucher(newVoucher));
+        result = await dispatch(createReceiveVoucherRequest(newVoucher));
       } else {
         console.log(currentVoucher);
         console.log(values);
 
-        const newVoucher: UpdateBeginningVoucherSchema = {
+        const newVoucher: UpdateReceiveVoucherRequestSchema = {
           id: currentVoucher!.id,
           ...values,
           details: values.details.map((detail) => ({
@@ -107,11 +110,11 @@ export default function BeginningNewEditForm({ currentVoucher, isEdit }: Props) 
             quantity: detail.quantity,
           })),
         };
-        result = await dispatch(updateBeginningVoucher(newVoucher));
+        result = await dispatch(updateReceiveVoucherRequest(newVoucher));
       }
       unwrapResult(result);
       enqueueSnackbar('Create user success!');
-      navigate(PATH_DASHBOARD.beginningVoucher.list);
+      navigate(PATH_DASHBOARD.receiveVoucherRequest.list);
     } catch (error) {
       setError('afterSubmit', { message: error?.message || error || DEFAULT_ERROR });
     }
@@ -123,8 +126,8 @@ export default function BeginningNewEditForm({ currentVoucher, isEdit }: Props) 
     <FormProvider methods={methods}>
       {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
       <Card>
-        <BeginningVoucherNewEditMaster />
-        <BeginningVoucherNewEditDetails />
+        <ReceiveVoucherRequestNewEditMaster />
+        <ReceiveVoucherRequestNewEditDetails />
       </Card>
 
       <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>
