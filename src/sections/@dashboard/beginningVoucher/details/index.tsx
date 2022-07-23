@@ -50,7 +50,7 @@ export default function BeginningVoucherDetails({ payload }: Props) {
             <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
               Code
             </Typography>
-            <Typography variant="body2">{payload.code}</Typography>
+            <Typography variant="body2">{code}</Typography>
           </Grid>
 
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
@@ -64,7 +64,7 @@ export default function BeginningVoucherDetails({ payload }: Props) {
             <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
               Warehouse
             </Typography>
-            <Typography variant="body2">{warehouse}</Typography>
+            <Typography variant="body2">{warehouse.name}</Typography>
           </Grid>
 
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>

@@ -1,5 +1,4 @@
 import { Container } from '@mui/material';
-import React from 'react';
 import HeaderBreadcrumbs from 'src/components/HeaderBreadcrumbs';
 import Page from 'src/components/Page';
 import useSettings from 'src/hooks/useSettings';

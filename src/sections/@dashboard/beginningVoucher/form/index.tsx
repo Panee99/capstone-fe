@@ -16,7 +16,11 @@ import { LoadingButton } from '@mui/lab';
 import BeginningVoucherNewEditDetails from './BeginningVoucherNewEditDetails';
 import { FetchModel } from 'src/@types/generic';
 import { DEFAULT_ERROR } from 'src/utils/constants';
-import { createBeginningVoucher, updateBeginningVoucher } from 'src/redux/slices/beginningVoucher';
+import {
+  createBeginningVoucher,
+  getBeginningVoucher,
+  updateBeginningVoucher,
+} from 'src/redux/slices/beginningVoucher';
 import { dispatch } from 'src/redux/store';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useSnackbar } from 'notistack';
@@ -37,15 +41,16 @@ type Props = {
 export default function BeginningNewEditForm({ currentVoucher, isEdit }: Props) {
   const navigate = useNavigate();
 
-  const [loadingSave, setLoadingSave] = useState(false);
-
-  const [loadingSend, setLoadingSend] = useState(false);
-
   const { enqueueSnackbar } = useSnackbar();
 
   const NewVoucherSchema = Yup.object().shape({
     reportingDate: Yup.date().required('Reporting Date is required'),
-    details: Yup.array().of(Yup.object().shape({})),
+    details: Yup.array().of(
+      Yup.object().shape({
+        product: Yup.object().required('Proudct is required'),
+        quantity: Yup.number().min(1, 'Min 1'),
+      })
+    ),
   });
 
   const defaultValues = useMemo(
@@ -96,9 +101,6 @@ export default function BeginningNewEditForm({ currentVoucher, isEdit }: Props) 
         };
         result = await dispatch(createBeginningVoucher(newVoucher));
       } else {
-        console.log(currentVoucher);
-        console.log(values);
-
         const newVoucher: UpdateBeginningVoucherSchema = {
           id: currentVoucher!.id,
           ...values,
@@ -110,14 +112,17 @@ export default function BeginningNewEditForm({ currentVoucher, isEdit }: Props) 
         result = await dispatch(updateBeginningVoucher(newVoucher));
       }
       unwrapResult(result);
-      enqueueSnackbar('Create user success!');
-      navigate(PATH_DASHBOARD.beginningVoucher.list);
+
+      enqueueSnackbar((isEdit ? 'Update' : 'Create') + ' user success!');
+      if (!isEdit) {
+        navigate(PATH_DASHBOARD.beginningVoucher.list);
+      } else {
+        await dispatch(getBeginningVoucher({ id: currentVoucher!.id }));
+      }
     } catch (error) {
       setError('afterSubmit', { message: error?.message || error || DEFAULT_ERROR });
     }
   };
-
-  console.log(isEdit);
 
   return (
     <FormProvider methods={methods}>

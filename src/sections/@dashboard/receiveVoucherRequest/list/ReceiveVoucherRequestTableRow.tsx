@@ -24,7 +24,7 @@ export default function ReceiveVoucherRequestTableRow({
   onDeleteRow,
   onViewRow,
 }: Props) {
-  const { code, voucherDate, warehouse } = row;
+  const { code, reportingDate, warehouse } = row;
 
   const [openMenu, setOpenMenuActions] = useState<HTMLElement | null>(null);
 
@@ -50,7 +50,7 @@ export default function ReceiveVoucherRequestTableRow({
 
       <TableCell align="left">{warehouse?.name}</TableCell>
 
-      <TableCell align="left">{fDate(voucherDate)}</TableCell>
+      <TableCell align="left">{fDate(reportingDate)}</TableCell>
 
       <TableCell align="right">
         <TableMoreMenu

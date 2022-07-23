@@ -55,24 +55,9 @@ import AppUserAddForm from 'src/sections/@dashboard/app-user/form/AppUserAddForm
 import { unwrapResult } from '@reduxjs/toolkit';
 import { DEFAULT_ERROR } from 'src/utils/constants';
 import { useSnackbar } from 'notistack';
-import AppUserPermissionForm from "../../../sections/@dashboard/app-user/form/AppUserPermissionForm";
+import AppUserPermissionForm from '../../../sections/@dashboard/app-user/form/AppUserPermissionForm';
 
 // ----------------------------------------------------------------------
-
-const STATUS_OPTIONS = ['all', 'active', 'banned'];
-
-const ROLE_OPTIONS = [
-  'all',
-  'ux designer',
-  'full stack designer',
-  'backend developer',
-  'project manager',
-  'leader',
-  'ui designer',
-  'ui/ux designer',
-  'front end developer',
-  'full stack developer',
-];
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', align: 'left' },
@@ -195,13 +180,13 @@ export default function UserList() {
     setToggle(true);
   };
 
-  const handleEditPermission = (id : string) => {
+  const handleEditPermission = (id: string) => {
     setIsEdit(false);
     setIsAdd(false);
     setIsEditPermission(true);
     dispatch(getAppUser({ id }));
     setToggle(true);
-  }
+  };
 
   const handleFilterKeyword = (filterKeyword: string) => {
     setFilterKeyword(filterKeyword);
@@ -222,11 +207,7 @@ export default function UserList() {
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading="User List"
-          links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'User', href: PATH_DASHBOARD.user.root },
-            { name: 'List' },
-          ]}
+          links={[{ name: 'Dashboard', href: PATH_DASHBOARD.root }, { name: 'User' }]}
           action={
             <Button
               variant="contained"
@@ -244,19 +225,6 @@ export default function UserList() {
         />
 
         <Card>
-          <Tabs
-            allowScrollButtonsMobile
-            variant="scrollable"
-            scrollButtons="auto"
-            value={filterStatus}
-            onChange={onChangeFilterStatus}
-            sx={{ px: 2, bgcolor: 'background.neutral' }}
-          >
-            {STATUS_OPTIONS.map((tab) => (
-              <Tab disableRipple key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
-
           <Divider />
 
           <AppUserTableToolbar
@@ -364,7 +332,11 @@ export default function UserList() {
             ''
           )}
           {isAdd ? <AppUserAddForm onSuccess={onCreateSuccess} /> : ''}
-          {isEditPermission && single ? <AppUserPermissionForm payload={single!} onSuccess={() => setToggle(false)} /> : ''}
+          {isEditPermission && single ? (
+            <AppUserPermissionForm payload={single!} onSuccess={() => setToggle(false)} />
+          ) : (
+            ''
+          )}
         </Box>
       </Drawer>
     </Page>

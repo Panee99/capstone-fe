@@ -32,7 +32,7 @@ export default function BeginningVoucherEditForm({ payload, onSuccess, isEdit }:
           .required('Quantity is required')
           .typeError('Quantity must be a number')
           .min(1, 'Quantity must be more than 0'),
-        product: Yup.string().required('Product is required'),
+        product: Yup.object().required('Product is required'),
       })
     ),
   });
