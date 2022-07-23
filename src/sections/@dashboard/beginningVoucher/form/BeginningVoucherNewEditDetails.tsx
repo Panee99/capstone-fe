@@ -7,14 +7,6 @@ import RHFFetch from 'src/components/hook-form/RHFFetch';
 import Iconify from 'src/components/Iconify';
 import { fNumber } from 'src/utils/formatNumber';
 
-const SERVICE_OPTIONS = [
-  'full stack development',
-  'backend development',
-  'ui design',
-  'ui/ux design',
-  'front end development',
-];
-
 export default function BeginningVoucherNewEditDetails() {
   const { control, setValue, watch } = useFormContext();
 

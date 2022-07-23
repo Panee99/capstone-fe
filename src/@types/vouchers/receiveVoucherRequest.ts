@@ -10,8 +10,8 @@ export enum ENUM_RECEIVE_VOUCHER_REQUEST {
 export type ReceiveVoucherRequest = {
   id: string;
   code: string;
-  voucherDate: Date;
-  note: string;
+  reportingDate: Date;
+  description: string;
   warehouse: FetchModel;
   status: ENUM_RECEIVE_VOUCHER_REQUEST;
   locked: boolean;
@@ -37,8 +37,8 @@ export type GetReceiveVoucherRequestSchema = {
 };
 
 export type CreateReceiveVoucherRequestSchema = {
-  voucherDate: Date;
-  note: string;
+  reportingDate: Date;
+  description: string;
   details: {
     productId: string;
     quantity: number;
@@ -47,8 +47,8 @@ export type CreateReceiveVoucherRequestSchema = {
 
 export type UpdateReceiveVoucherRequestSchema = {
   id: string;
-  voucherDate: Date;
-  note: string;
+  reportingDate: Date;
+  description: string;
   details: {
     productId: string;
     quantity: number;

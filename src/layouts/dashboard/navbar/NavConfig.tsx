@@ -68,39 +68,33 @@ const navConfig = [
       // },
       {
         title: 'user',
-        path: PATH_DASHBOARD.appUser.root,
+        path: PATH_DASHBOARD.appUser.list,
         icon: ICONS.user,
-        children: [{ title: 'list', path: PATH_DASHBOARD.appUser.list }],
-      },
-      {
-        title: 'warehouse',
-        path: PATH_DASHBOARD.warehouse.root,
-        icon: ICONS.warehouse,
-        children: [{ title: 'list', path: PATH_DASHBOARD.warehouse.list }],
-      },
-      {
-        title: 'customer',
-        path: PATH_DASHBOARD.customer.root,
-        icon: ICONS.customer,
-        children: [{ title: 'list', path: PATH_DASHBOARD.customer.list }],
-      },
-      {
-        title: 'category',
-        path: PATH_DASHBOARD.category.root,
-        icon: ICONS.category,
-        children: [{ title: 'list', path: PATH_DASHBOARD.category.list }],
-      },
-      {
-        title: 'product',
-        path: PATH_DASHBOARD.product.root,
-        icon: ICONS.speaker,
-        children: [{ title: 'list', path: PATH_DASHBOARD.product.list }],
       },
       {
         title: 'usergroup',
-        path: PATH_DASHBOARD.userGroup.root,
+        path: PATH_DASHBOARD.userGroup.list,
         icon: ICONS.userGroup,
-        children: [{ title: 'list', path: PATH_DASHBOARD.userGroup.list }],
+      },
+      {
+        title: 'warehouse',
+        path: PATH_DASHBOARD.warehouse.list,
+        icon: ICONS.warehouse,
+      },
+      {
+        title: 'customer',
+        path: PATH_DASHBOARD.customer.list,
+        icon: ICONS.customer,
+      },
+      {
+        title: 'category',
+        path: PATH_DASHBOARD.category.list,
+        icon: ICONS.category,
+      },
+      {
+        title: 'product',
+        path: PATH_DASHBOARD.product.list,
+        icon: ICONS.speaker,
       },
 
       // E-COMMERCE

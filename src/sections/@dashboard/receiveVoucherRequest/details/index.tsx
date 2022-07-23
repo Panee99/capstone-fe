@@ -38,7 +38,7 @@ export default function ReceiveVoucherRequestDetails({ payload }: Props) {
     return null;
   }
 
-  const { id, code, note, voucherDate, warehouse, details } = payload;
+  const { id, code, description, reportingDate, warehouse, details } = payload;
 
   return (
     <>
@@ -57,21 +57,21 @@ export default function ReceiveVoucherRequestDetails({ payload }: Props) {
             <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
               Reporting Date
             </Typography>
-            <Typography variant="body2">{voucherDate}</Typography>
+            <Typography variant="body2">{reportingDate}</Typography>
           </Grid>
 
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
             <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
               Warehouse
             </Typography>
-            <Typography variant="body2">{warehouse}</Typography>
+            <Typography variant="body2">{warehouse.name}</Typography>
           </Grid>
 
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
             <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
               Description
             </Typography>
-            <Typography variant="body2">{note}</Typography>
+            <Typography variant="body2">{description}</Typography>
           </Grid>
         </Grid>
 

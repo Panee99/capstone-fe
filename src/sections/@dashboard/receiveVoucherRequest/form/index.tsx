@@ -18,6 +18,7 @@ import { FetchModel } from 'src/@types/generic';
 import { DEFAULT_ERROR } from 'src/utils/constants';
 import {
   createReceiveVoucherRequest,
+  getReceiveVoucherRequest,
   updateReceiveVoucherRequest,
 } from 'src/redux/slices/receiveVoucherRequest';
 import { dispatch } from 'src/redux/store';
@@ -40,22 +41,23 @@ type Props = {
 export default function ReceiveVoucherRequestNewEditForm({ currentVoucher, isEdit }: Props) {
   const navigate = useNavigate();
 
-  const [loadingSave, setLoadingSave] = useState(false);
-
-  const [loadingSend, setLoadingSend] = useState(false);
-
   const { enqueueSnackbar } = useSnackbar();
 
   const NewVoucherSchema = Yup.object().shape({
     reportingDate: Yup.date().required('Reporting Date is required'),
-    details: Yup.array().of(Yup.object().shape({})),
+    details: Yup.array().of(
+      Yup.object().shape({
+        product: Yup.object().required('Proudct is required'),
+        quantity: Yup.number().min(1, 'Min 1'),
+      })
+    ),
   });
 
   const defaultValues = useMemo(
     () => ({
-      voucherDate: currentVoucher?.voucherDate || new Date(),
+      reportingDate: currentVoucher?.reportingDate || new Date(),
       details: currentVoucher?.details || [],
-      note: currentVoucher?.note || '',
+      description: currentVoucher?.description || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentVoucher]
@@ -97,11 +99,10 @@ export default function ReceiveVoucherRequestNewEditForm({ currentVoucher, isEdi
             quantity: detail.quantity,
           })),
         };
+        console.log(newVoucher);
+
         result = await dispatch(createReceiveVoucherRequest(newVoucher));
       } else {
-        console.log(currentVoucher);
-        console.log(values);
-
         const newVoucher: UpdateReceiveVoucherRequestSchema = {
           id: currentVoucher!.id,
           ...values,
@@ -110,17 +111,21 @@ export default function ReceiveVoucherRequestNewEditForm({ currentVoucher, isEdi
             quantity: detail.quantity,
           })),
         };
+        console.log(newVoucher);
+
         result = await dispatch(updateReceiveVoucherRequest(newVoucher));
       }
       unwrapResult(result);
-      enqueueSnackbar('Create user success!');
-      navigate(PATH_DASHBOARD.receiveVoucherRequest.list);
+      enqueueSnackbar((isEdit ? 'Update' : 'Create') + ' voucher success!');
+      if (!isEdit) {
+        navigate(PATH_DASHBOARD.receiveVoucherRequest.list);
+      } else {
+        await dispatch(getReceiveVoucherRequest({ id: currentVoucher!.id }));
+      }
     } catch (error) {
       setError('afterSubmit', { message: error?.message || error || DEFAULT_ERROR });
     }
   };
-
-  console.log(isEdit);
 
   return (
     <FormProvider methods={methods}>

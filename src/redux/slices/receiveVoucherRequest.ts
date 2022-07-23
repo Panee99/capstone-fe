@@ -97,15 +97,6 @@ const slice = createSlice({
     builder.addCase(searchReceiveVoucherRequest.rejected, (state) => {
       state.loading = null;
     });
-    builder.addCase(updateReceiveVoucherRequest.pending, (state) => {
-      state.loading = 'UPDATE';
-    });
-    builder.addCase(updateReceiveVoucherRequest.fulfilled, (state) => {
-      state.loading = null;
-    });
-    builder.addCase(updateReceiveVoucherRequest.rejected, (state) => {
-      state.loading = null;
-    });
     builder.addCase(deleteMulReceiveVoucherRequest.pending, (state) => {
       state.loading = 'DELETE_MUL';
     });

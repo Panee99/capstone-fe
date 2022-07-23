@@ -33,12 +33,13 @@ export default function BeginningVoucherDetails() {
     // };
     // fetch();
   }, [dispatch]);
+  console.log(single);
 
   return (
-    <Page title="Invoice: View">
+    <Page title="Beginning Voucher: View">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Invoice Details"
+          heading="Beginning Details"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             {

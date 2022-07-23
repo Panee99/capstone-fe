@@ -55,7 +55,7 @@ export default function ReceiveVoucherRequestToolbar({ payload }: Props) {
 
           <PDFDownloadLink
             document={<ReceiveVoucherRequestPDF payload={payload} />}
-            fileName={fDate(payload.voucherDate)}
+            fileName={fDate(payload.reportingDate)}
             style={{ textDecoration: 'none' }}
           >
             {({ loading }) => (

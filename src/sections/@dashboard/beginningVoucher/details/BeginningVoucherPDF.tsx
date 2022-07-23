@@ -29,7 +29,7 @@ export default function BeginningVoucherPDF({ payload }: Props) {
         <View style={[styles.gridContainer, styles.mb40]}>
           <View style={styles.col6}>
             <Text style={[styles.overline, styles.mb8]}>warehouse</Text>
-            <Text style={styles.body1}>{payload.warehouse}</Text>
+            <Text style={styles.body1}>{payload.warehouse.name}</Text>
           </View>
 
           <View style={styles.col6}>
