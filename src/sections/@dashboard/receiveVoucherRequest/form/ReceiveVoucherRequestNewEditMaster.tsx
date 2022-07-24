@@ -3,7 +3,7 @@ import { Stack, TextField } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
 import { RHFTextField } from 'src/components/hook-form';
 
-export default function BeginningVoucherNewEditMaster() {
+export default function ReceiveVoucherRequestNewEditMaster() {
   const { control } = useFormContext();
 
   return (

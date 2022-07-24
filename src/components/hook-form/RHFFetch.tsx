@@ -1,4 +1,4 @@
-import { Autocomplete, MenuItem, TextField, TextFieldProps } from '@mui/material';
+import { Autocomplete, FormHelperText, MenuItem, TextField, TextFieldProps } from '@mui/material';
 import { Fragment, useCallback, useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { FetchModel } from 'src/@types/generic';
@@ -51,31 +51,38 @@ export default function RHFFetch({ name, endpoint, ...other }: Props) {
     <Controller
       control={control}
       name={name}
-      render={({ field: { value, onChange } }) => (
-        <Autocomplete
-          options={searchResults}
-          onInputChange={(_, value) => setSearch(value)}
-          onChange={(_, data) => onChange(data)}
-          getOptionLabel={(element) => element.name}
-          renderOption={(props, value) => (
-            <MenuItem
-              {...props}
-              sx={{
-                mx: 1,
-                borderRadius: 0.75,
-                typography: 'body2',
-                fontStyle: 'italic',
-                color: 'text.secondary',
-              }}
-            >
-              {value.name}
-            </MenuItem>
+      render={({ field: { value, onChange }, fieldState: { error } }) => (
+        <div>
+          <Autocomplete
+            options={searchResults}
+            onInputChange={(_, value) => setSearch(value)}
+            onChange={(_, data) => onChange(data)}
+            getOptionLabel={(element) => element.name}
+            renderOption={(props, value) => (
+              <MenuItem
+                {...props}
+                sx={{
+                  mx: 1,
+                  borderRadius: 0.75,
+                  typography: 'body2',
+                  fontStyle: 'italic',
+                  color: 'text.secondary',
+                }}
+              >
+                {value.name}
+              </MenuItem>
+            )}
+            renderInput={(params) => <TextField {...params} {...other} />}
+            noOptionsText={<SearchNotFound searchQuery={search} />}
+            value={value}
+            isOptionEqualToValue={(option: FetchModel, value: FetchModel) => option.id === value.id}
+          />
+          {!!error && (
+            <FormHelperText error sx={{ px: 2 }}>
+              {error.message}
+            </FormHelperText>
           )}
-          renderInput={(params) => <TextField {...params} {...other} />}
-          noOptionsText={<SearchNotFound searchQuery={search} />}
-          value={value}
-          isOptionEqualToValue={(option: FetchModel, value: FetchModel) => option.id === value.id}
-        />
+        </div>
       )}
     />
   );

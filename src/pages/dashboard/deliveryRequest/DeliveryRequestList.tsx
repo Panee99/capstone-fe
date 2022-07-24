@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-// @mui
 import {
   Box,
   Card,
@@ -14,12 +13,8 @@ import {
   TableContainer,
   TablePagination,
   FormControlLabel,
-  Drawer,
 } from '@mui/material';
-// routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
-// hooks
-import useTabs from '../../../hooks/useTabs';
 import useSettings from '../../../hooks/useSettings';
 import useTable, { emptyRows } from '../../../hooks/useTable';
 import Page from '../../../components/Page';
@@ -32,37 +27,27 @@ import {
   TableHeadCustom,
   TableSelectedActions,
 } from '../../../components/table';
-import { dispatch, useDispatch, useSelector } from 'src/redux/store';
-import useToggle from 'src/hooks/useToggle';
-import Loading from 'src/components/Loading';
-import { BaseLoading } from 'src/@types/generic';
+import { dispatch, useSelector } from 'src/redux/store';
+import { deleteMulDeliveryRequest, searchDeliveryRequest } from 'src/redux/slices/deliveryRequest';
 import {
-  deleteMulBeginningVoucher,
-  getBeginningVoucher,
-  searchBeginningVoucher,
-} from 'src/redux/slices/beginningVoucher';
-import {
-  BeginningVoucherTableRow,
-  BeginningVoucherTableToolbar,
-} from 'src/sections/@dashboard/beginningVoucher/list';
+  DeliveryRequestTableRow,
+  DeliveryRequestTableToolbar,
+} from 'src/sections/@dashboard/deliveryRequest/list';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-
-// ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'code', label: 'Code', align: 'left' },
   { id: 'warehouse', label: 'Warehouse', align: 'left' },
   { id: 'reportingDate', label: 'Reporting Date', align: 'left' },
+  { id: 'status', label: 'Status', align: 'center' },
   { id: '' },
 ];
 
-// ----------------------------------------------------------------------
+export default function DeliveryRequestList() {
+  const { list, single, loading } = useSelector((state) => state.deliveryRequest);
 
-export default function BeginningVoucherList() {
-  const { list, single, loading } = useSelector((state) => state.beginningVoucher);
-
-  const { items: tableData, totalRows: total } = list;
+  const { items: tableData, totalRows: toal } = list;
 
   const {
     dense,
@@ -82,39 +67,35 @@ export default function BeginningVoucherList() {
     onChangePage,
     onChangeRowsPerPage,
   } = useTable();
-
   const { themeStretch } = useSettings();
 
-  const { currentTab: filterStatus, onChangeTab: onChangeFilterStatus } = useTabs('all');
-
   const [filterKeyword, setFilterKeyword] = useState('');
-
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(
-      searchBeginningVoucher({ name: filterKeyword, pageIndex: page + 1, pageSize: rowsPerPage })
+      searchDeliveryRequest({ name: filterKeyword, pageIndex: page + 1, pageSize: rowsPerPage })
     );
   }, [dispatch, filterKeyword, page, rowsPerPage]);
 
   const handleViewRow = async (id: string) => {
-    navigate(PATH_DASHBOARD.beginningVoucher.view(id));
+    navigate(PATH_DASHBOARD.deliveryRequest.view(id));
   };
 
   const handleDeleteRow = async (id: string) => {
-    await dispatch(deleteMulBeginningVoucher({ ids: [id] }));
-    dispatch(searchBeginningVoucher({ pageIndex: 1 }));
+    await dispatch(deleteMulDeliveryRequest({ ids: [id] }));
+    dispatch(searchDeliveryRequest({ pageIndex: 1 }));
     setSelected([]);
   };
 
   const handleDeleteRows = async (ids: string[]) => {
-    await dispatch(deleteMulBeginningVoucher({ ids }));
-    dispatch(searchBeginningVoucher({ pageIndex: 1 }));
+    await dispatch(deleteMulDeliveryRequest({ ids }));
+    dispatch(searchDeliveryRequest({ pageIndex: 1 }));
     setSelected([]);
   };
 
   const handleEditRow = (id: string) => {
-    navigate(PATH_DASHBOARD.beginningVoucher.edit(id));
+    navigate(PATH_DASHBOARD.deliveryRequest.edit(id));
   };
 
   const handleFilterKeyword = (filterKeyword: string) => {
@@ -122,26 +103,17 @@ export default function BeginningVoucherList() {
     setPage(0);
   };
 
-  //   const dataFiltered = applySortFilter({
-  //     tableData,
-  //     comparator: getComparator(order, orderBy),
-  //     filterName,
-  //     filterRole,
-  //     filterStatus,
-  //   });
-
   const denseHeight = dense ? 52 : 72;
 
   const isNotFound = !tableData.length && !!filterKeyword;
-
   return (
-    <Page title="BeginningVoucher: List">
+    <Page title="Delivery Request: List">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Beginning Voucher List"
+          heading="Delivery Request List"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Beginning Voucher' },
+            { name: 'Delivery Request' },
             { name: 'List' },
           ]}
           action={
@@ -149,9 +121,9 @@ export default function BeginningVoucherList() {
               variant="contained"
               startIcon={<Iconify icon={'eva:plus-fill'} />}
               component={Link}
-              to={PATH_DASHBOARD.beginningVoucher.new}
+              to={PATH_DASHBOARD.deliveryRequest.new}
             >
-              New BeginningVoucher
+              New DeliveryRequest
             </Button>
           }
         />
@@ -159,7 +131,7 @@ export default function BeginningVoucherList() {
         <Card>
           <Divider />
 
-          <BeginningVoucherTableToolbar
+          <DeliveryRequestTableToolbar
             filterKeyword={filterKeyword}
             onFilterKeyword={handleFilterKeyword}
           />
@@ -207,7 +179,7 @@ export default function BeginningVoucherList() {
                   {tableData
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
-                      <BeginningVoucherTableRow
+                      <DeliveryRequestTableRow
                         key={row.id}
                         row={row}
                         selected={selected.includes(row.id)}
@@ -251,5 +223,3 @@ export default function BeginningVoucherList() {
     </Page>
   );
 }
-
-// ----------------------------------------------------------------------

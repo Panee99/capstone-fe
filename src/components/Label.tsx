@@ -6,9 +6,16 @@ import { ColorSchema } from '../theme/palette';
 
 // ----------------------------------------------------------------------
 
-type LabelColor = 'default' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error';
+export type LabelColor =
+  | 'default'
+  | 'primary'
+  | 'secondary'
+  | 'info'
+  | 'success'
+  | 'warning'
+  | 'error';
 
-type LabelVariant = 'filled' | 'outlined' | 'ghost';
+export type LabelVariant = 'filled' | 'outlined' | 'ghost';
 
 const RootStyle = styled('span')(
   ({

@@ -143,15 +143,18 @@ const navConfig = [
     items: [
       {
         title: 'Beginning Voucher',
-        path: PATH_DASHBOARD.beginningVoucher.root,
+        path: PATH_DASHBOARD.beginningVoucher.list,
         icon: ICONS.beginningVoucher,
-        children: [{ title: 'list', path: PATH_DASHBOARD.beginningVoucher.list }],
       },
       {
         title: 'Receive Voucher Request',
-        path: PATH_DASHBOARD.receiveVoucherRequest.root,
+        path: PATH_DASHBOARD.receiveVoucherRequest.list,
         icon: ICONS.speaker,
-        children: [{ title: 'list', path: PATH_DASHBOARD.receiveVoucherRequest.list }],
+      },
+      {
+        title: 'Delivery Request',
+        path: PATH_DASHBOARD.deliveryRequest.list,
+        icon: ICONS.speaker,
       },
     ],
   },
