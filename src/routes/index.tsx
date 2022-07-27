@@ -1,19 +1,14 @@
 import { Suspense, lazy, ElementType } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
-// hooks
 import useAuth from '../hooks/useAuth';
-// layouts
 import MainLayout from '../layouts/main';
 import DashboardLayout from '../layouts/dashboard';
 import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
-// guards
 import GuestGuard from '../guards/GuestGuard';
 import AuthGuard from '../guards/AuthGuard';
-// import RoleBasedGuard from '../guards/RoleBasedGuard';
-// config
 import { PATH_AFTER_LOGIN } from '../config';
-// components
 import LoadingScreen from '../components/LoadingScreen';
+import PermissionBasedGuard from 'src/guards/PermissionBasedGuard';
 
 // ----------------------------------------------------------------------
 
@@ -75,7 +70,19 @@ export default function Router() {
         { path: 'app', element: <GeneralApp /> },
         {
           path: 'app-user',
-          children: [{ path: 'list', element: <AppUserList /> }],
+          children: [
+            {
+              path: 'list',
+              element: (
+                <PermissionBasedGuard
+                  hasContent
+                  permission="Permission.BeginningInventoryVoucher.Create"
+                >
+                  <AppUserList />
+                </PermissionBasedGuard>
+              ),
+            },
+          ],
         },
         {
           path: 'warehouse',

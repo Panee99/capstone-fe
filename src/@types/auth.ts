@@ -13,7 +13,12 @@ export type ActionMap<M extends { [index: string]: any }> = {
       };
 };
 
-export type AuthUser = null | Record<string, any>;
+export type AuthUser = null | {
+  avatar: string;
+  name: string;
+  group: string;
+  permissions: string[];
+};
 
 export type AuthState = {
   isAuthenticated: boolean;

@@ -28,15 +28,6 @@ type Props = {
   isCollapse: boolean | undefined;
 };
 
-enum UserGroupType {
-  Warehouse = 'Warehouse',
-}
-
-type UserGroup = {
-  name: string;
-  type: UserGroupType;
-};
-
 export default function NavbarAccount({ isCollapse }: Props) {
   const { user } = useAuth();
 
@@ -66,18 +57,13 @@ export default function NavbarAccount({ isCollapse }: Props) {
           <Typography variant="subtitle2" noWrap>
             {user ? user.name : ''}
           </Typography>
-          {user
-            ? user.groups.map((group: UserGroup) => (
-                <Typography
-                  key={group.name}
-                  variant="body2"
-                  noWrap
-                  sx={{ color: 'text.secondary' }}
-                >
-                  {`${group.name}`}
-                </Typography>
-              ))
-            : ''}
+          {user && user.group ? (
+            <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
+              {`${user.group}`}
+            </Typography>
+          ) : (
+            ''
+          )}
         </Box>
       </RootStyle>
     </Link>

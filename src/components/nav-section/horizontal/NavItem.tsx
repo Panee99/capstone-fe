@@ -5,7 +5,6 @@ import { Box, Link } from '@mui/material';
 // hooks
 import useLocales from '../../../hooks/useLocales';
 // guards
-import RoleBasedGuard from '../../../guards/RoleBasedGuard';
 // config
 import { ICON } from '../../../config';
 // type
@@ -14,17 +13,18 @@ import { NavItemProps } from '../type';
 import Iconify from '../../Iconify';
 import { ListItemStyle, ListItemStyleProps } from './style';
 import { isExternalLink } from '..';
+import PermissionBasedGuard from 'src/guards/PermissionBasedGuard';
 
 // ----------------------------------------------------------------------
 
 // HANDLE SHOW ITEM BY ROLE
 const ListItem = forwardRef<HTMLButtonElement & HTMLAnchorElement, ListItemStyleProps>(
   (props, ref) => (
-    <RoleBasedGuard roles={props.roles}>
+    <PermissionBasedGuard permission={props.permission}>
       <ListItemStyle {...props} ref={ref}>
         {props.children}
       </ListItemStyle>
-    </RoleBasedGuard>
+    </PermissionBasedGuard>
   )
 );
 
@@ -32,7 +32,7 @@ export const NavItemRoot = forwardRef<HTMLButtonElement & HTMLAnchorElement, Nav
   ({ item, active, open, onMouseEnter, onMouseLeave }, ref) => {
     const { translate } = useLocales();
 
-    const { title, path, icon, children, disabled, roles } = item;
+    const { title, path, icon, children, disabled, permission } = item;
 
     if (children) {
       return (
@@ -43,7 +43,7 @@ export const NavItemRoot = forwardRef<HTMLButtonElement & HTMLAnchorElement, Nav
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           disabled={disabled}
-          roles={roles}
+          permission={permission}
         >
           <NavItemContent icon={icon} title={translate(title)} children={children} />
         </ListItem>
@@ -57,7 +57,7 @@ export const NavItemRoot = forwardRef<HTMLButtonElement & HTMLAnchorElement, Nav
         target="_blank"
         rel="noopener"
         disabled={disabled}
-        roles={roles}
+        permission={permission}
       >
         <NavItemContent icon={icon} title={translate(title)} children={children} />
       </ListItem>
@@ -67,7 +67,7 @@ export const NavItemRoot = forwardRef<HTMLButtonElement & HTMLAnchorElement, Nav
         to={path}
         activeRoot={active}
         disabled={disabled}
-        roles={roles}
+        permission={permission}
       >
         <NavItemContent icon={icon} title={translate(title)} children={children} />
       </ListItem>
@@ -81,7 +81,7 @@ export const NavItemSub = forwardRef<HTMLButtonElement & HTMLAnchorElement, NavI
   ({ item, active, open, onMouseEnter, onMouseLeave }, ref) => {
     const { translate } = useLocales();
 
-    const { title, path, icon, children, disabled, roles } = item;
+    const { title, path, icon, children, disabled, permission } = item;
 
     if (children) {
       return (
@@ -94,7 +94,7 @@ export const NavItemSub = forwardRef<HTMLButtonElement & HTMLAnchorElement, NavI
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           disabled={disabled}
-          roles={roles}
+          permission={permission}
         >
           <NavItemContent icon={icon} title={translate(title)} children={children} subItem />
         </ListItem>
@@ -110,7 +110,7 @@ export const NavItemSub = forwardRef<HTMLButtonElement & HTMLAnchorElement, NavI
         target="_blank"
         component={Link}
         disabled={disabled}
-        roles={roles}
+        permission={permission}
       >
         <NavItemContent icon={icon} title={translate(title)} children={children} subItem />
       </ListItem>
@@ -122,7 +122,7 @@ export const NavItemSub = forwardRef<HTMLButtonElement & HTMLAnchorElement, NavI
         activeSub={active}
         subItem
         disabled={disabled}
-        roles={roles}
+        permission={permission}
       >
         <NavItemContent icon={icon} title={translate(title)} children={children} subItem />
       </ListItem>

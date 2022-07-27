@@ -16,7 +16,7 @@ export interface ListItemStyleProps extends IProps {
   activeSub?: boolean;
   subItem?: boolean;
   open?: boolean;
-  roles?: string[];
+  permission?: string;
 }
 
 export const ListItemStyle = styled(Button, {

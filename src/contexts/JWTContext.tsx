@@ -91,6 +91,7 @@ function AuthProvider({ children }: AuthProviderProps) {
           const response = await axios.get('/user/authuser');
 
           const { data: user } = response;
+          console.log(user);
 
           dispatch({
             type: Types.Initial,
@@ -124,17 +125,22 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   const login = async (username: string, password: string) => {
-    const response = await axios.post('/auth/login', {
+    const loginRes = await axios.post('/auth/login', {
       username,
       password,
     });
-    const { accessToken, user } = response.data;
+    const { accessToken } = loginRes.data;
 
     setSession(accessToken);
 
+    const authUserRes = await axios.get('/user/authuser');
+
+    const { data: user } = authUserRes;
+
     dispatch({
-      type: Types.Login,
+      type: Types.Initial,
       payload: {
+        isAuthenticated: true,
         user,
       },
     });
