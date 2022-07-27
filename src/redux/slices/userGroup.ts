@@ -1,5 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { BaseLoading } from '../../@types/generic';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {
   UserGroupState,
   CreateUserGroupSchema,
@@ -8,9 +7,8 @@ import {
   SearchUserGroupSchema,
   UpdateUserGroupSchema,
 } from 'src/@types/userGroup';
-import { dispatch } from '../store';
 import axios from '../../utils/axios';
-const DEFAULT_PAGE_SIZE = 5;
+import { DEFAULT_PAGE_SIZE } from 'src/utils/constants';
 
 const initialState: UserGroupState = {
   loading: null,
@@ -23,73 +21,117 @@ const initialState: UserGroupState = {
   pageSize: DEFAULT_PAGE_SIZE,
 };
 
+export const searchUserGroup = createAsyncThunk<void, SearchUserGroupSchema>(
+  'usergroup/search',
+  async (params, api) => {
+    const response = await axios.post('/warehouse/group/search', params);
+    api.dispatch(slice.actions.searchUserGroup(response.data));
+  }
+);
+
+export const getUserGroup = createAsyncThunk<void, GetUserGroupSchema>(
+  'usergroup/',
+  async (params, api) => {
+    const response = await axios.get('/warehouse/group', { params });
+    api.dispatch(slice.actions.getUserGroup(response.data));
+  }
+);
+
+export const createUserGroup = createAsyncThunk<void, CreateUserGroupSchema>(
+  'usergroup/',
+  async (params) => {
+    await axios.post('/warehouse/group', params);
+  }
+);
+
+export const updateUserGroup = createAsyncThunk<void, UpdateUserGroupSchema>(
+  'usergroup/',
+  async (params, api) => {
+    await axios.put('/warehouse/group', { ...params });
+  }
+);
+
+export const deleteUserGroup = createAsyncThunk<void, DeleteUserGroupSchema>(
+  'usergroup/',
+  async (params, api) => {
+    await axios.delete('/warehouse/group', { data: [...params.ids] });
+  }
+);
+
+export const deleteMulUserGroup = createAsyncThunk<void, DeleteUserGroupSchema>(
+  'usergroup/',
+  async (params, api) => {
+    await axios.delete('/warehouse/group', { data: [...params.ids] });
+  }
+);
+
 const slice = createSlice({
   name: 'userGroup',
   initialState,
   reducers: {
-    startLoading(state, action) {
-      state.loading = action.payload;
-    },
-
     searchUserGroup(state, action) {
-      state.loading = null;
       state.list = action.payload;
     },
     getUserGroup(state, action) {
-      state.loading = null;
       state.single = action.payload;
     },
-    createUserGroup(state) {
-      state.loading = null;
-    },
-    updateUserGroup(state) {
-      state.loading = null;
-    },
-    deleteUserGroup(state) {
-      state.loading = null;
-    },
-    deleteMulUserGroup(state) {
-      state.loading = null;
-    },
   },
+  // extraReducers(builder) {
+  //   builder.addCase(createUserGroup.pending, (state) => {
+  //     state.loading = 'CREATE';
+  //   });
+  //   builder.addCase(createUserGroup.fulfilled, (state) => {
+  //     state.loading = null;
+  //   });
+  //   builder.addCase(createUserGroup.rejected, (state) => {
+  //     state.loading = null;
+  //   });
+  //   builder.addCase(getUserGroup.pending, (state) => {
+  //     state.loading = 'GET';
+  //   });
+  //   builder.addCase(getUserGroup.fulfilled, (state) => {
+  //     state.loading = null;
+  //   });
+  //   builder.addCase(getUserGroup.rejected, (state) => {
+  //     state.loading = null;
+  //   });
+  //   builder.addCase(searchUserGroup.pending, (state) => {
+  //     state.loading = 'SEARCH';
+  //   });
+  //   builder.addCase(searchUserGroup.fulfilled, (state) => {
+  //     state.loading = null;
+  //   });
+  //   builder.addCase(searchUserGroup.rejected, (state) => {
+  //     state.loading = null;
+  //   });
+  //   builder.addCase(updateUserGroup.pending, (state) => {
+  //     state.loading = 'UPDATE';
+  //   });
+  //   builder.addCase(updateUserGroup.fulfilled, (state) => {
+  //     state.loading = null;
+  //   });
+  //   builder.addCase(updateUserGroup.rejected, (state) => {
+  //     state.loading = null;
+  //   });
+  //   builder.addCase(deleteUserGroup.pending, (state) => {
+  //     state.loading = 'DELETE';
+  //   });
+  //   builder.addCase(deleteUserGroup.fulfilled, (state) => {
+  //     state.loading = null;
+  //   });
+  //   builder.addCase(deleteUserGroup.rejected, (state) => {
+  //     state.loading = null;
+  //   });
+  //   builder.addCase(deleteMulUserGroup.pending, (state) => {
+  //     state.loading = 'DELETE_MUL';
+  //   });
+  //   builder.addCase(deleteMulUserGroup.fulfilled, (state) => {
+  //     state.loading = null;
+  //   });
+  //   builder.addCase(deleteMulUserGroup.rejected, (state) => {
+  //     state.loading = null;
+  //   });
+  // },
 });
+
 export default slice.reducer;
-
-export function searchUserGroup(params: SearchUserGroupSchema) {
-  return async () => {
-    const response = await axios.post('/warehouse/group/search', params);
-
-    dispatch(slice.actions.searchUserGroup(response.data));
-  };
-}
-
-export function getUserGroup(params: GetUserGroupSchema) {
-  return async () => {
-    const response = await axios.get('/warehouse/group' , {params});
-    dispatch(slice.actions.getUserGroup(response.data));
-  };
-}
-export function createUserGroup(params: CreateUserGroupSchema) {
-  return async () => {
-    await axios.post('/warehouse/group', params);
-    dispatch(slice.actions.createUserGroup());
-  };
-}
-export function updateUserGroup(params: UpdateUserGroupSchema) {
-  return async () => {
-    await axios.put('/warehouse/group', { ...params });
-    dispatch(slice.actions.updateUserGroup());
-  };
-}
-export function deleteUserGroup(params: DeleteUserGroupSchema) {
-  return async () => {
-    await axios.delete('/warehouse/group', { data: [...params.ids] });
-    dispatch(slice.actions.deleteUserGroup());
-  };
-}
-// export function deleteMulUserGroup(params: DeleteUserGroupSchema) {
-//   return async () => {
-//     await axios.delete('/user', { data: [...params.ids] });
-//     dispatch(slice.actions.deleteUserGroup());
-//   };
-// }

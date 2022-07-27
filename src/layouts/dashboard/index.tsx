@@ -13,6 +13,7 @@ import { HEADER, NAVBAR } from '../../config';
 import DashboardHeader from './header';
 import NavbarVertical from './navbar/NavbarVertical';
 import NavbarHorizontal from './navbar/NavbarHorizontal';
+import PermissionBasedGuard from 'src/guards/PermissionBasedGuard';
 
 // ----------------------------------------------------------------------
 

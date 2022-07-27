@@ -155,6 +155,7 @@ const navConfig = [
         title: 'Delivery Request',
         path: PATH_DASHBOARD.deliveryRequest.list,
         icon: ICONS.speaker,
+        permission: 'Permission.BeginningInventoryVoucher.Create',
       },
     ],
   },

@@ -10,7 +10,7 @@ export type NavListProps = {
   info?: ReactElement;
   caption?: string;
   disabled?: boolean;
-  roles?: string[];
+  permission?: string;
   children?: {
     title: string;
     path: string;

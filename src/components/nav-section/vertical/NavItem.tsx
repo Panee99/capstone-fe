@@ -1,35 +1,30 @@
 import { forwardRef } from 'react';
 import { NavLink as RouterLink } from 'react-router-dom';
-// @mui
 import { Box, Link, ListItemText, Typography, Tooltip } from '@mui/material';
-// hooks
 import useLocales from '../../../hooks/useLocales';
-// guards
-import RoleBasedGuard from '../../../guards/RoleBasedGuard';
-// type
 import { NavItemProps } from '../type';
-//
 import Iconify from '../../Iconify';
 import { ListItemStyle, ListItemTextStyle, ListItemIconStyle, ListItemStyleProps } from './style';
 import { isExternalLink } from '..';
+import PermissionBasedGuard from 'src/guards/PermissionBasedGuard';
 
 // ----------------------------------------------------------------------
 
 // HANDLE SHOW ITEM BY ROLE
 const ListItem = forwardRef<HTMLDivElement & HTMLAnchorElement, ListItemStyleProps>(
   (props, ref) => (
-    <RoleBasedGuard roles={props.roles}>
+    <PermissionBasedGuard permission={props.permission}>
       <ListItemStyle {...props} ref={ref}>
         {props.children}
       </ListItemStyle>
-    </RoleBasedGuard>
+    </PermissionBasedGuard>
   )
 );
 
 export function NavItemRoot({ item, isCollapse, open = false, active, onOpen }: NavItemProps) {
   const { translate } = useLocales();
 
-  const { title, path, icon, info, children, disabled, caption, roles } = item;
+  const { title, path, icon, info, children, disabled, caption, permission } = item;
 
   const renderContent = (
     <>
@@ -62,7 +57,7 @@ export function NavItemRoot({ item, isCollapse, open = false, active, onOpen }: 
 
   if (children) {
     return (
-      <ListItem onClick={onOpen} activeRoot={active} disabled={disabled} roles={roles}>
+      <ListItem onClick={onOpen} activeRoot={active} disabled={disabled} permission={permission}>
         {renderContent}
       </ListItem>
     );
@@ -75,7 +70,7 @@ export function NavItemRoot({ item, isCollapse, open = false, active, onOpen }: 
       target="_blank"
       rel="noopener"
       disabled={disabled}
-      roles={roles}
+      permission={permission}
     >
       {renderContent}
     </ListItem>
@@ -85,7 +80,7 @@ export function NavItemRoot({ item, isCollapse, open = false, active, onOpen }: 
       to={path}
       activeRoot={active}
       disabled={disabled}
-      roles={roles}
+      permission={permission}
     >
       {renderContent}
     </ListItem>
@@ -99,7 +94,7 @@ type NavItemSubProps = Omit<NavItemProps, 'isCollapse'>;
 export function NavItemSub({ item, open = false, active = false, onOpen }: NavItemSubProps) {
   const { translate } = useLocales();
 
-  const { title, path, info, children, disabled, caption, roles } = item;
+  const { title, path, info, children, disabled, caption, permission } = item;
 
   const renderContent = (
     <>
@@ -127,7 +122,13 @@ export function NavItemSub({ item, open = false, active = false, onOpen }: NavIt
 
   if (children) {
     return (
-      <ListItem onClick={onOpen} activeSub={active} subItem disabled={disabled} roles={roles}>
+      <ListItem
+        onClick={onOpen}
+        activeSub={active}
+        subItem
+        disabled={disabled}
+        permission={permission}
+      >
         {renderContent}
       </ListItem>
     );
@@ -141,7 +142,7 @@ export function NavItemSub({ item, open = false, active = false, onOpen }: NavIt
       rel="noopener"
       subItem
       disabled={disabled}
-      roles={roles}
+      permission={permission}
     >
       {renderContent}
     </ListItem>
@@ -152,7 +153,7 @@ export function NavItemSub({ item, open = false, active = false, onOpen }: NavIt
       activeSub={active}
       subItem
       disabled={disabled}
-      roles={roles}
+      permission={permission}
     >
       {renderContent}
     </ListItem>
