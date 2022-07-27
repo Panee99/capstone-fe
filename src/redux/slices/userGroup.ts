@@ -24,7 +24,7 @@ const initialState: UserGroupState = {
 export const searchUserGroup = createAsyncThunk<void, SearchUserGroupSchema>(
   'usergroup/search',
   async (params, api) => {
-    const response = await axios.post('/user/search', params);
+    const response = await axios.post('/warehouse/group/search', params);
     api.dispatch(slice.actions.searchUserGroup(response.data));
   }
 );
@@ -32,7 +32,7 @@ export const searchUserGroup = createAsyncThunk<void, SearchUserGroupSchema>(
 export const getUserGroup = createAsyncThunk<void, GetUserGroupSchema>(
   'usergroup/',
   async (params, api) => {
-    const response = await axios.get('/user', { params });
+    const response = await axios.get('/warehouse/group', { params });
     api.dispatch(slice.actions.getUserGroup(response.data));
   }
 );
@@ -40,28 +40,28 @@ export const getUserGroup = createAsyncThunk<void, GetUserGroupSchema>(
 export const createUserGroup = createAsyncThunk<void, CreateUserGroupSchema>(
   'usergroup/',
   async (params) => {
-    await axios.post('/user', params);
+    await axios.post('/warehouse/group', params);
   }
 );
 
 export const updateUserGroup = createAsyncThunk<void, UpdateUserGroupSchema>(
   'usergroup/',
   async (params, api) => {
-    await axios.put('/user', { ...params });
+    await axios.put('/warehouse/group', { ...params });
   }
 );
 
 export const deleteUserGroup = createAsyncThunk<void, DeleteUserGroupSchema>(
   'usergroup/',
   async (params, api) => {
-    await axios.delete('/user', { data: [...params.ids] });
+    await axios.delete('/warehouse/group', { data: [...params.ids] });
   }
 );
 
 export const deleteMulUserGroup = createAsyncThunk<void, DeleteUserGroupSchema>(
   'usergroup/',
   async (params, api) => {
-    await axios.delete('/user', { data: [...params.ids] });
+    await axios.delete('/warehouse/group', { data: [...params.ids] });
   }
 );
 
