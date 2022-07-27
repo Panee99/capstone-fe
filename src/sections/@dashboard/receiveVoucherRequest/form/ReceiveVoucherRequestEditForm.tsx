@@ -6,20 +6,20 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider } from '../../../../components/hook-form';
 import { Stack, Card, TextField } from '@mui/material';
 import { useDispatch, useSelector } from '../../../../redux/store';
-import { UpdateBeginningVoucherSchema } from 'src/@types/vouchers/beginningVoucher';
+import { UpdateReceiveVoucherRequestSchema } from 'src/@types/vouchers/receiveVoucherRequest';
 import { DatePicker } from '@mui/lab';
 
-type FormValuesProps = UpdateBeginningVoucherSchema & {
+type FormValuesProps = UpdateReceiveVoucherRequestSchema & {
   afterSubmit?: string;
 };
 
 type Props = {
-  payload?: UpdateBeginningVoucherSchema;
+  payload?: UpdateReceiveVoucherRequestSchema;
   isEdit?: boolean;
   onSuccess?: Function;
 };
 
-export default function BeginningVoucherEditForm({ payload, onSuccess, isEdit }: Props) {
+export default function ReceiveVoucherRequestEditForm({ payload, onSuccess, isEdit }: Props) {
   const dispatch = useDispatch();
 
   const { enqueueSnackbar } = useSnackbar();
@@ -64,7 +64,7 @@ export default function BeginningVoucherEditForm({ payload, onSuccess, isEdit }:
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [payload]);
 
-  const onSubmit = async (value: UpdateBeginningVoucherSchema) => {
+  const onSubmit = async (value: UpdateReceiveVoucherRequestSchema) => {
     console.log(JSON.stringify(value));
 
     // const data = {
@@ -73,12 +73,12 @@ export default function BeginningVoucherEditForm({ payload, onSuccess, isEdit }:
     // };
 
     // try {
-    //   await dispatch(updateBeginningVoucher(data));
+    //   await dispatch(updateReceiveVoucherRequest(data));
     //   enqueueSnackbar('Update success!');
     //   if (onSuccess) {
     //     onSuccess();
     //   }
-    //   await dispatch(searchBeginningVoucher({}));
+    //   await dispatch(searchReceiveVoucherRequest({}));
     // } catch (error) {
     //   debugError(error);
     //   setError('afterSubmit', { message: error.message || error });

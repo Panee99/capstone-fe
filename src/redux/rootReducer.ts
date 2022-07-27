@@ -13,6 +13,7 @@ import productReducer from './slices/product';
 import beginningVoucherReducer from './slices/beginningVoucher';
 import userGroupReducer from './slices/userGroup';
 import receiveVoucherRequestReducer from './slices/receiveVoucherRequest';
+import deliveryRequestReducer from './slices/deliveryRequest';
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   beginningVoucher: beginningVoucherReducer,
   userGroup: userGroupReducer,
   receiveVoucherRequest: receiveVoucherRequestReducer,
+  deliveryRequest: deliveryRequestReducer,
 
   mail: mailReducer,
   chat: chatReducer,

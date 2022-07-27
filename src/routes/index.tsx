@@ -115,6 +115,15 @@ export default function Router() {
             { path: 'new', element: <ReceiveVoucherRequestCreate /> },
           ],
         },
+        {
+          path: 'delivery-request',
+          children: [
+            { path: 'list', element: <DeliveryRequestList /> },
+            { path: ':id', element: <DeliveryRequestDetails /> },
+            { path: ':id/edit', element: <DeliveryRequestEdit /> },
+            { path: 'new', element: <DeliveryRequestCreate /> },
+          ],
+        },
       ],
     },
 
@@ -196,6 +205,20 @@ const ReceiveVoucherRequestCreate = Loadable(
 );
 const ReceiveVoucherRequestEdit = Loadable(
   lazy(() => import('../pages/dashboard/receiveVoucherRequest/ReceiveVoucherRequestEdit'))
+);
+
+// DELIVERY REQUEST
+const DeliveryRequestList = Loadable(
+  lazy(() => import('../pages/dashboard/deliveryRequest/DeliveryRequestList'))
+);
+const DeliveryRequestDetails = Loadable(
+  lazy(() => import('../pages/dashboard/deliveryRequest/DeliveryRequestDetails'))
+);
+const DeliveryRequestCreate = Loadable(
+  lazy(() => import('../pages/dashboard/deliveryRequest/DeliveryRequestCreate'))
+);
+const DeliveryRequestEdit = Loadable(
+  lazy(() => import('../pages/dashboard/deliveryRequest/DeliveryRequestEdit'))
 );
 
 // MAIN
