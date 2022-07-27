@@ -57,7 +57,7 @@ export default slice.reducer;
 
 export function searchUserGroup(params: SearchUserGroupSchema) {
   return async () => {
-    const response = await axios.post('/user/search', params);
+    const response = await axios.post('/warehouse/group/search', params);
 
     dispatch(slice.actions.searchUserGroup(response.data));
   };
@@ -65,33 +65,31 @@ export function searchUserGroup(params: SearchUserGroupSchema) {
 
 export function getUserGroup(params: GetUserGroupSchema) {
   return async () => {
-    console.log('loading');
-
-    const response = await axios.get('/user', { params });
+    const response = await axios.get('/warehouse/group' , {params});
     dispatch(slice.actions.getUserGroup(response.data));
   };
 }
 export function createUserGroup(params: CreateUserGroupSchema) {
   return async () => {
-    await axios.post('/user', params);
+    await axios.post('/warehouse/group', params);
     dispatch(slice.actions.createUserGroup());
   };
 }
 export function updateUserGroup(params: UpdateUserGroupSchema) {
   return async () => {
-    await axios.put('/user', { ...params });
+    await axios.put('/warehouse/group', { ...params });
     dispatch(slice.actions.updateUserGroup());
   };
 }
 export function deleteUserGroup(params: DeleteUserGroupSchema) {
   return async () => {
-    await axios.delete('/user', { data: [...params.ids] });
+    await axios.delete('/warehouse/group', { data: [...params.ids] });
     dispatch(slice.actions.deleteUserGroup());
   };
 }
-export function deleteMulUserGroup(params: DeleteUserGroupSchema) {
-  return async () => {
-    await axios.delete('/user', { data: [...params.ids] });
-    dispatch(slice.actions.deleteUserGroup());
-  };
-}
+// export function deleteMulUserGroup(params: DeleteUserGroupSchema) {
+//   return async () => {
+//     await axios.delete('/user', { data: [...params.ids] });
+//     dispatch(slice.actions.deleteUserGroup());
+//   };
+// }
