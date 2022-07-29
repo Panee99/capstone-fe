@@ -19,6 +19,7 @@ import {
   TablePagination,
   FormControlLabel,
   Drawer,
+  Alert,
 } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
@@ -40,7 +41,12 @@ import {
 } from '../../../components/table';
 // sections
 import { useDispatch, useSelector } from 'src/redux/store';
-import { deleteUserGroup, getUserGroup, searchUserGroup } from 'src/redux/slices/userGroup';
+import {
+  deleteMulUserGroup,
+  deleteUserGroup,
+  getUserGroup,
+  searchUserGroup,
+} from 'src/redux/slices/userGroup';
 import useToggle from 'src/hooks/useToggle';
 import UserGroupTableRow from 'src/sections/@dashboard/user-group/list/UserGroupTableRow';
 import UserGroupTableToolbar from 'src/sections/@dashboard/user-group/list/UserGroupTableToolbar';
@@ -48,30 +54,17 @@ import UserGroupEditForm from 'src/sections/@dashboard/user-group/form/UserGroup
 import Loading from 'src/components/Loading';
 import { BaseLoading } from 'src/@types/generic';
 import UserGroupAddForm from 'src/sections/@dashboard/user-group/form/UserGroupAddForm';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { DEFAULT_ERROR } from 'src/utils/constants';
+import { useSnackbar } from 'notistack';
+import UserGroupAddEditForm from 'src/sections/@dashboard/user-group/form/UserGroupAddEditForm';
 
 // ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = ['all', 'active', 'banned'];
-
-const ROLE_OPTIONS = [
-  'all',
-  'ux designer',
-  'full stack designer',
-  'backend developer',
-  'project manager',
-  'leader',
-  'ui designer',
-  'ui/ux designer',
-  'front end developer',
-  'full stack developer',
-];
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', align: 'left' },
-  { id: 'description', label: 'Description', align: 'center' },
-  { id: 'inWarehouseId', label: 'WarehouseId', align: 'left' },
-  { id: 'userPermisson', label: 'UserPermisson', align: 'left' },
-  { id: 'warehousePermisson', label: 'WarehousePermisson', align: 'left' },
-  { id: 'productPermisson', label: 'productPermisson', align: 'left' },
+  { id: 'description', label: 'Description', align: 'left' },
+  { id: 'canUpdate', label: 'Type', align: 'center' },
   { id: '' },
 ];
 // ----------------------------------------------------------------------
@@ -110,6 +103,8 @@ export default function UserGroupList() {
 
   const navigate = useNavigate();
 
+  const [error, setError] = useState(null);
+
   const [filterName, setFilterName] = useState('');
 
   const [filterRole, setFilterRole] = useState('all');
@@ -118,34 +113,55 @@ export default function UserGroupList() {
 
   const [filterKeyword, setFilterKeyword] = useState('');
 
+  const { enqueueSnackbar } = useSnackbar();
+
+  const search = async () => {
+    try {
+      const actionResult = await dispatch(
+        searchUserGroup({ name: filterKeyword, pageIndex: page + 1, pageSize: rowsPerPage })
+      );
+      unwrapResult(actionResult);
+    } catch (error) {
+      setError(error?.message || error || DEFAULT_ERROR);
+    }
+  };
+
   useEffect(() => {
-    dispatch(searchUserGroup({ name: filterKeyword, pageIndex: page + 1, pageSize: rowsPerPage }));
+    search();
   }, [dispatch, filterKeyword, page, rowsPerPage]);
 
-  const handleFilterName = (filterName: string) => {
-    setFilterName(filterName);
-    setPage(0);
-  };
-
-  const handleFilterRole = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFilterRole(event.target.value);
-  };
-
   const handleDeleteRow = async (id: string) => {
-    await dispatch(deleteUserGroup({ ids: [id] }));
-    dispatch(searchUserGroup({ pageIndex: 1 }));
-    setSelected([]);
+    try {
+      const result = await dispatch(deleteUserGroup({ ids: [id] }));
+      unwrapResult(result);
+      search();
+      setSelected([]);
+      enqueueSnackbar('Deleted 1 row success');
+    } catch (error) {
+      setError(error?.message || error || DEFAULT_ERROR);
+    }
   };
 
   const handleDeleteRows = async (ids: string[]) => {
-    await dispatch(deleteUserGroup({ ids }));
-    dispatch(searchUserGroup({ pageIndex: 1 }));
-    setSelected([]);
+    try {
+      const result = await dispatch(deleteMulUserGroup({ ids }));
+      unwrapResult(result);
+      search();
+      setSelected([]);
+      enqueueSnackbar(`Deleted ${ids.length} rows success`);
+    } catch (error) {
+      setError(error?.message || error || DEFAULT_ERROR);
+    }
   };
 
-  const handleEditRow = (id: string) => {
+  const handleEditRow = async (id: string) => {
     setIsEdit(true);
-    dispatch(getUserGroup({ id }));
+    try {
+      const result = await dispatch(getUserGroup({ id }));
+      unwrapResult(result);
+    } catch (error) {
+      setError(error?.message || error || DEFAULT_ERROR);
+    }
     setToggle(true);
   };
 
@@ -153,6 +169,12 @@ export default function UserGroupList() {
     setFilterKeyword(filterKeyword);
     setPage(0);
   };
+
+  const handleAddEditSuccess = () => {
+    setToggle(false);
+    search();
+  };
+
   const denseHeight = dense ? 52 : 72;
 
   const isNotFound = !tableData.length && !!filterKeyword;
@@ -182,25 +204,11 @@ export default function UserGroupList() {
         />
 
         <Card>
-          <Tabs
-            allowScrollButtonsMobile
-            variant="scrollable"
-            scrollButtons="auto"
-            value={filterStatus}
-            onChange={onChangeFilterStatus}
-            sx={{ px: 2, bgcolor: 'background.neutral' }}
-          >
-            {STATUS_OPTIONS.map((tab) => (
-              <Tab disableRipple key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
-
-          <Divider />
-
           <UserGroupTableToolbar
             filterKeyword={filterKeyword}
             onFilterKeyword={handleFilterKeyword}
           />
+          {!!error && <Alert severity="error">{error}</Alert>}
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800, position: 'relative' }}>
@@ -299,11 +307,15 @@ export default function UserGroupList() {
           </Box>
           {/* {loading === BaseLoading.GET && <Loading />} */}
           {isEdit && !loading && single ? (
-            <UserGroupEditForm payload={single!} onSuccess={() => setToggle(false)} />
+            <UserGroupAddEditForm
+              currentGroup={single!}
+              isEdit
+              onSuccess={() => handleAddEditSuccess()}
+            />
           ) : (
             ''
           )}
-          {!isEdit ? <UserGroupAddForm onSuccess={() => setToggle(false)} /> : ''}
+          {!isEdit ? <UserGroupAddEditForm onSuccess={() => handleAddEditSuccess()} /> : ''}
         </Box>
       </Drawer>
     </Page>
