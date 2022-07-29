@@ -139,15 +139,6 @@ export default function UserList() {
     search();
   }, [dispatch, filterKeyword, page, rowsPerPage]);
 
-  const handleFilterName = (filterName: string) => {
-    setFilterName(filterName);
-    setPage(0);
-  };
-
-  const handleFilterRole = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFilterRole(event.target.value);
-  };
-
   const handleDeleteRow = async (id: string) => {
     try {
       const result = await dispatch(deleteAppUser({ ids: [id] }));

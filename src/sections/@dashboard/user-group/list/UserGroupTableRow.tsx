@@ -25,7 +25,7 @@ export default function UserGroupTableRow({
 }: Props) {
   const theme = useTheme();
 
-  const { id, name, description, inWarehouseId, userPermission, warehousePermission, productPermission } = row;
+  const { id, name, description, canUpdate } = row;
 
   const [openMenu, setOpenMenuActions] = useState<HTMLElement | null>(null);
 
@@ -50,36 +50,16 @@ export default function UserGroupTableRow({
 
       <TableCell align="left">{description}</TableCell>
 
-      <TableCell align="left">{inWarehouseId}</TableCell>
-      <TableCell align="left">
-        {' '}
-        <Label
-          variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-          color={(userPermission && 'success') || 'error'}
-          sx={{ textTransform: 'capitalize' }}
-        >
-          {(userPermission && 'Active') || 'InActive'}
-        </Label>
-      </TableCell>
-      <TableCell align="left">
-        {' '}
-        <Label
-          variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-          color={(warehousePermission && 'success') || 'error'}
-          sx={{ textTransform: 'capitalize' }}
-        >
-          {(warehousePermission && 'Active') || 'InActive'}
-        </Label>
-      </TableCell>
-      <TableCell align="left">
-        {' '}
-        <Label
-          variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-          color={(productPermission && 'success') || 'error'}
-          sx={{ textTransform: 'capitalize' }}
-        >
-          {(productPermission && 'Active') || 'InActive'}
-        </Label>
+      <TableCell align="center">
+        {!canUpdate ? (
+          <Label
+            variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+            color={'info'}
+            sx={{ textTransform: 'capitalize' }}
+          >
+            Default
+          </Label>
+        ) : null}
       </TableCell>
 
       <TableCell align="right">

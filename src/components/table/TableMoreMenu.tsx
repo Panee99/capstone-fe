@@ -29,7 +29,7 @@ export default function TableMoreMenu({ actions, open, onClose, onOpen }: Props)
         arrow="left-top"
         sx={{
           mt: -1,
-          width: 160,
+          width: 200,
           '& .MuiMenuItem-root': {
             px: 1,
             typography: 'body2',
