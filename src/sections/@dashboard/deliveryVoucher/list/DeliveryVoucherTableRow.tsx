@@ -1,36 +1,30 @@
 import { useState } from 'react';
 import { Checkbox, TableRow, TableCell, MenuItem, Typography, useTheme } from '@mui/material';
-import { DeliveryRequest, DeliveryRequestStatus } from 'src/@types/vouchers/deliveryRequest';
+import { DeliveryVoucher, DeliveryVoucherStatus } from 'src/@types/vouchers/deliveryVoucher';
 import Iconify from 'src/components/Iconify';
 import { TableMoreMenu } from 'src/components/table';
 import { fDate } from 'src/utils/formatTime';
 import Label, { LabelColor } from 'src/components/Label';
-import { PATH_DASHBOARD } from 'src/routes/paths';
-import { useNavigate } from 'react-router';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  row: DeliveryRequest;
+  row: DeliveryVoucher;
   selected: boolean;
   onSelectRow: VoidFunction;
   onViewRow: VoidFunction;
   onEditRow: VoidFunction;
   onDeleteRow: VoidFunction;
-  onCreateVoucher: VoidFunction;
 };
 
-export default function DeliveryRequestTableRow({
+export default function DeliveryVoucherTableRow({
   row,
   selected,
   onEditRow,
   onSelectRow,
   onDeleteRow,
   onViewRow,
-  onCreateVoucher,
 }: Props) {
-  const navigate = useNavigate();
-
   const theme = useTheme();
 
   const { code, reportingDate, warehouse, status } = row;
@@ -45,11 +39,11 @@ export default function DeliveryRequestTableRow({
     setOpenMenuActions(null);
   };
 
-  const getStatusLabel = (status: DeliveryRequestStatus): LabelColor => {
+  const getStatusLabel = (status: DeliveryVoucherStatus): LabelColor => {
     switch (status) {
       case 'Pending':
         return 'default';
-      case 'Confirmed':
+      case 'Delivered':
         return 'primary';
       case 'Cancelled':
         return 'error';
@@ -110,14 +104,6 @@ export default function DeliveryRequestTableRow({
               >
                 <Iconify icon={'eva:edit-fill'} />
                 Edit
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  onCreateVoucher();
-                }}
-              >
-                <Iconify icon={'eva:edit-fill'} />
-                Create voucher
               </MenuItem>
               <MenuItem
                 onClick={() => {

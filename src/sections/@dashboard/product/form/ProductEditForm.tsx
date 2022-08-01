@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, RHFTextField } from '../../../../components/hook-form';
 import { LoadingButton } from '@mui/lab';
-import { Stack, Alert } from '@mui/material';
+import { Stack, Alert, Typography } from '@mui/material';
 import { useDispatch, useSelector } from '../../../../redux/store';
 import { UpdateProductSchema } from 'src/@types/product';
 import { searchProduct, updateProduct } from 'src/redux/slices/product';
@@ -87,6 +87,7 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
+        <Typography>{payload.code}</Typography>
         <RHFTextField name="name" label="Name" autoFocus />
         <RHFTextField name="description" label="Description" />
         <RHFTextField name="onHandMin" label="On Hand Min" type="number" />

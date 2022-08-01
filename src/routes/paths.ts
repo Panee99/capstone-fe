@@ -105,6 +105,14 @@ export const PATH_DASHBOARD = {
     new: path(ROOTS_DASHBOARD, '/delivery-request/new'),
     edit: (id: string) => path(ROOTS_DASHBOARD, `/delivery-request/${id}/edit`),
     view: (id: string) => path(ROOTS_DASHBOARD, `/delivery-request/${id}`),
+    newVoucher: (id: string) => path(ROOTS_DASHBOARD, `/delivery-request/${id}/new-voucher`),
+  },
+  deliveryVoucher: {
+    root: path(ROOTS_DASHBOARD, '/delivery-voucher'),
+    list: path(ROOTS_DASHBOARD, '/delivery-voucher/list'),
+    new: path(ROOTS_DASHBOARD, '/delivery-voucher/new'),
+    edit: (id: string) => path(ROOTS_DASHBOARD, `/delivery-voucher/${id}/edit`),
+    view: (id: string) => path(ROOTS_DASHBOARD, `/delivery-voucher/${id}`),
   },
 
   userGroup: {

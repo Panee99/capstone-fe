@@ -21,7 +21,7 @@ export default function ProductTableRow({
   onSelectRow,
   onDeleteRow,
 }: Props) {
-  const { id, name, description, onHandMin, onHandMax } = row;
+  const { id, code, name, description, onHandMin, onHandMax } = row;
 
   const [openMenu, setOpenMenuActions] = useState<HTMLElement | null>(null);
 
@@ -39,11 +39,9 @@ export default function ProductTableRow({
         <Checkbox checked={selected} onClick={onSelectRow} />
       </TableCell>
 
-      <TableCell align="left">
-        <Typography variant="subtitle2" color="text.primary" component="div">
-          {name}
-        </Typography>
-      </TableCell>
+      <TableCell align="left">{code}</TableCell>
+
+      <TableCell align="left">{name}</TableCell>
 
       <TableCell align="left">{description}</TableCell>
 
