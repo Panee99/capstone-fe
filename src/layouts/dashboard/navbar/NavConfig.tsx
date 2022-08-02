@@ -156,6 +156,11 @@ const navConfig = [
         path: PATH_DASHBOARD.deliveryRequest.list,
         icon: ICONS.speaker,
       },
+      {
+        title: 'Delivery Voucher',
+        path: PATH_DASHBOARD.deliveryVoucher.list,
+        icon: ICONS.speaker,
+      },
     ],
   },
 

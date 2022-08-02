@@ -98,6 +98,10 @@ export default function DeliveryRequestList() {
     navigate(PATH_DASHBOARD.deliveryRequest.edit(id));
   };
 
+  const handleCreateVoucher = (id: string) => {
+    navigate(PATH_DASHBOARD.deliveryRequest.newVoucher(id));
+  };
+
   const handleFilterKeyword = (filterKeyword: string) => {
     setFilterKeyword(filterKeyword);
     setPage(0);
@@ -187,6 +191,7 @@ export default function DeliveryRequestList() {
                         onDeleteRow={() => handleDeleteRow(row.id)}
                         onViewRow={() => handleViewRow(row.id)}
                         onEditRow={() => handleEditRow(row.id)}
+                        onCreateVoucher={() => handleCreateVoucher(row.id)}
                       />
                     ))}
 

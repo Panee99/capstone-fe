@@ -1,4 +1,4 @@
-import {BaseState, FetchModel, GenericSearchSchema} from './generic';
+import { BaseState, FetchModel, GenericSearchSchema } from './generic';
 
 export type Product = {
   id: string;
@@ -29,6 +29,7 @@ export type CreateProductSchema = {
 
 export type UpdateProductSchema = {
   id: string;
+  code: string;
   name: string;
   description: string;
   onHandMin?: number;
@@ -39,7 +40,7 @@ export type UpdateProductSchema = {
 export type UpdateProductCategorySchema = {
   id: string;
   category?: FetchModel | null;
-}
+};
 
 export type DeleteProductSchema = {
   ids: string[];

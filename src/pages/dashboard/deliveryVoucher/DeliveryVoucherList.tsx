@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-// @mui
 import {
   Box,
   Card,
@@ -14,12 +13,8 @@ import {
   TableContainer,
   TablePagination,
   FormControlLabel,
-  Drawer,
 } from '@mui/material';
-// routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
-// hooks
-import useTabs from '../../../hooks/useTabs';
 import useSettings from '../../../hooks/useSettings';
 import useTable, { emptyRows } from '../../../hooks/useTable';
 import Page from '../../../components/Page';
@@ -32,42 +27,27 @@ import {
   TableHeadCustom,
   TableSelectedActions,
 } from '../../../components/table';
-import { useDispatch, useSelector } from 'src/redux/store';
-import useToggle from 'src/hooks/useToggle';
-import Loading from 'src/components/Loading';
-import { BaseLoading } from 'src/@types/generic';
-import { deleteProduct, getProduct, searchProduct } from 'src/redux/slices/product';
-import { ProductTableRow, ProductTableToolbar } from 'src/sections/@dashboard/product/list';
-import ProductEditForm from 'src/sections/@dashboard/product/form/ProductEditForm';
-import ProductAddForm from 'src/sections/@dashboard/product/form/ProductAddForm';
-import ProductEditCategoryForm from 'src/sections/@dashboard/product/form/ProductEditCategoryForm';
-// ----------------------------------------------------------------------
+import { dispatch, useSelector } from 'src/redux/store';
+import { deleteMulDeliveryVoucher, searchDeliveryVoucher } from 'src/redux/slices/deliveryVoucher';
+import {
+  DeliveryVoucherTableRow,
+  DeliveryVoucherTableToolbar,
+} from 'src/sections/@dashboard/deliveryVoucher/list';
+import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const TABLE_HEAD = [
   { id: 'code', label: 'Code', align: 'left' },
-  { id: 'name', label: 'Name', align: 'left' },
-  { id: 'description', label: 'Description', align: 'left' },
-  { id: 'onHandMin', label: 'On hand Min', align: 'center' },
-  { id: 'onHandMax', label: 'On hand Max', align: 'center' },
+  { id: 'warehouse', label: 'Warehouse', align: 'left' },
+  { id: 'reportingDate', label: 'Reporting Date', align: 'left' },
+  { id: 'status', label: 'Status', align: 'center' },
   { id: '' },
 ];
 
-// ----------------------------------------------------------------------
+export default function DeliveryVoucherList() {
+  const { list, single, loading } = useSelector((state) => state.deliveryVoucher);
 
-export default function ProductList() {
-  const dispatch = useDispatch();
-
-  const { list, single, loading } = useSelector((state) => state.product);
-
-  const { toggle, setToggle } = useToggle();
-
-  const [isEdit, setIsEdit] = useState(false);
-
-  const [isEditCategory, setIsEditCategory] = useState(false);
-
-  const [isAdd, setIsAdd] = useState(false);
-
-  const { items: tableData, totalRows: total } = list;
+  const { items: tableData, totalRows: toal } = list;
 
   const {
     dense,
@@ -87,41 +67,35 @@ export default function ProductList() {
     onChangePage,
     onChangeRowsPerPage,
   } = useTable();
-
   const { themeStretch } = useSettings();
 
   const [filterKeyword, setFilterKeyword] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(searchProduct({ name: filterKeyword, pageIndex: page + 1, pageSize: rowsPerPage }));
+    dispatch(
+      searchDeliveryVoucher({ name: filterKeyword, pageIndex: page + 1, pageSize: rowsPerPage })
+    );
   }, [dispatch, filterKeyword, page, rowsPerPage]);
 
+  const handleViewRow = async (id: string) => {
+    navigate(PATH_DASHBOARD.deliveryVoucher.view(id));
+  };
+
   const handleDeleteRow = async (id: string) => {
-    await dispatch(deleteProduct({ ids: [id] }));
-    dispatch(searchProduct({ pageIndex: 1 }));
+    await dispatch(deleteMulDeliveryVoucher({ ids: [id] }));
+    dispatch(searchDeliveryVoucher({ pageIndex: 1 }));
     setSelected([]);
   };
 
   const handleDeleteRows = async (ids: string[]) => {
-    await dispatch(deleteProduct({ ids }));
-    dispatch(searchProduct({ pageIndex: 1 }));
+    await dispatch(deleteMulDeliveryVoucher({ ids }));
+    dispatch(searchDeliveryVoucher({ pageIndex: 1 }));
     setSelected([]);
   };
 
   const handleEditRow = (id: string) => {
-    setIsEditCategory(false);
-    setIsAdd(false);
-    setIsEdit(true);
-    dispatch(getProduct({ id }));
-    setToggle(true);
-  };
-
-  const handleEditCategory = (id: string) => {
-    setIsEdit(false);
-    setIsAdd(false);
-    setIsEditCategory(true);
-    dispatch(getProduct({ id }));
-    setToggle(true);
+    navigate(PATH_DASHBOARD.deliveryVoucher.edit(id));
   };
 
   const handleFilterKeyword = (filterKeyword: string) => {
@@ -129,48 +103,25 @@ export default function ProductList() {
     setPage(0);
   };
 
-  //   const dataFiltered = applySortFilter({
-  //     tableData,
-  //     comparator: getComparator(order, orderBy),
-  //     filterName,
-  //     filterRole,
-  //     filterStatus,
-  //   });
-
   const denseHeight = dense ? 52 : 72;
 
   const isNotFound = !tableData.length && !!filterKeyword;
-
   return (
-    <Page title="Product: List">
+    <Page title="Delivery Request: List">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Product List"
+          heading="Delivery Request List"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Product', href: PATH_DASHBOARD.product.root },
+            { name: 'Delivery Request' },
             { name: 'List' },
           ]}
-          action={
-            <Button
-              variant="contained"
-              startIcon={<Iconify icon={'eva:plus-fill'} />}
-              onClick={() => {
-                setIsAdd(true);
-                setToggle(true);
-                setIsEdit(false);
-                setIsEditCategory(false);
-              }}
-            >
-              New Product
-            </Button>
-          }
         />
 
         <Card>
           <Divider />
 
-          <ProductTableToolbar
+          <DeliveryVoucherTableToolbar
             filterKeyword={filterKeyword}
             onFilterKeyword={handleFilterKeyword}
           />
@@ -218,14 +169,14 @@ export default function ProductList() {
                   {tableData
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => (
-                      <ProductTableRow
+                      <DeliveryVoucherTableRow
                         key={row.id}
                         row={row}
                         selected={selected.includes(row.id)}
                         onSelectRow={() => onSelectRow(row.id)}
                         onDeleteRow={() => handleDeleteRow(row.id)}
+                        onViewRow={() => handleViewRow(row.id)}
                         onEditRow={() => handleEditRow(row.id)}
-                        onEditCategory={() => handleEditCategory(row.id)}
                       />
                     ))}
 
@@ -259,34 +210,6 @@ export default function ProductList() {
           </Box>
         </Card>
       </Container>
-      <Drawer
-        anchor="right"
-        open={toggle}
-        onClose={() => setToggle(false)}
-        BackdropProps={{ invisible: true }}
-      >
-        <Box sx={{ maxWidth: '1000px', width: '500px', minWidth: '25vw', p: 3 }}>
-          <Box textAlign="right">
-            <IconButton onClick={() => setToggle(false)}>
-              <Iconify icon={'ant-design:close-circle-outlined'} />
-            </IconButton>
-          </Box>
-          {/* {loading === BaseLoading.GET && <Loading />} */}
-          {isEdit && !loading && single ? (
-            <ProductEditForm payload={single!} onSuccess={() => setToggle(false)} />
-          ) : (
-            ''
-          )}
-          {isAdd ? <ProductAddForm onSuccess={() => setToggle(false)} /> : ''}
-          {isEditCategory && single ? (
-            <ProductEditCategoryForm payload={single!} onSuccess={() => setToggle(false)} />
-          ) : (
-            ''
-          )}
-        </Box>
-      </Drawer>
     </Page>
   );
 }
-
-// ----------------------------------------------------------------------

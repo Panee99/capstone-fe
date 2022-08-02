@@ -74,10 +74,7 @@ export default function Router() {
             {
               path: 'list',
               element: (
-                <PermissionBasedGuard
-                  hasContent
-                  permission="Permission.BeginningInventoryVoucher.Create"
-                >
+                <PermissionBasedGuard hasContent permission="Permission.User.Create">
                   <AppUserList />
                 </PermissionBasedGuard>
               ),
@@ -129,6 +126,15 @@ export default function Router() {
             { path: ':id', element: <DeliveryRequestDetails /> },
             { path: ':id/edit', element: <DeliveryRequestEdit /> },
             { path: 'new', element: <DeliveryRequestCreate /> },
+            { path: ':id/new-voucher', element: <DeliveryVoucherCreate /> },
+          ],
+        },
+        {
+          path: 'delivery-voucher',
+          children: [
+            { path: 'list', element: <DeliveryVoucherList /> },
+            { path: ':id', element: <DeliveryVoucherDetails /> },
+            { path: ':id/edit', element: <DeliveryVoucherEdit /> },
           ],
         },
       ],
@@ -226,6 +232,20 @@ const DeliveryRequestCreate = Loadable(
 );
 const DeliveryRequestEdit = Loadable(
   lazy(() => import('../pages/dashboard/deliveryRequest/DeliveryRequestEdit'))
+);
+
+// DELIVERY VOUCHER
+const DeliveryVoucherList = Loadable(
+  lazy(() => import('../pages/dashboard/deliveryVoucher/DeliveryVoucherList'))
+);
+const DeliveryVoucherDetails = Loadable(
+  lazy(() => import('../pages/dashboard/deliveryVoucher/DeliveryVoucherDetails'))
+);
+const DeliveryVoucherCreate = Loadable(
+  lazy(() => import('../pages/dashboard/deliveryVoucher/DeliveryVoucherCreate'))
+);
+const DeliveryVoucherEdit = Loadable(
+  lazy(() => import('../pages/dashboard/deliveryVoucher/DeliveryVoucherEdit'))
 );
 
 // MAIN
