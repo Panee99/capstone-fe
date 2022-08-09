@@ -160,6 +160,7 @@ const navConfig = [
         title: 'Delivery Voucher',
         path: PATH_DASHBOARD.deliveryVoucher.list,
         icon: ICONS.speaker,
+        // permission: 'asdasd',
       },
     ],
   },

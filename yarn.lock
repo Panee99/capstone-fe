@@ -3198,6 +3198,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/bwip-js@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/bwip-js/-/bwip-js-3.0.0.tgz#b2b204104d825a46a0ebf93ddcaae97393b450a5"
+  integrity sha512-qs4vFB/JuD2pn07amnVzWyImefyiL8+n7ZnvoM5AEAHnPYgbAUSe5JpV1XRx2ceVR/wGQDIWxAxfgxjsggvw7g==
+  dependencies:
+    "@types/node" "*"
+
 "@types/connect-history-api-fallback@^1.3.5":
   version "1.3.5"
   resolved "https://registry.npmjs.org/@types/connect-history-api-fallback/-/connect-history-api-fallback-1.3.5.tgz"
@@ -4652,6 +4659,11 @@ builtin-modules@^3.1.0:
   version "3.2.0"
   resolved "https://registry.npmjs.org/builtin-modules/-/builtin-modules-3.2.0.tgz"
   integrity sha512-lGzLKcioL90C7wMczpkY0n/oART3MbBa8R9OFGE1rJxoVI86u4WAGfEk8Wjv10eKSyTHVGkSo3bvBylCEtk7LA==
+
+bwip-js@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/bwip-js/-/bwip-js-3.1.0.tgz#4ab493f747d08240e7fab1e294377e0a1883cbae"
+  integrity sha512-H+4s1/25kC/ybwt+o0zhFkbTL4nGrzZV7KW44luWqT/ClmCzhXVqVgaNx8d9YoOUVKR461xDmLt3eGDRtGqRag==
 
 bytes@3.0.0:
   version "3.0.0"

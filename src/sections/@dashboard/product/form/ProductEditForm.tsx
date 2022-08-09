@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from '../../../../redux/store';
 import { UpdateProductSchema } from 'src/@types/product';
 import { searchProduct, updateProduct } from 'src/redux/slices/product';
 import { debugError } from 'src/utils/foundation';
+import Barcode from 'src/components/barcode';
 
 type FormValuesProps = UpdateProductSchema & {
   afterSubmit?: string;
@@ -92,6 +93,7 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
         <RHFTextField name="description" label="Description" />
         <RHFTextField name="onHandMin" label="On Hand Min" type="number" />
         <RHFTextField name="onHandMax" label="On Hand Max" type="number" />
+        <Barcode value={payload.code} style={{ width: 200, margin: '30px auto' }} />
       </Stack>
       <Stack alignItems="flex-end" sx={{ mt: 3 }}>
         <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
