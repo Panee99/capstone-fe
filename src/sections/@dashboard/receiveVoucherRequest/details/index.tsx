@@ -9,7 +9,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
+  TableRow, TextField,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -33,6 +33,7 @@ const RowResultStyle = styled(TableRow)(({ theme }) => ({
 
 export default function ReceiveVoucherRequestDetails({ payload }: Props) {
   const theme = useTheme();
+  let totalQuantity = 0;
 
   if (!payload) {
     return null;
@@ -102,6 +103,7 @@ export default function ReceiveVoucherRequestDetails({ payload }: Props) {
                     <TableCell>{index + 1}</TableCell>
                     <TableCell align="left">{row.product.name}</TableCell>
                     <TableCell align="right">{row.quantity}</TableCell>
+                    <TextField hidden={true} value={totalQuantity += row.quantity} />
                   </TableRow>
                 ))}
 
@@ -111,7 +113,7 @@ export default function ReceiveVoucherRequestDetails({ payload }: Props) {
                     <Typography variant="h6">Total</Typography>
                   </TableCell>
                   <TableCell align="right" width={140}>
-                    <Typography variant="h6">Test</Typography>
+                    <Typography variant="h6">{totalQuantity > 0 ? totalQuantity : 0}</Typography>
                   </TableCell>
                 </RowResultStyle>
               </TableBody>
