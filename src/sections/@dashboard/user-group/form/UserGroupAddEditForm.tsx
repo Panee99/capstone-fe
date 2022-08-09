@@ -102,11 +102,9 @@ export default function UserGroupAddEditForm({ isEdit, currentGroup, onSuccess }
     <FormProvider methods={methods}>
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-        <RHFTextField name="name" label="Name" autoFocus />
-        <RHFTextField name="description" label="Description" />
-      </Stack>
-      <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
-        <PermissionFormField name="permissions" />
+        <RHFTextField name="name" label="Name" autoFocus/>
+        <RHFTextField name="description" label="Description"/>
+        <PermissionFormField name="permissions"/>
       </Stack>
       <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>
         <LoadingButton

@@ -8,6 +8,10 @@ export type Product = {
   onHandMin?: number;
   onHandMax?: number;
   isActive: boolean;
+  categories: {
+    id: string;
+    name?: string
+  }[];
 };
 
 export type ProductState = BaseState<Product>;
@@ -25,6 +29,10 @@ export type CreateProductSchema = {
   description: string;
   onHandMin: number;
   onHandMax: number;
+  categories: {
+    id: string;
+    name?: string
+  }[];
 };
 
 export type UpdateProductSchema = {
@@ -35,13 +43,17 @@ export type UpdateProductSchema = {
   onHandMin?: number;
   onHandMax?: number;
   isActive: boolean;
-};
-
-export type UpdateProductCategorySchema = {
-  id: string;
-  category?: FetchModel | null;
+  categories: {
+    id: string;
+    name?: string
+  }[];
 };
 
 export type DeleteProductSchema = {
   ids: string[];
+};
+
+export type Category = {
+  id: string;
+  name?: string
 };
