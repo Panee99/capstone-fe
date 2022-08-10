@@ -74,7 +74,7 @@ export default function Router() {
             {
               path: 'list',
               element: (
-                <PermissionBasedGuard hasContent permission="Permission.User.Create">
+                <PermissionBasedGuard hasContent permission="Permission.System.Master">
                   <AppUserList />
                 </PermissionBasedGuard>
               ),

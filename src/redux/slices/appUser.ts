@@ -53,11 +53,11 @@ export const updateAppUser = createAsyncThunk<void, UpdateAppUserSchema>(
 );
 
 export const updatePermission = createAsyncThunk<void, UpdateAppUserPermissionSchema>(
-    '/userGroup',
-    async (params) => {
-      await axios.post('/warehouse/group/adduser', { ...params, groupId: params.groupId?.id })
-    }
-)
+  '/userGroup',
+  async (params) => {
+    await axios.put('/user/set-user-group', { userId: params.id, groupId: params.groupId?.id });
+  }
+);
 
 export const deleteAppUser = createAsyncThunk<void, DeleteAppUserSchema>(
   'user/delete',

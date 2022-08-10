@@ -12,7 +12,6 @@ import {
   AppWidget,
   AppWelcome,
   AppFeatured,
-  AppNewInvoice,
   AppTopAuthors,
   AppTopRelated,
   AppAreaInstalled,
@@ -24,6 +23,7 @@ import {
 // assets
 import Page from 'src/components/Page';
 import { SeoIllustration } from 'src/assets';
+import AppSumProduct from 'src/sections/@dashboard/general/app/AppSumProduct';
 
 // ----------------------------------------------------------------------
 
@@ -38,7 +38,7 @@ export default function GeneralApp() {
     <Page title="General: App">
       <Container maxWidth={themeStretch ? false : 'xl'}>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={8}>
+          {/* <Grid item xs={12} md={8}>
             <AppWelcome
               title={`Welcome back! \n ${user?.name}`}
               description="If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything."
@@ -53,15 +53,15 @@ export default function GeneralApp() {
               }
               action={<Button variant="contained">Go Now</Button>}
             />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} md={4}>
+          {/* <Grid item xs={12} md={4}>
             <AppFeatured list={_appFeatured} />
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12} md={4}>
             <AppWidgetSummary
-              title="Total Active Users"
+              title="Total Warehouse"
               percent={2.6}
               total={18765}
               chartColor={theme.palette.primary.main}
@@ -71,7 +71,7 @@ export default function GeneralApp() {
 
           <Grid item xs={12} md={4}>
             <AppWidgetSummary
-              title="Total Installed"
+              title="Total Product"
               percent={0.2}
               total={4876}
               chartColor={theme.palette.chart.blue[0]}
@@ -81,7 +81,7 @@ export default function GeneralApp() {
 
           <Grid item xs={12} md={4}>
             <AppWidgetSummary
-              title="Total Downloads"
+              title="Total Voucher"
               percent={-0.1}
               total={678}
               chartColor={theme.palette.chart.red[0]}
@@ -89,7 +89,7 @@ export default function GeneralApp() {
             />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <AppCurrentDownload
               title="Current Download"
               chartColors={[
@@ -129,23 +129,13 @@ export default function GeneralApp() {
                 },
               ]}
             />
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12} lg={8}>
-            <AppNewInvoice
-              title="New Invoice"
-              tableData={_appInvoices}
-              tableLabels={[
-                { id: 'id', label: 'Invoice ID' },
-                { id: 'category', label: 'Category' },
-                { id: 'price', label: 'Price' },
-                { id: 'status', label: 'Status' },
-                { id: '' },
-              ]}
-            />
+            <AppSumProduct title="Product" />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <AppTopRelated title="Top Related Applications" list={_appRelated} />
           </Grid>
 
@@ -168,7 +158,7 @@ export default function GeneralApp() {
                 chartData={75}
               />
             </Stack>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </Page>

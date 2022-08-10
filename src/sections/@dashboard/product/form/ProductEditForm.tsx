@@ -12,6 +12,7 @@ import { searchProduct, updateProduct } from 'src/redux/slices/product';
 import { debugError } from 'src/utils/foundation';
 import CategoryForm from "./CategoryForm";
 import category from "../../../../redux/slices/category";
+import Barcode from 'src/components/barcode';
 
 type FormValuesProps = UpdateProductSchema & {
   afterSubmit?: string;
@@ -37,7 +38,6 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
       .max(1000000, 'On Hand Max must be in range 0 - 1000000'),
   });
 
-  console.log('PAYLOAD', payload)
   const defaultValues = useMemo(
     () => ({
       name: payload.name || '',
@@ -78,7 +78,6 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
     };
 
     try {
-      console.log('DATA', data)
       await dispatch(updateProduct(data));
       enqueueSnackbar('Update success!');
       if (onSuccess) {
@@ -101,6 +100,7 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
         <RHFTextField name="onHandMin" label="On Hand Min" type="number" />
         <RHFTextField name="onHandMax" label="On Hand Max" type="number" />
         <CategoryForm />
+        <Barcode value={payload.code} style={{ width: 200, margin: '30px auto' }} />
       </Stack>
       <Stack alignItems="flex-end" sx={{ mt: 3 }}>
         <LoadingButton type="submit" variant="contained" loading={isSubmitting}>

@@ -57,7 +57,7 @@ export default function AppUserPermissionForm({ payload, onSuccess }: Props) {
   const onSubmit = async (values: UpdateAppUserPermissionSchema) => {
     const data = {
       ...values,
-      userId: payload.id,
+      id: payload.id,
     };
 
     try {
