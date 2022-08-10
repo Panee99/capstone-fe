@@ -1,22 +1,19 @@
 import {
-  Box,
   Card,
-  Divider,
   Grid,
+  Input,
   styled,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow, TextField,
+  TableRow,
   Typography,
   useTheme,
 } from '@mui/material';
 import React from 'react';
 import { BeginningVoucher } from 'src/@types/vouchers/beginningVoucher';
-import Image from 'src/components/Image';
-import Label from 'src/components/Label';
 import Scrollbar from 'src/components/Scrollbar';
 import BeginningVoucherToolbar from './BeginningVoucherToolbar';
 
@@ -103,7 +100,7 @@ export default function BeginningVoucherDetails({ payload }: Props) {
                     <TableCell>{index + 1}</TableCell>
                     <TableCell align="left">{row.product.name}</TableCell>
                     <TableCell align="right">{row.quantity}</TableCell>
-                    <TextField hidden={true} value={totalQuantity += row.quantity} />
+                    <Input type="hidden" value={totalQuantity += row.quantity} />
                   </TableRow>
                 ))}
 
