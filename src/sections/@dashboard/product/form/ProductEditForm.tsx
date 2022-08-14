@@ -1,16 +1,17 @@
-import { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSnackbar } from 'notistack';
-import useIsMountedRef from '../../../../hooks/useIsMountedRef';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, RHFTextField } from '../../../../components/hook-form';
 import { LoadingButton } from '@mui/lab';
-import { Stack, Alert, Typography } from '@mui/material';
-import { useDispatch, useSelector } from '../../../../redux/store';
+import { Alert, Stack, Typography } from '@mui/material';
+import { useDispatch } from '../../../../redux/store';
 import { UpdateProductSchema } from 'src/@types/product';
 import { searchProduct, updateProduct } from 'src/redux/slices/product';
 import { debugError } from 'src/utils/foundation';
+import CategoryForm from "./CategoryForm";
+import category from "../../../../redux/slices/category";
 import Barcode from 'src/components/barcode';
 
 type FormValuesProps = UpdateProductSchema & {
@@ -43,6 +44,7 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
       description: payload.description || '',
       onHandMin: payload.onHandMin || 0,
       onHandMax: payload.onHandMax || 0,
+      categories: payload.categories?.length === 0 ? [{ id: '', name: '' }] : payload.categories,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [payload]
@@ -55,20 +57,24 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
 
   const {
     reset,
+    watch,
     handleSubmit,
     setError,
     formState: { isSubmitting, errors },
   } = methods;
+
+  const values = watch();
 
   useEffect(() => {
     reset(defaultValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [payload]);
 
-  const onSubmit = async (value: UpdateProductSchema) => {
+  const onSubmit = async () => {
     const data = {
-      ...value,
+      ...values,
       id: payload.id,
+      categories: values.categories.map(({ id }) => id),
     };
 
     try {
@@ -93,6 +99,7 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
         <RHFTextField name="description" label="Description" />
         <RHFTextField name="onHandMin" label="On Hand Min" type="number" />
         <RHFTextField name="onHandMax" label="On Hand Max" type="number" />
+        <CategoryForm />
         <Barcode value={payload.code} style={{ width: 200, margin: '30px auto' }} />
       </Stack>
       <Stack alignItems="flex-end" sx={{ mt: 3 }}>
