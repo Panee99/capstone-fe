@@ -193,10 +193,6 @@ export default function UserList() {
 
   const isNotFound = !items.length && !!filterKeyword;
 
-  console.log('TABLE', items);
-  console.log('ROW', rowsPerPage);
-  console.log('PAGE', page);
-
   return (
     <Page title="Danh sách người dùng">
       <Container maxWidth={themeStretch ? false : 'lg'}>
