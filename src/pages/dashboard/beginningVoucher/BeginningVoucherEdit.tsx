@@ -25,13 +25,13 @@ export default function BeginningVoucherEdit() {
   }, [dispatch]);
 
   return (
-    <Page title="Invoices: Edit">
+    <Page title="Chỉnh sửa phiếu tồn kho đầu kỳ">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Edit Beginning Voucher"
+          heading="Chỉnh sửa phiếu tồn kho đầu kỳ"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Beginning Voucher', href: PATH_DASHBOARD.invoice.list },
+            { name: 'Thống kê', href: PATH_DASHBOARD.root },
+            { name: 'Phiếu tồn kho đầu kỳ', href: PATH_DASHBOARD.invoice.list },
             { name: single?.code || '' },
           ]}
         />

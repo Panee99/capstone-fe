@@ -15,7 +15,7 @@ export default function DeliveryRequestNewEditMaster() {
           control={control}
           render={({ field, fieldState: { error } }) => (
             <DatePicker
-              label="Reporting Date"
+              label="Ngày báo cáo"
               value={field.value}
               onChange={(newValue) => {
                 field.onChange(newValue);
@@ -28,13 +28,13 @@ export default function DeliveryRequestNewEditMaster() {
         />
         <RHFFetch
           name="customer"
-          label="Customer"
+          label="Khách hàng"
           endpoint="/customer/fetch"
           sx={{ width: '500px' }}
         />
       </Stack>
       <Stack>
-        <RHFTextField name="description" label="Description" />
+        <RHFTextField name="description" label="Mô tả" />
       </Stack>
     </Stack>
   );

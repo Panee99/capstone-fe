@@ -62,9 +62,9 @@ import UserGroupAddEditForm from 'src/sections/@dashboard/user-group/form/UserGr
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', align: 'left' },
-  { id: 'description', label: 'Description', align: 'left' },
-  { id: 'canUpdate', label: 'Type', align: 'center' },
+  { id: 'name', label: 'Tên', align: 'left' },
+  { id: 'description', label: 'Mô tả', align: 'left' },
+  { id: 'canUpdate', label: 'Loại', align: 'center' },
   { id: '' },
 ];
 // ----------------------------------------------------------------------
@@ -180,14 +180,14 @@ export default function UserGroupList() {
   const isNotFound = !tableData.length && !!filterKeyword;
 
   return (
-    <Page title="UserGroup: List">
+    <Page title="Danh sách nhóm người dùng">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="UserGroup List"
+          heading="Danh sách nhóm người dùng"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Usergroup', href: PATH_DASHBOARD.userGroup.root },
-            { name: 'List' },
+            { name: 'Thống kê', href: PATH_DASHBOARD.root },
+            { name: 'Nhóm người dùng', href: PATH_DASHBOARD.userGroup.root },
+            { name: 'Danh sách' },
           ]}
           action={
             <Button
@@ -198,7 +198,7 @@ export default function UserGroupList() {
                 setIsEdit(false);
               }}
             >
-              New UserGroup
+              Thêm nhóm người dùng
             </Button>
           }
         />
@@ -224,7 +224,7 @@ export default function UserGroupList() {
                     )
                   }
                   actions={
-                    <Tooltip title="Delete">
+                    <Tooltip title="Xóa">
                       <IconButton color="primary" onClick={() => handleDeleteRows(selected)}>
                         <Iconify icon={'eva:trash-2-outline'} />
                       </IconButton>

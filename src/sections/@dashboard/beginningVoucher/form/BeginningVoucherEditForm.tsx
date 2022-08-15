@@ -25,14 +25,14 @@ export default function BeginningVoucherEditForm({ payload, onSuccess, isEdit }:
   const { enqueueSnackbar } = useSnackbar();
 
   const YupSchema = Yup.object().shape({
-    reportingDate: Yup.date().required('Reporting Date is required'),
+    reportingDate: Yup.date().required('Ngày báo cáo là trường bắt buộc'),
     details: Yup.array().of(
       Yup.object().shape({
         quantity: Yup.number()
-          .required('Quantity is required')
-          .typeError('Quantity must be a number')
-          .min(1, 'Quantity must be more than 0'),
-        product: Yup.object().required('Product is required'),
+          .required('Số lượng là trường bắt buộc')
+          .typeError('Số lượng phải là số')
+          .min(1, 'Số lượng phải lớn hơn 0'),
+        product: Yup.object().required('Sản phẩm là trường bắt buộc'),
       })
     ),
   });
@@ -94,7 +94,7 @@ export default function BeginningVoucherEditForm({ payload, onSuccess, isEdit }:
             render={({ field, fieldState: { error } }) => (
               <DatePicker
                 inputFormat="dd/MM/yyyy"
-                label="Order date"
+                label="Ngày đặt"
                 value={field.value}
                 onChange={(newValue) => {
                   field.onChange(newValue);

@@ -60,13 +60,13 @@ import AppUserPermissionForm from '../../../sections/@dashboard/app-user/form/Ap
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', align: 'left' },
-  { id: 'username', label: 'Username', align: 'left' },
+  { id: 'name', label: 'Tên', align: 'left' },
+  { id: 'username', label: 'Tài khoản', align: 'left' },
   { id: 'email', label: 'Email', align: 'left' },
-  { id: 'phone', label: 'Phone', align: 'left' },
-  { id: 'gender', label: 'Gender', align: 'center' },
-  { id: 'isActive', label: 'Active', align: 'center' },
-  { id: 'inWarehouse', label: 'Warehouse', align: 'left' },
+  { id: 'phone', label: 'Số điện thoại', align: 'left' },
+  { id: 'gender', label: 'Giới tính', align: 'center' },
+  { id: 'isActive', label: 'Trạng thái', align: 'center' },
+  { id: 'inWarehouse', label: 'Kho', align: 'left' },
   { id: '' },
 ];
 
@@ -145,7 +145,7 @@ export default function UserList() {
       unwrapResult(result);
       search();
       setSelected([]);
-      enqueueSnackbar('Deleted 1 row success');
+      enqueueSnackbar('Xóa 1 dòng thành công');
     } catch (error) {
       enqueueSnackbar(error?.message || error || DEFAULT_ERROR);
     }
@@ -157,7 +157,7 @@ export default function UserList() {
       unwrapResult(result);
       search();
       setSelected([]);
-      enqueueSnackbar(`Deleted ${ids.length} rows success`);
+      enqueueSnackbar(`Xóa ${ids.length} dòng thành công`);
     } catch (error) {
       enqueueSnackbar(error?.message || error || DEFAULT_ERROR);
     }
@@ -193,12 +193,16 @@ export default function UserList() {
 
   const isNotFound = !items.length && !!filterKeyword;
 
+  console.log('TABLE', items);
+  console.log('ROW', rowsPerPage);
+  console.log('PAGE', page);
+
   return (
-    <Page title="User: List">
+    <Page title="Danh sách người dùng">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="User List"
-          links={[{ name: 'Dashboard', href: PATH_DASHBOARD.root }, { name: 'User' }]}
+          heading="Danh sách người dùng"
+          links={[{ name: 'Thống kê', href: PATH_DASHBOARD.root }, { name: 'Người dùng' }]}
           action={
             <Button
               variant="contained"
@@ -210,7 +214,7 @@ export default function UserList() {
                 setIsEditPermission(false);
               }}
             >
-              New User
+              Tạo người dùng
             </Button>
           }
         />
@@ -238,7 +242,7 @@ export default function UserList() {
                     )
                   }
                   actions={
-                    <Tooltip title="Delete">
+                    <Tooltip title="Xóa">
                       <IconButton color="primary" onClick={() => handleDeleteRows(selected)}>
                         <Iconify icon={'eva:trash-2-outline'} />
                       </IconButton>

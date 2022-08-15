@@ -36,7 +36,7 @@ export default function ReceiveVoucherRequestNewEditDetails() {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h6" sx={{ color: 'text.disabled', mb: 3 }}>
-        Details:
+        Chi tiết:
       </Typography>
 
       <Stack divider={<Divider flexItem sx={{ borderStyle: 'dashed' }} />} spacing={3}>
@@ -45,7 +45,7 @@ export default function ReceiveVoucherRequestNewEditDetails() {
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} sx={{ width: 1 }}>
               <RHFFetch
                 name={`details[${index}].product`}
-                label="Product"
+                label="Sản phẩm"
                 size="small"
                 endpoint="/product/fetch"
                 sx={{ width: '500px' }}
@@ -56,7 +56,7 @@ export default function ReceiveVoucherRequestNewEditDetails() {
                 size="small"
                 type="number"
                 name={`details[${index}].quantity`}
-                label="Quantity"
+                label="Số lượng"
                 onChange={(event) =>
                   setValue(`details[${index}].quantity`, Number(event.target.value))
                 }
@@ -70,7 +70,7 @@ export default function ReceiveVoucherRequestNewEditDetails() {
                 startIcon={<Iconify icon="eva:trash-2-outline" />}
                 onClick={() => handleRemove(index)}
               >
-                Remove
+                Xóa
               </Button>
             </Stack>
           </Stack>
@@ -90,7 +90,7 @@ export default function ReceiveVoucherRequestNewEditDetails() {
           onClick={handleAdd}
           sx={{ flexShrink: 0 }}
         >
-          Add new detail
+          Thêm chi tiết
         </Button>
       </Stack>
     </Box>

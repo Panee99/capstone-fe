@@ -76,7 +76,7 @@ export default function UserGroupTableRow({
                 }}
               >
                 <Iconify icon={'eva:edit-fill'} />
-                Edit
+                Chỉnh sửa
               </MenuItem>
               <MenuItem
                 onClick={() => {
@@ -86,7 +86,7 @@ export default function UserGroupTableRow({
                 sx={{ color: 'error.main' }}
               >
                 <Iconify icon={'eva:trash-2-outline'} />
-                Delete
+                Xóa
               </MenuItem>
             </>
           }

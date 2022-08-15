@@ -30,7 +30,7 @@ import {
   TableNoData,
   TableEmptyRows,
   TableHeadCustom,
-  TableSelectedActions,
+  TableSelectedActions, TableSkeleton,
 } from '../../../components/table';
 import { useDispatch, useSelector } from 'src/redux/store';
 import useToggle from 'src/hooks/useToggle';
@@ -40,15 +40,16 @@ import { deleteProduct, getProduct, searchProduct } from 'src/redux/slices/produ
 import { ProductTableRow, ProductTableToolbar } from 'src/sections/@dashboard/product/list';
 import ProductEditForm from 'src/sections/@dashboard/product/form/ProductEditForm';
 import ProductAddForm from 'src/sections/@dashboard/product/form/ProductAddForm';
+import { CategoryTableRow } from "../../../sections/@dashboard/category/list";
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'code', label: 'Code', align: 'left' },
-  { id: 'name', label: 'Name', align: 'left' },
-  { id: 'description', label: 'Description', align: 'left' },
+  { id: 'code', label: 'Mã', align: 'left' },
+  { id: 'name', label: 'Tên', align: 'left' },
+  { id: 'description', label: 'Mô tả', align: 'left' },
   { id: 'onHandMin', label: 'On hand Min', align: 'center' },
   { id: 'onHandMax', label: 'On hand Max', align: 'center' },
-  { id: 'category', label: 'Category', align: 'center' },
+  { id: 'category', label: 'Loại sản phẩm', align: 'center' },
   { id: '' },
 ];
 
@@ -131,14 +132,14 @@ export default function ProductList() {
   const isNotFound = !tableData.length && !!filterKeyword;
 
   return (
-    <Page title="Product: List">
+    <Page title="Danh sách sản phẩm">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Product List"
+          heading="Danh sách sản phẩm"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Product', href: PATH_DASHBOARD.product.root },
-            { name: 'List' },
+            { name: 'Thống kê', href: PATH_DASHBOARD.root },
+            { name: 'Sản phẩm', href: PATH_DASHBOARD.product.root },
+            { name: 'Danh sách' },
           ]}
           action={
             <Button
@@ -150,7 +151,7 @@ export default function ProductList() {
                 setIsEdit(false);
               }}
             >
-              New Product
+              Thêm sản phẩm
             </Button>
           }
         />
@@ -177,7 +178,7 @@ export default function ProductList() {
                     )
                   }
                   actions={
-                    <Tooltip title="Delete">
+                    <Tooltip title="Xóa">
                       <IconButton color="primary" onClick={() => handleDeleteRows(selected)}>
                         <Iconify icon={'eva:trash-2-outline'} />
                       </IconButton>
@@ -203,23 +204,20 @@ export default function ProductList() {
                 />
 
                 <TableBody>
-                  {tableData
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => (
-                      <ProductTableRow
-                        key={row.id}
-                        row={row}
-                        selected={selected.includes(row.id)}
-                        onSelectRow={() => onSelectRow(row.id)}
-                        onDeleteRow={() => handleDeleteRow(row.id)}
-                        onEditRow={() => handleEditRow(row.id)}
-                      />
-                    ))}
-
-                  <TableEmptyRows
-                    height={denseHeight}
-                    emptyRows={emptyRows(page, rowsPerPage, tableData.length)}
-                  />
+                  {(loading === 'SEARCH' ? [...Array(rowsPerPage)] : tableData).map((row, index) =>
+                      row ? (
+                          <ProductTableRow
+                              key={row.id}
+                              row={row}
+                              selected={selected.includes(row.id)}
+                              onSelectRow={() => onSelectRow(row.id)}
+                              onDeleteRow={() => handleDeleteRow(row.id)}
+                              onEditRow={() => handleEditRow(row.id)}
+                          />
+                      ) : (
+                          !isNotFound && <TableSkeleton key={index} sx={{ height: denseHeight }} />
+                      )
+                  )}
 
                   <TableNoData isNotFound={isNotFound} />
                 </TableBody>
@@ -231,7 +229,7 @@ export default function ProductList() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={tableData.length}
+              count={total}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={onChangePage}

@@ -48,12 +48,12 @@ export default function AppUserEditForm({ payload, onSuccess }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const YupSchema = Yup.object().shape({
-    email: Yup.string().email().required('Email is required'),
-    firstName: Yup.string().required('First name is required'),
-    lastName: Yup.string().required('First name is required'),
+    email: Yup.string().email().required('Tên tài khoản là trường bắt buộc'),
+    firstName: Yup.string().required('Email là trường bắt buộc'),
+    lastName: Yup.string().required('Họ là trường bắt buộc'),
     phoneNumber: Yup.string()
-      .matches(phoneRegExp, 'Phone number is not valid')
-      .required('Phone number is required'),
+      .matches(phoneRegExp, 'Tên là trường bắt buộc')
+      .required('Số điện thoại không khả dụng'),
   });
 
   const defaultValues = useMemo(
@@ -96,7 +96,7 @@ export default function AppUserEditForm({ payload, onSuccess }: Props) {
     try {
       const result = await dispatch(updateAppUser(data));
       unwrapResult(result);
-      enqueueSnackbar('Update success!');
+      enqueueSnackbar('Chỉnh sửa thành công');
       if (onSuccess) {
         onSuccess();
       }
@@ -110,9 +110,9 @@ export default function AppUserEditForm({ payload, onSuccess }: Props) {
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
         <RHFTextField name="email" label="Email" />
-        <RHFTextField name="firstName" label="firstName" />
-        <RHFTextField name="lastName" label="lastName" />
-        <RHFTextField name="phoneNumber" label="phoneNumber" />
+        <RHFTextField name="firstName" label="Họ" />
+        <RHFTextField name="lastName" label="Tên" />
+        <RHFTextField name="phoneNumber" label="Số điện thoại" />
         <RHFRadioGroup
           name="gender"
           options={GENDER_OPTION}
@@ -122,20 +122,20 @@ export default function AppUserEditForm({ payload, onSuccess }: Props) {
         />
         <RHFSwitch
           name="isActive"
-          label="Active"
+          label="Trạng thái"
           labelPlacement="start"
           style={{ alignSelf: 'start' }}
         />
         <NetworkAutocomplete
           name="inWarehouse"
-          label="Warehouse"
+          label="Kho"
           endpoint="/warehouse/fetch"
           sx={{ width: '100%' }}
         />
       </Stack>
       <Stack alignItems="flex-end" sx={{ mt: 3 }}>
         <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-          Save Changes
+          Lưu thay đổi
         </LoadingButton>
       </Stack>
     </FormProvider>

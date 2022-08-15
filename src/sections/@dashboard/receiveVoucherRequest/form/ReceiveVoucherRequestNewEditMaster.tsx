@@ -17,7 +17,7 @@ export default function ReceiveVoucherRequestNewEditMaster() {
         control={control}
         render={({ field, fieldState: { error } }) => (
           <DatePicker
-            label="Reporting Date"
+            label="Ngày báo cáo"
             value={field.value}
             onChange={(newValue) => {
               field.onChange(newValue);
@@ -29,7 +29,7 @@ export default function ReceiveVoucherRequestNewEditMaster() {
         )}
       />
 
-      <RHFTextField name="description" label="Description" />
+      <RHFTextField name="description" label="Mô tả" />
     </Stack>
   );
 }

@@ -71,7 +71,7 @@ export default function CustomerTableRow({
                 }}
               >
                 <Iconify icon={'eva:edit-fill'} />
-                Edit
+                Chỉnh sửa
               </MenuItem>
               <MenuItem
                 onClick={() => {
@@ -81,7 +81,7 @@ export default function CustomerTableRow({
                 sx={{ color: 'error.main' }}
               >
                 <Iconify icon={'eva:trash-2-outline'} />
-                Delete
+                Xóa
               </MenuItem>
             </>
           }

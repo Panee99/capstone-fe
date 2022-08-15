@@ -51,9 +51,9 @@ import { Link } from 'react-router-dom';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'code', label: 'Code', align: 'left' },
-  { id: 'warehouse', label: 'Warehouse', align: 'left' },
-  { id: 'reportingDate', label: 'Reporting Date', align: 'left' },
+  { id: 'code', label: 'Mã', align: 'left' },
+  { id: 'warehouse', label: 'Kho', align: 'left' },
+  { id: 'reportingDate', label: 'Ngày báo cáo', align: 'left' },
   { id: '' },
 ];
 
@@ -135,14 +135,14 @@ export default function BeginningVoucherList() {
   const isNotFound = !tableData.length && !!filterKeyword;
 
   return (
-    <Page title="BeginningVoucher: List">
+    <Page title="Danh sách phiếu tồn kho đầu kỳ">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Beginning Voucher List"
+          heading="Danh sách phiếu tồn kho đầu kỳ"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Beginning Voucher' },
-            { name: 'List' },
+            { name: 'Thống kê', href: PATH_DASHBOARD.root },
+            { name: 'Phiếu tồn kho đầu kỳ' },
+            { name: 'Danh sách' },
           ]}
           action={
             <Button
@@ -151,7 +151,7 @@ export default function BeginningVoucherList() {
               component={Link}
               to={PATH_DASHBOARD.beginningVoucher.new}
             >
-              New BeginningVoucher
+              Tạo phiếu tồn kho đầu kỳ
             </Button>
           }
         />
@@ -178,7 +178,7 @@ export default function BeginningVoucherList() {
                     )
                   }
                   actions={
-                    <Tooltip title="Delete">
+                    <Tooltip title="Xóa">
                       <IconButton color="primary" onClick={() => handleDeleteRows(selected)}>
                         <Iconify icon={'eva:trash-2-outline'} />
                       </IconButton>

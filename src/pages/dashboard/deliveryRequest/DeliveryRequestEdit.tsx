@@ -23,13 +23,13 @@ export default function DeliveryRequestEdit() {
   }, [dispatch]);
 
   return (
-    <Page title="Invoices: Edit">
+    <Page title="Chỉnh sửa phiếu yêu cầu xuất kho">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Edit Delivery Request"
+          heading="Chỉnh sửa phiếu yêu cầu xuất kho"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'DeliveryRequest', href: PATH_DASHBOARD.invoice.list },
+            { name: 'Thống kê', href: PATH_DASHBOARD.root },
+            { name: 'Phiếu yêu cầu xuất kho', href: PATH_DASHBOARD.invoice.list },
             { name: single?.code || '' },
           ]}
         />
@@ -38,7 +38,7 @@ export default function DeliveryRequestEdit() {
           (!!single ? (
             <DeliveryRequestNewEditForm isEdit currentVoucher={single!} />
           ) : (
-            <p>Not Found</p>
+            <p>Không tìm thấy</p>
           ))}
       </Container>
     </Page>
