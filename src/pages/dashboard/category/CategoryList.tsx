@@ -88,7 +88,6 @@ export default function CategoryList() {
 
   useEffect(() => {
     dispatch(searchCategory({ name: filterKeyword, pageIndex: page + 1, pageSize: rowsPerPage }));
-    console.log('USE')
   }, [dispatch, filterKeyword, page, rowsPerPage]);
 
   const handleDeleteRow = async (id: string) => {
