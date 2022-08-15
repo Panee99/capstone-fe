@@ -15,6 +15,7 @@ export type AppUser = {
   gender: string | null;
   isActive: boolean;
   inWarehouse: FetchModel | null;
+  userGroup: FetchModel | null;
 };
 
 export type AppUserState = BaseState<AppUser>;
@@ -49,7 +50,7 @@ export type UpdateAppUserSchema = {
 
 export type UpdateAppUserPermissionSchema = {
   id: string;
-  groupId?: FetchModel | null;
+  userGroup?: FetchModel | null;
 };
 
 export type DeleteAppUserSchema = {

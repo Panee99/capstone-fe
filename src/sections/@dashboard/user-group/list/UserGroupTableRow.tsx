@@ -50,17 +50,23 @@ export default function UserGroupTableRow({
 
       <TableCell align="left">{description}</TableCell>
 
-      <TableCell align="center">
-        {!canUpdate ? (
-          <Label
-            variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-            color={'info'}
-            sx={{ textTransform: 'capitalize' }}
-          >
-            Default
-          </Label>
-        ) : null}
-      </TableCell>
+        <TableCell align="center">
+            {canUpdate ? (
+                <Label
+                    variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+                    color={'success'}
+                    sx={{ textTransform: 'capitalize' }}
+                >
+                    Có
+                </Label>
+            ) : (<Label
+                variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+                color={'error'}
+                sx={{ textTransform: 'capitalize' }}
+            >
+                Không
+            </Label>)}
+        </TableCell>
 
       <TableCell align="right">
         <TableMoreMenu

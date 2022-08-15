@@ -89,7 +89,7 @@ export default function UserGroupAddEditForm({ isEdit, currentGroup, onSuccess }
         result = await dispatch(updateUserGroup(data));
       }
       unwrapResult(result);
-      enqueueSnackbar((isEdit ? 'Update' : 'Create') + ' group success!');
+      enqueueSnackbar((isEdit ? 'Cập nhật' : 'Tạo') + ' nhóm người dùng thành công!');
       if (onSuccess) {
         onSuccess();
       }

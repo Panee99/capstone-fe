@@ -64,7 +64,7 @@ import UserGroupAddEditForm from 'src/sections/@dashboard/user-group/form/UserGr
 const TABLE_HEAD = [
   { id: 'name', label: 'Tên', align: 'left' },
   { id: 'description', label: 'Mô tả', align: 'left' },
-  { id: 'canUpdate', label: 'Loại', align: 'center' },
+  { id: 'canUpdate', label: 'Có thể chỉnh sửa', align: 'center' },
   { id: '' },
 ];
 // ----------------------------------------------------------------------
@@ -148,7 +148,7 @@ export default function UserGroupList() {
       unwrapResult(result);
       search();
       setSelected([]);
-      enqueueSnackbar(`Deleted ${ids.length} rows success`);
+      enqueueSnackbar(`Xóa ${ids.length} dòng thành công`);
     } catch (error) {
       setError(error?.message || error || DEFAULT_ERROR);
     }

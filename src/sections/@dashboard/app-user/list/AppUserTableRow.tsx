@@ -27,7 +27,7 @@ export default function AppUserTableRow({
 }: Props) {
   const theme = useTheme();
 
-  const { id, username, email, firstName, lastName, phoneNumber, gender, isActive, inWarehouse } =
+  const { id, username, email, firstName, lastName, phoneNumber, gender, isActive, inWarehouse, userGroup } =
     row;
 
   const [openMenu, setOpenMenuActions] = useState<HTMLElement | null>(null);
@@ -79,6 +79,7 @@ export default function AppUserTableRow({
         </Label>
       </TableCell>
       <TableCell align="left">{inWarehouse?.name}</TableCell>
+        <TableCell align="left">{userGroup?.name}</TableCell>
 
       <TableCell align="right">
         <TableMoreMenu

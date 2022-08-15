@@ -32,7 +32,7 @@ export default function AppUserPermissionForm({ payload, onSuccess }: Props) {
   });
   const defaultValues = useMemo(
     () => ({
-      groupId: payload?.groupId || null,
+      userGroup: payload?.userGroup || null,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -77,7 +77,7 @@ export default function AppUserPermissionForm({ payload, onSuccess }: Props) {
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
         <NetworkAutocomplete
-          name="groupId"
+          name="userGroup"
           label="Nhóm người dùng"
           endpoint="/warehouse/group/fetch"
           sx={{ width: '100%' }}

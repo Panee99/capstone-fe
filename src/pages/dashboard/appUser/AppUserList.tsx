@@ -67,6 +67,7 @@ const TABLE_HEAD = [
   { id: 'gender', label: 'Giới tính', align: 'center' },
   { id: 'isActive', label: 'Trạng thái', align: 'center' },
   { id: 'inWarehouse', label: 'Kho', align: 'left' },
+  { id: 'userGroup', label: 'Nhóm người dùng', align: 'left' },
   { id: '' },
 ];
 
