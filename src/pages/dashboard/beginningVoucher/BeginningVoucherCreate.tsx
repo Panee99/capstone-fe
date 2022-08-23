@@ -9,14 +9,14 @@ export default function BeginningVoucherCreate() {
   const { themeStretch } = useSettings();
 
   return (
-    <Page title="Beginning Voucher: Create a new invoice">
+    <Page title="Tạo phiếu tồn kho đầu kỳ">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Create a new Beginning Voucher"
+          heading="Tạo phiếu tồn kho đầu kỳ"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Beginning Voucher', href: PATH_DASHBOARD.beginningVoucher.list },
-            { name: 'New Beginning Voucher' },
+            { name: 'Thống kê', href: PATH_DASHBOARD.root },
+            { name: 'Phiếu tồn kho đầu kỳ', href: PATH_DASHBOARD.beginningVoucher.list },
+            { name: 'Tạo phiếu' },
           ]}
         />
 

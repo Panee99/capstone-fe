@@ -100,7 +100,7 @@ export default function DeliveryRequestTableRow({
                 }}
               >
                 <Iconify icon={'eva:edit-fill'} />
-                View
+                Xem
               </MenuItem>
               <MenuItem
                 onClick={() => {
@@ -109,7 +109,7 @@ export default function DeliveryRequestTableRow({
                 }}
               >
                 <Iconify icon={'eva:edit-fill'} />
-                Edit
+                Chỉnh sửa
               </MenuItem>
               <MenuItem
                 onClick={() => {
@@ -117,7 +117,7 @@ export default function DeliveryRequestTableRow({
                 }}
               >
                 <Iconify icon={'eva:edit-fill'} />
-                Create voucher
+                Tạo phiếu
               </MenuItem>
               <MenuItem
                 onClick={() => {
@@ -127,7 +127,7 @@ export default function DeliveryRequestTableRow({
                 sx={{ color: 'error.main' }}
               >
                 <Iconify icon={'eva:trash-2-outline'} />
-                Delete
+                Xóa
               </MenuItem>
             </>
           }

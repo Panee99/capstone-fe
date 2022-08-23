@@ -35,14 +35,14 @@ export default function ReceiveVoucherRequestDetails() {
   }, [dispatch]);
 
   return (
-    <Page title="Receive Request: View">
+    <Page title="Chi tiết phiếu nhập kho">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Receive Request Details"
+          heading="Chi tiết phiếu nhập kho"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
+            { name: 'Thống kê', href: PATH_DASHBOARD.root },
             {
-              name: 'Receive Voucher Request',
+              name: 'Phiếu nhập kho',
               href: PATH_DASHBOARD.invoice.root,
             },
             { name: single?.code || '' },

@@ -81,7 +81,7 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
 
     try {
       await dispatch(updateProduct(data));
-      enqueueSnackbar('Update success!');
+      enqueueSnackbar('Chỉnh sửa sản phẩm thành công!');
       if (onSuccess) {
         onSuccess();
       }
@@ -114,8 +114,8 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
         <Typography>{payload.code}</Typography>
-        <RHFTextField name="name" label="Name" autoFocus />
-        <RHFTextField name="description" label="Description" />
+        <RHFTextField name="name" label="Tên" autoFocus />
+        <RHFTextField name="description" label="Mô tả" />
         <RHFTextField name="onHandMin" label="On Hand Min" type="number" />
         <RHFTextField name="onHandMax" label="On Hand Max" type="number" />
         <CategoryForm />
@@ -124,7 +124,7 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
       </Stack>
       <Stack alignItems="flex-end" sx={{ mt: 3 }}>
         <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-          Save Changes
+          Lưu thay đổi
         </LoadingButton>
       </Stack>
     </FormProvider>

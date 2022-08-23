@@ -25,7 +25,7 @@ export default function CategoryAddForm({ onSuccess }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const YupSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
+    name: Yup.string().required('Tên là trường bắt buộc'),
   });
 
   const defaultValues = useMemo(
@@ -55,7 +55,7 @@ export default function CategoryAddForm({ onSuccess }: Props) {
 
     try {
       await dispatch(createCategory(data));
-      enqueueSnackbar('Create Category success!');
+      enqueueSnackbar('Tạo loại sản phẩm thành công!');
       if (onSuccess) {
         onSuccess();
       }
@@ -70,12 +70,12 @@ export default function CategoryAddForm({ onSuccess }: Props) {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-        <RHFTextField name="name" label="Name" autoFocus />
-        <RHFTextField name="description" label="Description" />
+        <RHFTextField name="name" label="Tên" autoFocus />
+        <RHFTextField name="description" label="Mô tả" />
       </Stack>
       <Stack alignItems="flex-end" sx={{ mt: 3 }}>
         <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-          Create
+          Tạo
         </LoadingButton>
       </Stack>
     </FormProvider>

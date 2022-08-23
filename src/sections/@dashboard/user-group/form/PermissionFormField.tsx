@@ -59,12 +59,12 @@ export default function PermissionFormField({ name, ...other }: Props) {
     <Card sx={{ p: 3 }}>
         <Box display="flex" justifyContent="space-between" alignItems="center">
             <Typography sx={{ fontSize: 16 }} color="text.secondary">
-                Permission
+                Phân quyền
             </Typography>
             <TextField
                 value={filterKeyword}
                 onChange={(event) => onFilterKeyword(event.target.value)}
-                placeholder="Search keyword"
+                placeholder="Tìm từ khóa"
                 InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">

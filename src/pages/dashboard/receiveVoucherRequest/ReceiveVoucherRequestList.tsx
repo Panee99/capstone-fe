@@ -51,9 +51,9 @@ import { Link } from 'react-router-dom';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'code', label: 'Code', align: 'left' },
-  { id: 'warehouse', label: 'Warehouse', align: 'left' },
-  { id: 'reportingDate', label: 'Reporting Date', align: 'left' },
+  { id: 'code', label: 'Mã', align: 'left' },
+  { id: 'warehouse', label: 'Kho', align: 'left' },
+  { id: 'reportingDate', label: 'Ngày báo cáo', align: 'left' },
   { id: '' },
 ];
 
@@ -141,14 +141,14 @@ export default function ReceiveVoucherRequestList() {
   const isNotFound = !tableData.length && !!filterKeyword;
 
   return (
-    <Page title="ReceiveVoucherRequest: List">
+    <Page title="Danh sách phiếu nhập kho">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Receive Voucher Request List"
+          heading="Danh sách phiếu nhập kho"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Receive Voucher Request' },
-            { name: 'List' },
+            { name: 'Thống kê', href: PATH_DASHBOARD.root },
+            { name: 'Phiếu nhập kho' },
+            { name: 'Danh sách' },
           ]}
           action={
             <Button
@@ -157,7 +157,7 @@ export default function ReceiveVoucherRequestList() {
               component={Link}
               to={PATH_DASHBOARD.receiveVoucherRequest.new}
             >
-              New ReceiveVoucherRequest
+              Tạo phiếu nhập kho
             </Button>
           }
         />

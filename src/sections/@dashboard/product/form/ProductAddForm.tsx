@@ -81,7 +81,7 @@ export default function ProductAddForm({ onSuccess }: Props) {
 
     try {
       await dispatch(createProduct(data));
-      enqueueSnackbar('Create Product success!');
+      enqueueSnackbar('Tạo sản phẩm thành công!');
       if (onSuccess) {
         onSuccess();
       }
@@ -113,8 +113,8 @@ export default function ProductAddForm({ onSuccess }: Props) {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-        <RHFTextField name="name" label="Name" autoFocus />
-        <RHFTextField name="description" label="Description" />
+        <RHFTextField name="name" label="Tên" autoFocus />
+        <RHFTextField name="description" label="Mô tả" />
         <RHFTextField name="onHandMin" label="On Hand Min" type="number" />
         <RHFTextField name="onHandMax" label="On Hand Max" type="number" />
         <CategoryForm />
@@ -122,7 +122,7 @@ export default function ProductAddForm({ onSuccess }: Props) {
       </Stack>
       <Stack alignItems="flex-end" sx={{ mt: 3 }}>
         <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-          Create
+          Tạo
         </LoadingButton>
       </Stack>
     </FormProvider>

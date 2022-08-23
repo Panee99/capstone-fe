@@ -66,7 +66,7 @@ export default function BeginningVoucherTableRow({
                 }}
               >
                 <Iconify icon={'eva:edit-fill'} />
-                View
+                Xem
               </MenuItem>
               <MenuItem
                 onClick={() => {
@@ -75,7 +75,7 @@ export default function BeginningVoucherTableRow({
                 }}
               >
                 <Iconify icon={'eva:edit-fill'} />
-                Edit
+                Chỉnh sửa
               </MenuItem>
               <MenuItem
                 onClick={() => {
@@ -85,7 +85,7 @@ export default function BeginningVoucherTableRow({
                 sx={{ color: 'error.main' }}
               >
                 <Iconify icon={'eva:trash-2-outline'} />
-                Delete
+                Xóa
               </MenuItem>
             </>
           }

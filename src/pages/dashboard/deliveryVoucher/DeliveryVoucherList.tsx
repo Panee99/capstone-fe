@@ -37,10 +37,10 @@ import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
 const TABLE_HEAD = [
-  { id: 'code', label: 'Code', align: 'left' },
-  { id: 'warehouse', label: 'Warehouse', align: 'left' },
-  { id: 'reportingDate', label: 'Reporting Date', align: 'left' },
-  { id: 'status', label: 'Status', align: 'center' },
+  { id: 'code', label: 'Mã', align: 'left' },
+  { id: 'warehouse', label: 'Kho', align: 'left' },
+  { id: 'reportingDate', label: 'Ngày báo cáo', align: 'left' },
+  { id: 'status', label: 'Trạng thái', align: 'center' },
   { id: '' },
 ];
 
@@ -107,14 +107,14 @@ export default function DeliveryVoucherList() {
 
   const isNotFound = !tableData.length && !!filterKeyword;
   return (
-    <Page title="Delivery Request: List">
+    <Page title="Danh sách phiếu xuất kho">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Delivery Request List"
+          heading="Danh sách phiếu xuất kho"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Delivery Request' },
-            { name: 'List' },
+            { name: 'Thống kê', href: PATH_DASHBOARD.root },
+            { name: 'Phiếu xuất kho' },
+            { name: 'Danh sách' },
           ]}
         />
 
@@ -140,7 +140,7 @@ export default function DeliveryVoucherList() {
                     )
                   }
                   actions={
-                    <Tooltip title="Delete">
+                    <Tooltip title="Xóa">
                       <IconButton color="primary" onClick={() => handleDeleteRows(selected)}>
                         <Iconify icon={'eva:trash-2-outline'} />
                       </IconButton>

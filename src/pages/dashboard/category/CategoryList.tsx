@@ -30,7 +30,7 @@ import {
   TableNoData,
   TableEmptyRows,
   TableHeadCustom,
-  TableSelectedActions,
+  TableSelectedActions, TableSkeleton,
 } from '../../../components/table';
 import { useDispatch, useSelector } from 'src/redux/store';
 import useToggle from 'src/hooks/useToggle';
@@ -40,12 +40,13 @@ import { deleteCategory, getCategory, searchCategory } from 'src/redux/slices/ca
 import { CategoryTableRow, CategoryTableToolbar } from 'src/sections/@dashboard/category/list';
 import CategoryEditForm from 'src/sections/@dashboard/category/form/CategoryEditForm';
 import CategoryAddForm from 'src/sections/@dashboard/category/form/CategoryAddForm';
+import { AppUserTableRow } from "../../../sections/@dashboard/app-user/list";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', align: 'left' },
-  { id: 'description', label: 'Description', align: 'left' },
+  { id: 'name', label: 'Tên', align: 'left' },
+  { id: 'description', label: 'Mô tả', align: 'left' },
   { id: '' },
 ];
 
@@ -125,14 +126,14 @@ export default function CategoryList() {
   const isNotFound = !tableData.length && !!filterKeyword;
 
   return (
-    <Page title="Category: List">
+    <Page title="Danh sách loại sản phẩm">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Category List"
+          heading="Danh sách loại sản phẩm"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Category', href: PATH_DASHBOARD.category.root },
-            { name: 'List' },
+            { name: 'Thống kê', href: PATH_DASHBOARD.root },
+            { name: 'Loại sản phẩm', href: PATH_DASHBOARD.category.root },
+            { name: 'Danh sách' },
           ]}
           action={
             <Button
@@ -143,7 +144,7 @@ export default function CategoryList() {
                 setIsEdit(false);
               }}
             >
-              New Category
+              Thêm loại sản phẩm
             </Button>
           }
         />
@@ -170,7 +171,7 @@ export default function CategoryList() {
                     )
                   }
                   actions={
-                    <Tooltip title="Delete">
+                    <Tooltip title="Xóa">
                       <IconButton color="primary" onClick={() => handleDeleteRows(selected)}>
                         <Iconify icon={'eva:trash-2-outline'} />
                       </IconButton>
@@ -196,23 +197,20 @@ export default function CategoryList() {
                 />
 
                 <TableBody>
-                  {tableData
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => (
-                      <CategoryTableRow
-                        key={row.id}
-                        row={row}
-                        selected={selected.includes(row.id)}
-                        onSelectRow={() => onSelectRow(row.id)}
-                        onDeleteRow={() => handleDeleteRow(row.id)}
-                        onEditRow={() => handleEditRow(row.id)}
-                      />
-                    ))}
-
-                  <TableEmptyRows
-                    height={denseHeight}
-                    emptyRows={emptyRows(page, rowsPerPage, tableData.length)}
-                  />
+                  {(loading === 'SEARCH' ? [...Array(rowsPerPage)] : tableData).map((row, index) =>
+                      row ? (
+                          <CategoryTableRow
+                              key={row.id}
+                              row={row}
+                              selected={selected.includes(row.id)}
+                              onSelectRow={() => onSelectRow(row.id)}
+                              onDeleteRow={() => handleDeleteRow(row.id)}
+                              onEditRow={() => handleEditRow(row.id)}
+                          />
+                      ) : (
+                          !isNotFound && <TableSkeleton key={index} sx={{ height: denseHeight }} />
+                      )
+                  )}
 
                   <TableNoData isNotFound={isNotFound} />
                 </TableBody>
@@ -224,7 +222,7 @@ export default function CategoryList() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={tableData.length}
+              count={total}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={onChangePage}

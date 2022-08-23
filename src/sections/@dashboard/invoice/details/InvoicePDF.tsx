@@ -41,14 +41,14 @@ export default function InvoicePDF({ invoice }: Props) {
 
         <View style={[styles.gridContainer, styles.mb40]}>
           <View style={styles.col6}>
-            <Text style={[styles.overline, styles.mb8]}>Invoice from</Text>
+            <Text style={[styles.overline, styles.mb8]}>Hóa đơn từ</Text>
             <Text style={styles.body1}>{invoiceFrom.name}</Text>
             <Text style={styles.body1}>{invoiceFrom.address}</Text>
             <Text style={styles.body1}>{invoiceFrom.phone}</Text>
           </View>
 
           <View style={styles.col6}>
-            <Text style={[styles.overline, styles.mb8]}>Invoice to</Text>
+            <Text style={[styles.overline, styles.mb8]}>Hóa đơn đến</Text>
             <Text style={styles.body1}>{invoiceTo.name}</Text>
             <Text style={styles.body1}>{invoiceTo.address}</Text>
             <Text style={styles.body1}>{invoiceTo.phone}</Text>
@@ -57,16 +57,16 @@ export default function InvoicePDF({ invoice }: Props) {
 
         <View style={[styles.gridContainer, styles.mb40]}>
           <View style={styles.col6}>
-            <Text style={[styles.overline, styles.mb8]}>Date create</Text>
+            <Text style={[styles.overline, styles.mb8]}>Ngày tạo</Text>
             <Text style={styles.body1}>{fDate(createDate)}</Text>
           </View>
           <View style={styles.col6}>
-            <Text style={[styles.overline, styles.mb8]}>Due date</Text>
+            <Text style={[styles.overline, styles.mb8]}>Ngày đáo hạn</Text>
             <Text style={styles.body1}>{fDate(dueDate)}</Text>
           </View>
         </View>
 
-        <Text style={[styles.overline, styles.mb8]}>Invoice Details</Text>
+        <Text style={[styles.overline, styles.mb8]}>Chi tiết hóa đơn</Text>
 
         <View style={styles.table}>
           <View style={styles.tableHeader}>
@@ -76,19 +76,19 @@ export default function InvoicePDF({ invoice }: Props) {
               </View>
 
               <View style={styles.tableCell_2}>
-                <Text style={styles.subtitle2}>Description</Text>
+                <Text style={styles.subtitle2}>Mô tả</Text>
               </View>
 
               <View style={styles.tableCell_3}>
-                <Text style={styles.subtitle2}>Qty</Text>
+                <Text style={styles.subtitle2}>Số lượng</Text>
               </View>
 
               <View style={styles.tableCell_3}>
-                <Text style={styles.subtitle2}>Unit price</Text>
+                <Text style={styles.subtitle2}>Đơn vị tiền tệ</Text>
               </View>
 
               <View style={[styles.tableCell_3, styles.alignRight]}>
-                <Text style={styles.subtitle2}>Total</Text>
+                <Text style={styles.subtitle2}>Tổng giá trị</Text>
               </View>
             </View>
           </View>
@@ -124,7 +124,7 @@ export default function InvoicePDF({ invoice }: Props) {
               <View style={styles.tableCell_2} />
               <View style={styles.tableCell_3} />
               <View style={styles.tableCell_3}>
-                <Text>Subtotal</Text>
+                <Text>Tổng phụ</Text>
               </View>
               <View style={[styles.tableCell_3, styles.alignRight]}>
                 <Text>{fCurrency(subTotalPrice)}</Text>
@@ -136,7 +136,7 @@ export default function InvoicePDF({ invoice }: Props) {
               <View style={styles.tableCell_2} />
               <View style={styles.tableCell_3} />
               <View style={styles.tableCell_3}>
-                <Text>Discount</Text>
+                <Text>Giảm giá</Text>
               </View>
               <View style={[styles.tableCell_3, styles.alignRight]}>
                 <Text>{fCurrency(-discount)}</Text>
@@ -148,7 +148,7 @@ export default function InvoicePDF({ invoice }: Props) {
               <View style={styles.tableCell_2} />
               <View style={styles.tableCell_3} />
               <View style={styles.tableCell_3}>
-                <Text>Taxes</Text>
+                <Text>Thuế</Text>
               </View>
               <View style={[styles.tableCell_3, styles.alignRight]}>
                 <Text>{fCurrency(taxes)}</Text>

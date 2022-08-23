@@ -27,8 +27,8 @@ export default function WarehouseEditForm({ payload, onSuccess }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const YupSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    address: Yup.string().required('Address is required'),
+    name: Yup.string().required('Tên là trường bắt buộc'),
+    address: Yup.string().required('Địa chỉ là trường bắt buộc'),
   });
 
   const defaultValues = useMemo(
@@ -65,7 +65,7 @@ export default function WarehouseEditForm({ payload, onSuccess }: Props) {
 
     try {
       await dispatch(updateWarehouse(data));
-      enqueueSnackbar('Update success!');
+      enqueueSnackbar('Chỉnh sửa thành công!');
       if (onSuccess) {
         onSuccess();
       }
@@ -80,12 +80,12 @@ export default function WarehouseEditForm({ payload, onSuccess }: Props) {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-        <RHFTextField name="name" label="Name" />
-        <RHFTextField name="address" label="Address" />
+        <RHFTextField name="name" label="Tên" />
+        <RHFTextField name="address" label="Địa chỉ" />
       </Stack>
       <Stack alignItems="flex-end" sx={{ mt: 3 }}>
         <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-          Save Changes
+          Lưu thay đổi
         </LoadingButton>
       </Stack>
     </FormProvider>

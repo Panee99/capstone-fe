@@ -25,13 +25,13 @@ export default function ReceiveVoucherRequestEdit() {
   }, [dispatch]);
 
   return (
-    <Page title="Invoices: Edit">
+    <Page title="Chỉnh sửa phiếu nhập kho">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Edit ReceiveVoucherRequest Voucher"
+          heading="Chỉnh sửa phiếu nhập kho"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'ReceiveVoucherRequest Voucher', href: PATH_DASHBOARD.invoice.list },
+            { name: 'Thống kê', href: PATH_DASHBOARD.root },
+            { name: 'Phiếu nhập kho', href: PATH_DASHBOARD.invoice.list },
             { name: single?.code || '' },
           ]}
         />
@@ -40,7 +40,7 @@ export default function ReceiveVoucherRequestEdit() {
           (!!single ? (
             <ReceiveVoucherRequestNewEditForm isEdit currentVoucher={single!} />
           ) : (
-            <p>Not Found</p>
+            <p>Không thấy</p>
           ))}
       </Container>
     </Page>

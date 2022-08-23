@@ -45,12 +45,12 @@ export default function CustomerEditForm({ payload, onSuccess }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const YupSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    address: Yup.string().required('Address is required'),
+    name: Yup.string().required('Tên là trường bắt buộc'),
+    address: Yup.string().required('Địa chỉ là trường bắt buộc'),
     phone: Yup.string()
-      .matches(phoneRegExp, 'Phone number is not valid')
-      .required('Phone number is required'),
-    email: Yup.string().email().required('Email is required'),
+      .matches(phoneRegExp, 'Số điện thoại không hợp lệ')
+      .required('Số điện thoại là trường bắt buộc'),
+    email: Yup.string().email().required('Email là trường bắt buộc'),
     description: Yup.string(),
   });
 
@@ -91,7 +91,7 @@ export default function CustomerEditForm({ payload, onSuccess }: Props) {
 
     try {
       await dispatch(updateCustomer(data));
-      enqueueSnackbar('Update success!');
+      enqueueSnackbar('Cập nhật thông tin khách hàng thành công!');
       if (onSuccess) {
         onSuccess();
       }
@@ -106,15 +106,15 @@ export default function CustomerEditForm({ payload, onSuccess }: Props) {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-        <RHFTextField name="name" label="Name" autoFocus />
+        <RHFTextField name="name" label="Tên" autoFocus />
         <RHFTextField name="email" label="Email" />
-        <RHFTextField name="phone" label="Phone" />
-        <RHFTextField name="address" label="Address" />
-        <RHFTextField name="description" label="Description" />
+        <RHFTextField name="phone" label="Số điện thoại" />
+        <RHFTextField name="address" label="Địa chỉ" />
+        <RHFTextField name="description" label="Mô tả" />
       </Stack>
       <Stack alignItems="flex-end" sx={{ mt: 3 }}>
         <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-          Save Changes
+          Lưu thay đổi
         </LoadingButton>
       </Stack>
     </FormProvider>

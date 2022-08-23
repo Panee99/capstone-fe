@@ -41,13 +41,13 @@ export default function AppUserAddForm({ onSuccess }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const YupSchema = Yup.object().shape({
-    username: Yup.string().required('Username is required'),
-    email: Yup.string().email().required('Email is required'),
-    firstName: Yup.string().required('First name is required'),
-    lastName: Yup.string().required('First name is required'),
+    username: Yup.string().required('Tên tài khoản là trường bắt buộc'),
+    email: Yup.string().email().required('Email là trường bắt buộc'),
+    firstName: Yup.string().required('Họ là trường bắt buộc'),
+    lastName: Yup.string().required('Tên là trường bắt buộc'),
     phoneNumber: Yup.string()
-      .matches(phoneRegExp, 'Phone number is not valid')
-      .required('Phone number is required'),
+      .matches(phoneRegExp, 'Số điện thoại không khả dụng')
+      .required('Số điện thoại là trường bắt buộc'),
   });
 
   const defaultValues = useMemo(
@@ -83,7 +83,7 @@ export default function AppUserAddForm({ onSuccess }: Props) {
     try {
       const result = await dispatch(createAppUser(data));
       unwrapResult(result);
-      enqueueSnackbar('Create user success!');
+      enqueueSnackbar('Tạo người dùng thành công!');
       if (onSuccess) {
         onSuccess();
       }
@@ -96,11 +96,11 @@ export default function AppUserAddForm({ onSuccess }: Props) {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
-        <RHFTextField name="username" label="Username" autoFocus />
+        <RHFTextField name="username" label="Tên tài khoản" autoFocus />
         <RHFTextField name="email" label="Email" />
-        <RHFTextField name="firstName" label="firstName" />
-        <RHFTextField name="lastName" label="lastName" />
-        <RHFTextField name="phoneNumber" label="phoneNumber" />
+        <RHFTextField name="firstName" label="Họ" />
+        <RHFTextField name="lastName" label="Tên" />
+        <RHFTextField name="phoneNumber" label="Số điện thoại" />
         <RHFRadioGroup
           name="gender"
           options={GENDER_OPTION}
@@ -110,14 +110,14 @@ export default function AppUserAddForm({ onSuccess }: Props) {
         />
         <NetworkAutocomplete
           name="inWarehouse"
-          label="Warehouse"
+          label="Kho"
           endpoint="/warehouse/fetch"
           sx={{ width: '100%' }}
         />
       </Stack>
       <Stack alignItems="flex-end" sx={{ mt: 3 }}>
         <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-          Create
+          Tạo
         </LoadingButton>
       </Stack>
     </FormProvider>

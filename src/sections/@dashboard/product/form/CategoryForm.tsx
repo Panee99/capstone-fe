@@ -18,7 +18,7 @@ export default function CategoryForm() {
                 <RHFFetch
                     key={item.id}
                     name={`categories[${index}]`}
-                    label="Category"
+                    label="Loại sản phẩm"
                     size="medium"
                     endpoint="/category/fetch"
                     sx={{ width: '450' }}

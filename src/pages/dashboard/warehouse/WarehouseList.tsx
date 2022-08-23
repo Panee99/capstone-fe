@@ -44,8 +44,8 @@ import WarehouseAddForm from 'src/sections/@dashboard/warehouse/form/WarehouseAd
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', align: 'left' },
-  { id: 'address', label: 'Address', align: 'left' },
+  { id: 'name', label: 'Tên', align: 'left' },
+  { id: 'address', label: 'Địa Chỉ', align: 'left' },
   { id: '' },
 ];
 
@@ -127,14 +127,14 @@ export default function WarehouseList() {
   const isNotFound = !tableData.length && !!filterKeyword;
 
   return (
-    <Page title="Warehouse: List">
+    <Page title="Danh sách kho">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Warehouse List"
+          heading="Danh sách kho"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Warehouse', href: PATH_DASHBOARD.warehouse.root },
-            { name: 'List' },
+            { name: 'Thống kê', href: PATH_DASHBOARD.root },
+            { name: 'Kho', href: PATH_DASHBOARD.warehouse.root },
+            { name: 'Danh sách' },
           ]}
           action={
             <Button
@@ -145,7 +145,7 @@ export default function WarehouseList() {
                 setIsEdit(false);
               }}
             >
-              New Warehouse
+              Thêm kho
             </Button>
           }
         />
@@ -172,7 +172,7 @@ export default function WarehouseList() {
                     )
                   }
                   actions={
-                    <Tooltip title="Delete">
+                    <Tooltip title="Xóa">
                       <IconButton color="primary" onClick={() => handleDeleteRows(selected)}>
                         <Iconify icon={'eva:trash-2-outline'} />
                       </IconButton>

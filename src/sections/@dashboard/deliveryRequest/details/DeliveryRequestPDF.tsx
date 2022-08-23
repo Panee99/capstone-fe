@@ -14,29 +14,29 @@ export default function DeliveryRequestPDF({ payload }: Props) {
       <Page size="A4" style={styles.page}>
         <View style={[styles.gridContainer, styles.mb40]}>
           <View style={styles.col6}>
-            <Text style={[styles.overline, styles.mb8]}>Code</Text>
+            <Text style={[styles.overline, styles.mb8]}>Mã</Text>
             <Text style={styles.body1}>{code}</Text>
           </View>
 
           <View style={styles.col6}>
-            <Text style={[styles.overline, styles.mb8]}>Reporting Date</Text>
+            <Text style={[styles.overline, styles.mb8]}>Ngày báo cáo</Text>
             <Text style={styles.body1}>{reportingDate}</Text>
           </View>
         </View>
 
         <View style={[styles.gridContainer, styles.mb40]}>
           <View style={styles.col6}>
-            <Text style={[styles.overline, styles.mb8]}>Warehouse</Text>
+            <Text style={[styles.overline, styles.mb8]}>Kho</Text>
             <Text style={styles.body1}>{warehouse.name}</Text>
           </View>
 
           <View style={styles.col6}>
-            <Text style={[styles.overline, styles.mb8]}>Description</Text>
+            <Text style={[styles.overline, styles.mb8]}>Mô tả</Text>
             <Text style={styles.body1}>{description}</Text>
           </View>
         </View>
 
-        <Text style={[styles.overline, styles.mb8]}>Beginning Voucher Details</Text>
+        <Text style={[styles.overline, styles.mb8]}>Chi tiết phiếu tồn kho đầu kỳ</Text>
 
         <View style={styles.table}>
           <View style={styles.tableHeader}>
@@ -46,11 +46,11 @@ export default function DeliveryRequestPDF({ payload }: Props) {
               </View>
 
               <View style={styles.tableCell_2}>
-                <Text style={styles.subtitle2}>Product</Text>
+                <Text style={styles.subtitle2}>Sản phẩm</Text>
               </View>
 
               <View style={styles.tableCell_3}>
-                <Text style={styles.subtitle2}>Qty</Text>
+                <Text style={styles.subtitle2}>Số lượng</Text>
               </View>
             </View>
           </View>

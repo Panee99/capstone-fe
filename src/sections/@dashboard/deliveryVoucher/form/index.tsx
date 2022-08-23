@@ -48,12 +48,12 @@ export default function DeliveryVoucherNewEditForm({ currentVoucher, isEdit }: P
   const { enqueueSnackbar } = useSnackbar();
 
   const NewVoucherSchema = Yup.object().shape({
-    reportingDate: Yup.date().required('Reporting Date is required'),
-    customer: Yup.object().required('Customer is required').nullable(),
+    reportingDate: Yup.date().required('Ngày báo cáo là trường bắt buộc'),
+    customer: Yup.object().required('Khách hàng là trường bắt buộc').nullable(),
     details: Yup.array().of(
       Yup.object().shape({
-        product: Yup.object().required('Proudct is required').nullable(),
-        quantity: Yup.number().min(1, 'Min 1'),
+        product: Yup.object().required('Sản phẩm là trường bắt buộc').nullable(),
+        quantity: Yup.number().min(1, 'Tối thiểu 1'),
       })
     ),
   });
@@ -135,7 +135,7 @@ export default function DeliveryVoucherNewEditForm({ currentVoucher, isEdit }: P
         result = await dispatch(updateDeliveryVoucher(newVoucher));
       }
       unwrapResult(result);
-      enqueueSnackbar((isEdit ? 'Update' : 'Create') + ' voucher success!');
+      enqueueSnackbar((isEdit ? 'Cập nhật' : 'Tạo') + ' phiếu thành công!');
       if (!isEdit) {
         navigate(PATH_DASHBOARD.deliveryVoucher.list);
       } else {
@@ -162,7 +162,7 @@ export default function DeliveryVoucherNewEditForm({ currentVoucher, isEdit }: P
           loading={isSubmitting}
           onClick={handleSubmit(onSubmit)}
         >
-          {isEdit ? 'Update' : 'Create'} Voucher
+          {isEdit ? 'Cập nhật' : 'Tạo'} phiếu
         </LoadingButton>
       </Stack>
     </FormProvider>

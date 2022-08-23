@@ -32,7 +32,7 @@ export default function AppUserPermissionForm({ payload, onSuccess }: Props) {
   });
   const defaultValues = useMemo(
     () => ({
-      groupId: null,
+      userGroup: payload?.userGroup || null,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -63,7 +63,7 @@ export default function AppUserPermissionForm({ payload, onSuccess }: Props) {
     try {
       const result = await dispatch(updatePermission(data));
       unwrapResult(result);
-      enqueueSnackbar('Update Successfully');
+      enqueueSnackbar('Cập nhật quyền thành công');
       if (onSuccess) {
         onSuccess();
       }
@@ -77,15 +77,15 @@ export default function AppUserPermissionForm({ payload, onSuccess }: Props) {
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
         <NetworkAutocomplete
-          name="groupId"
-          label="UserGroup"
+          name="userGroup"
+          label="Nhóm người dùng"
           endpoint="/warehouse/group/fetch"
           sx={{ width: '100%' }}
         />
       </Stack>
       <Stack alignItems="flex-end" sx={{ mt: 3 }}>
         <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-          Save Changes
+          Lưu thay đổi
         </LoadingButton>
       </Stack>
     </FormProvider>

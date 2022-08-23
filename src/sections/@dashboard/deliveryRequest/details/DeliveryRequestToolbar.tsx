@@ -41,13 +41,13 @@ export default function DeliveryRequestToolbar({ payload }: Props) {
         sx={{ mb: 5 }}
       >
         <Stack direction="row" spacing={1}>
-          <Tooltip title="Edit">
+          <Tooltip title="Chỉnh sửa">
             <IconButton onClick={handleEdit}>
               <Iconify icon={'eva:edit-fill'} />
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="View">
+          <Tooltip title="Xem">
             <IconButton onClick={onOpen}>
               <Iconify icon={'eva:printer-fill'} />
             </IconButton>
@@ -91,7 +91,7 @@ export default function DeliveryRequestToolbar({ payload }: Props) {
               boxShadow: (theme) => theme.customShadows.z8,
             }}
           >
-            <Tooltip title="Close">
+            <Tooltip title="Đóng">
               <IconButton color="inherit" onClick={onClose}>
                 <Iconify icon={'eva:close-fill'} />
               </IconButton>

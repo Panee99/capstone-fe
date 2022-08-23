@@ -46,28 +46,28 @@ export default function BeginningVoucherDetails({ payload }: Props) {
         <Grid container>
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
             <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-              Code
+              Mã
             </Typography>
             <Typography variant="body2">{code}</Typography>
           </Grid>
 
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
             <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-              Reporting Date
+              Ngày báo cáo
             </Typography>
             <Typography variant="body2">{reportingDate}</Typography>
           </Grid>
 
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
             <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-              Warehouse
+              Kho
             </Typography>
             <Typography variant="body2">{warehouse.name}</Typography>
           </Grid>
 
           <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
             <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-              Description
+              Mô tả
             </Typography>
             <Typography variant="body2">{description}</Typography>
           </Grid>
@@ -84,8 +84,8 @@ export default function BeginningVoucherDetails({ payload }: Props) {
               >
                 <TableRow>
                   <TableCell width={40}>#</TableCell>
-                  <TableCell align="left">Product</TableCell>
-                  <TableCell align="right">Qty</TableCell>
+                  <TableCell align="left">Sản phẩm</TableCell>
+                  <TableCell align="right">Số lượng</TableCell>
                 </TableRow>
               </TableHead>
 

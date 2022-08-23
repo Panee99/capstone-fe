@@ -50,17 +50,23 @@ export default function UserGroupTableRow({
 
       <TableCell align="left">{description}</TableCell>
 
-      <TableCell align="center">
-        {!canUpdate ? (
-          <Label
-            variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-            color={'info'}
-            sx={{ textTransform: 'capitalize' }}
-          >
-            Default
-          </Label>
-        ) : null}
-      </TableCell>
+        <TableCell align="center">
+            {canUpdate ? (
+                <Label
+                    variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+                    color={'success'}
+                    sx={{ textTransform: 'capitalize' }}
+                >
+                    Có
+                </Label>
+            ) : (<Label
+                variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+                color={'error'}
+                sx={{ textTransform: 'capitalize' }}
+            >
+                Không
+            </Label>)}
+        </TableCell>
 
       <TableCell align="right">
         <TableMoreMenu
@@ -76,7 +82,7 @@ export default function UserGroupTableRow({
                 }}
               >
                 <Iconify icon={'eva:edit-fill'} />
-                Edit
+                Chỉnh sửa
               </MenuItem>
               <MenuItem
                 onClick={() => {
@@ -86,7 +92,7 @@ export default function UserGroupTableRow({
                 sx={{ color: 'error.main' }}
               >
                 <Iconify icon={'eva:trash-2-outline'} />
-                Delete
+                Xóa
               </MenuItem>
             </>
           }

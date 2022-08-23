@@ -36,14 +36,14 @@ export default function DeliveryRequestDetails() {
   console.log(single);
 
   return (
-    <Page title="Beginning Voucher: View">
+    <Page title="Chi tiết phiếu tồn kho đầu kỳ">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Beginning Details"
+          heading="Chi tiết phiếu tồn kho đầu kỳ"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
+            { name: 'Thống kê', href: PATH_DASHBOARD.root },
             {
-              name: 'Beginning Voucher',
+              name: 'Phiếu tồn kho đầu kỳ',
               href: PATH_DASHBOARD.invoice.root,
             },
             { name: single?.code || '' },

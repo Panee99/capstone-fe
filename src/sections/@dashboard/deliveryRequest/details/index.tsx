@@ -84,8 +84,8 @@ export default function DeliveryRequestDetails({ payload }: Props) {
               >
                 <TableRow>
                   <TableCell width={40}>#</TableCell>
-                  <TableCell align="left">Product</TableCell>
-                  <TableCell align="right">Qty</TableCell>
+                  <TableCell align="left">Sản phẩm</TableCell>
+                  <TableCell align="right">Số lượng</TableCell>
                 </TableRow>
               </TableHead>
 
@@ -107,7 +107,7 @@ export default function DeliveryRequestDetails({ payload }: Props) {
                 <RowResultStyle>
                   <TableCell colSpan={3} />
                   <TableCell align="right">
-                    <Typography variant="h6">Total</Typography>
+                    <Typography variant="h6">Tổng số lượng</Typography>
                   </TableCell>
                   <TableCell align="right" width={140}>
                     <Typography variant="h6">{totalQuantity > 0 ? totalQuantity : 0}</Typography>

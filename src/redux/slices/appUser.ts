@@ -55,7 +55,7 @@ export const updateAppUser = createAsyncThunk<void, UpdateAppUserSchema>(
 export const updatePermission = createAsyncThunk<void, UpdateAppUserPermissionSchema>(
   '/userGroup',
   async (params) => {
-    await axios.put('/user/set-user-group', { userId: params.id, groupId: params.groupId?.id });
+    await axios.put('/user/set-user-group', { userId: params.id, groupId: params.userGroup?.id });
   }
 );
 

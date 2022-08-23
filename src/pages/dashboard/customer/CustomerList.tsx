@@ -43,12 +43,12 @@ import { CustomerTableRow, CustomerTableToolbar } from 'src/sections/@dashboard/
 import { deleteCustomer, getCustomer, searchCustomer } from 'src/redux/slices/customer';
 
 const TABLE_HEAD = [
-  { id: 'code', label: 'Code', align: 'left' },
-  { id: 'name', label: 'Name', align: 'left' },
+  { id: 'code', label: 'Mã', align: 'left' },
+  { id: 'name', label: 'Tên', align: 'left' },
   { id: 'email', label: 'Email', align: 'center' },
-  { id: 'address', label: 'Address', align: 'left' },
-  { id: 'phone', label: 'Phone', align: 'left' },
-  { id: 'description', label: 'Description', align: 'center' },
+  { id: 'address', label: 'Địa chỉ', align: 'left' },
+  { id: 'phone', label: 'Số điện thoại', align: 'left' },
+  { id: 'description', label: 'Mô tả', align: 'center' },
   { id: '' },
 ];
 
@@ -128,14 +128,14 @@ export default function CustomerList() {
   const isNotFound = !tableData.length && !!filterKeyword;
 
   return (
-    <Page title="Customer: List">
+    <Page title="Danh sách khách hàng">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Customer List"
+          heading="Danh sách khách hàng"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'Customer', href: PATH_DASHBOARD.customer.root },
-            { name: 'List' },
+            { name: 'Thống kê', href: PATH_DASHBOARD.root },
+            { name: 'Khách hàng', href: PATH_DASHBOARD.customer.root },
+            { name: 'Danh sách' },
           ]}
           action={
             <Button
@@ -146,7 +146,7 @@ export default function CustomerList() {
                 setIsEdit(false);
               }}
             >
-              New Customer
+              Thêm khách hàng
             </Button>
           }
         />
@@ -173,7 +173,7 @@ export default function CustomerList() {
                     )
                   }
                   actions={
-                    <Tooltip title="Delete">
+                    <Tooltip title="Xóa">
                       <IconButton color="primary" onClick={() => handleDeleteRows(selected)}>
                         <Iconify icon={'eva:trash-2-outline'} />
                       </IconButton>

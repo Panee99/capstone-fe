@@ -30,7 +30,7 @@ const ICONS = {
   speaker: <Iconify icon="bi:speaker-fill" />,
   category: <Iconify icon={'icon-park-solid:category-management'} />,
   userGroup: <Iconify icon={'akar-icons:people-group'} />,
-  beginningVoucher: <Iconify icon={'ep:ticket'} />,
+  voucher: <Iconify icon={'ep:ticket'} />,
 };
 
 const navConfig = [
@@ -142,24 +142,24 @@ const navConfig = [
     subheader: 'Voucher',
     items: [
       {
-        title: 'Beginning Voucher',
+        title: 'beginning_voucher',
         path: PATH_DASHBOARD.beginningVoucher.list,
-        icon: ICONS.beginningVoucher,
+        icon: ICONS.voucher,
       },
       {
-        title: 'Receive Voucher Request',
+        title: 'receive_voucher_request',
         path: PATH_DASHBOARD.receiveVoucherRequest.list,
-        icon: ICONS.speaker,
+        icon: ICONS.voucher,
       },
       {
-        title: 'Delivery Request',
+        title: 'delivery_request',
         path: PATH_DASHBOARD.deliveryRequest.list,
-        icon: ICONS.speaker,
+        icon: ICONS.voucher,
       },
       {
-        title: 'Delivery Voucher',
+        title: 'delivery_voucher',
         path: PATH_DASHBOARD.deliveryVoucher.list,
-        icon: ICONS.speaker,
+        icon: ICONS.voucher,
         // permission: 'asdasd',
       },
     ],

@@ -35,7 +35,7 @@ export default function GeneralApp() {
   const { themeStretch } = useSettings();
 
   return (
-    <Page title="General: App">
+    <Page title="Thống kê">
       <Container maxWidth={themeStretch ? false : 'xl'}>
         <Grid container spacing={3}>
           {/* <Grid item xs={12} md={8}>
@@ -76,16 +76,6 @@ export default function GeneralApp() {
               total={4876}
               chartColor={theme.palette.chart.blue[0]}
               chartData={[20, 41, 63, 33, 28, 35, 50, 46, 11, 26]}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={4}>
-            <AppWidgetSummary
-              title="Total Voucher"
-              percent={-0.1}
-              total={678}
-              chartColor={theme.palette.chart.red[0]}
-              chartData={[8, 9, 31, 8, 16, 37, 8, 33, 46, 31]}
             />
           </Grid>
 
@@ -133,6 +123,26 @@ export default function GeneralApp() {
 
           <Grid item xs={12} lg={8}>
             <AppSumProduct title="Product" />
+          </Grid>
+
+          <Grid item xs={4} md={4}>
+            <AppWidgetSummary
+                title="Total Voucher"
+                percent={-0.1}
+                total={678}
+                chartColor={theme.palette.chart.red[0]}
+                chartData={[8, 9, 31, 8, 16, 37, 8, 33, 46, 31]}
+            />
+          </Grid>
+
+          <Grid item xs={4} md={4}>
+            <AppWidgetSummary
+                title="Total User"
+                percent={-0.1}
+                total={678}
+                chartColor={theme.palette.chart.red[0]}
+                chartData={[8, 9, 31, 8, 16, 37, 8, 33, 46, 31]}
+            />
           </Grid>
 
           {/* <Grid item xs={12} md={6} lg={4}>

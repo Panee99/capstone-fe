@@ -15,7 +15,7 @@ export default function BeginningVoucherTableToolbar({ filterKeyword, onFilterKe
       <TextField
         value={filterKeyword}
         onChange={(event) => onFilterKeyword(event.target.value)}
-        placeholder="Search keyword"
+        placeholder="Tìm từ khóa"
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
