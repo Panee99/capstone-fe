@@ -74,7 +74,7 @@ export default function Router() {
             {
               path: 'list',
               element: (
-                <PermissionBasedGuard hasContent permission="Permission.System.Master">
+                <PermissionBasedGuard hasContent>
                   <AppUserList />
                 </PermissionBasedGuard>
               ),
@@ -95,7 +95,16 @@ export default function Router() {
         },
         {
           path: 'product',
-          children: [{ path: 'list', element: <ProductList /> }],
+          children: [
+            {
+              path: 'list',
+              element: (
+                <PermissionBasedGuard hasContent>
+                  <ProductList />
+                </PermissionBasedGuard>
+              ),
+            },
+          ],
         },
         {
           path: 'user-group',
