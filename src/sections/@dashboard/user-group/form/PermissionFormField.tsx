@@ -1,5 +1,5 @@
-import { useFormContext, Controller } from 'react-hook-form';
-import { Card, InputAdornment, InputLabel, Stack, TextField, TextFieldProps } from '@mui/material';
+import { Controller, useFormContext } from 'react-hook-form';
+import { Box, Card, InputAdornment, TextField, TextFieldProps, Typography } from '@mui/material';
 import { RHFMultiCheckbox } from 'src/components/hook-form';
 import { useEffect, useState } from 'react';
 import { dispatch } from 'src/redux/store';
@@ -7,7 +7,6 @@ import { getListPermission } from 'src/redux/slices/userGroup';
 import { unwrapResult } from '@reduxjs/toolkit';
 import Iconify from 'src/components/Iconify';
 import Scrollbar from 'src/components/Scrollbar';
-import Label from 'src/components/Label';
 
 type IProps = {
   name: string;
@@ -58,23 +57,28 @@ export default function PermissionFormField({ name, ...other }: Props) {
 
   return (
     <Card sx={{ p: 3 }}>
-      <InputLabel>Permissions</InputLabel>
-      <TextField
-        value={filterKeyword}
-        onChange={(event) => onFilterKeyword(event.target.value)}
-        placeholder="Search keyword"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Iconify
-                icon={'eva:search-fill'}
-                sx={{ color: 'text.disabled', width: 20, height: 20 }}
-              />
-            </InputAdornment>
-          ),
-        }}
-        size="small"
-      />
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Typography sx={{ fontSize: 16 }} color="text.secondary">
+                Permission
+            </Typography>
+            <TextField
+                value={filterKeyword}
+                onChange={(event) => onFilterKeyword(event.target.value)}
+                placeholder="Search keyword"
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <Iconify
+                                icon={'eva:search-fill'}
+                                sx={{ color: 'text.disabled', width: 25, height: 25 }}
+                            />
+                        </InputAdornment>
+                    ),
+                }}
+                size="small"
+            />
+        </Box>
+
       <Scrollbar sx={{ height: 400, mt: 3 }}>
         <Controller
           name={name}

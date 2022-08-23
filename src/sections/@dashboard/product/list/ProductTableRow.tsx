@@ -8,7 +8,6 @@ type Props = {
   row: Product;
   selected: boolean;
   onEditRow: Function;
-  onEditCategory: Function;
   onSelectRow: VoidFunction;
   onDeleteRow: Function;
 };
@@ -17,11 +16,10 @@ export default function ProductTableRow({
   row,
   selected,
   onEditRow,
-  onEditCategory,
   onSelectRow,
   onDeleteRow,
 }: Props) {
-  const { id, code, name, description, onHandMin, onHandMax } = row;
+  const { id, code, name, description, onHandMin, onHandMax, categories } = row;
 
   const [openMenu, setOpenMenuActions] = useState<HTMLElement | null>(null);
 
@@ -49,7 +47,9 @@ export default function ProductTableRow({
 
       <TableCell align="center">{onHandMax}</TableCell>
 
-      <TableCell align="right">
+      <TableCell align="center">{categories.map(category => category.name)}</TableCell>
+
+        <TableCell align="right">
         <TableMoreMenu
           open={openMenu}
           onOpen={handleOpenMenu}
@@ -64,15 +64,6 @@ export default function ProductTableRow({
               >
                 <Iconify icon={'eva:edit-fill'} />
                 Edit
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  onEditCategory(id);
-                  handleCloseMenu();
-                }}
-              >
-                <Iconify icon={'eva:archive-fill'} />
-                Category
               </MenuItem>
               <MenuItem
                 onClick={() => {

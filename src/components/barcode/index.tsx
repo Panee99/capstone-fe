@@ -3,7 +3,7 @@ import bwipjs from 'bwip-js';
 
 interface Props {
   value: string;
-  style: React.CSSProperties | undefined;
+  style?: React.CSSProperties | undefined;
 }
 export default function Barcode({ value, style }: Props) {
   const id = 'barcode-' + value;
@@ -11,7 +11,7 @@ export default function Barcode({ value, style }: Props) {
     let barcode = bwipjs.toCanvas(id, {
       bcid: 'code93',
       text: value,
-      scale: 3,
+      scale: 2,
       height: 10,
       includetext: true,
       textxalign: 'center',

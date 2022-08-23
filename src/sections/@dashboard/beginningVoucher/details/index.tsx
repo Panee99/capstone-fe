@@ -1,8 +1,7 @@
 import {
-  Box,
   Card,
-  Divider,
   Grid,
+  Input,
   styled,
   Table,
   TableBody,
@@ -15,8 +14,6 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { BeginningVoucher } from 'src/@types/vouchers/beginningVoucher';
-import Image from 'src/components/Image';
-import Label from 'src/components/Label';
 import Scrollbar from 'src/components/Scrollbar';
 import BeginningVoucherToolbar from './BeginningVoucherToolbar';
 
@@ -33,6 +30,7 @@ const RowResultStyle = styled(TableRow)(({ theme }) => ({
 
 export default function BeginningVoucherDetails({ payload }: Props) {
   const theme = useTheme();
+  let totalQuantity = 0;
 
   if (!payload) {
     return null;
@@ -102,6 +100,7 @@ export default function BeginningVoucherDetails({ payload }: Props) {
                     <TableCell>{index + 1}</TableCell>
                     <TableCell align="left">{row.product.name}</TableCell>
                     <TableCell align="right">{row.quantity}</TableCell>
+                    <Input type="hidden" value={totalQuantity += row.quantity} />
                   </TableRow>
                 ))}
 
@@ -111,7 +110,7 @@ export default function BeginningVoucherDetails({ payload }: Props) {
                     <Typography variant="h6">Total</Typography>
                   </TableCell>
                   <TableCell align="right" width={140}>
-                    <Typography variant="h6">Test</Typography>
+                    <Typography variant="h6">{totalQuantity > 0 ? totalQuantity : 0}</Typography>
                   </TableCell>
                 </RowResultStyle>
               </TableBody>
