@@ -1,17 +1,17 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useSnackbar } from 'notistack';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FormProvider, RHFTextField } from '../../../../components/hook-form';
+import { FormProvider, RHFTextField, RHFUploadAvatar } from '../../../../components/hook-form';
 import { LoadingButton } from '@mui/lab';
 import { Alert, Stack, Typography } from '@mui/material';
 import { useDispatch } from '../../../../redux/store';
 import { UpdateProductSchema } from 'src/@types/product';
 import { searchProduct, updateProduct } from 'src/redux/slices/product';
 import { debugError } from 'src/utils/foundation';
-import CategoryForm from "./CategoryForm";
-import category from "../../../../redux/slices/category";
+import CategoryForm from './CategoryForm';
+import category from '../../../../redux/slices/category';
 import Barcode from 'src/components/barcode';
 
 type FormValuesProps = UpdateProductSchema & {
@@ -45,6 +45,7 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
       onHandMin: payload.onHandMin || 0,
       onHandMax: payload.onHandMax || 0,
       categories: payload.categories?.length === 0 ? [{ id: '', name: '' }] : payload.categories,
+      image: payload.image || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [payload]
@@ -60,6 +61,7 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
     watch,
     handleSubmit,
     setError,
+    setValue,
     formState: { isSubmitting, errors },
   } = methods;
 
@@ -90,6 +92,23 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
     }
   };
 
+  const handleDrop = useCallback(
+    (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      console.log(file);
+
+      if (file) {
+        setValue(
+          'image',
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        );
+      }
+    },
+    [setValue]
+  );
+
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3} sx={{ width: { sm: '100%', md: '100%' } }}>
@@ -101,6 +120,7 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
         <RHFTextField name="onHandMax" label="On Hand Max" type="number" />
         <CategoryForm />
         <Barcode value={payload.code} style={{ width: 200, margin: '30px auto' }} />
+        <RHFUploadAvatar name="image" accept="image/*" maxSize={3145728} onDrop={handleDrop} />
       </Stack>
       <Stack alignItems="flex-end" sx={{ mt: 3 }}>
         <LoadingButton type="submit" variant="contained" loading={isSubmitting}>

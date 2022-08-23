@@ -10,8 +10,9 @@ export type Product = {
   isActive: boolean;
   categories: {
     id: string;
-    name?: string
+    name?: string;
   }[];
+  image: string;
 };
 
 export type ProductState = BaseState<Product>;
@@ -29,10 +30,8 @@ export type CreateProductSchema = {
   description: string;
   onHandMin: number;
   onHandMax: number;
-  categories: {
-    id: string;
-    name?: string
-  }[];
+  categories: string[];
+  image: string;
 };
 
 export type UpdateProductSchema = {
@@ -45,8 +44,9 @@ export type UpdateProductSchema = {
   isActive: boolean;
   categories: {
     id: string;
-    name?: string
+    name?: string;
   }[];
+  image: string;
 };
 
 export type DeleteProductSchema = {
@@ -55,5 +55,5 @@ export type DeleteProductSchema = {
 
 export type Category = {
   id: string;
-  name?: string
+  name?: string;
 };

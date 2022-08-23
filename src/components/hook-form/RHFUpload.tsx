@@ -25,6 +25,8 @@ export function RHFUploadAvatar({ name, ...other }: Props) {
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => {
+        console.log(`1: ${field.value}`);
+
         const checkError = !!error && !field.value;
 
         return (
