@@ -91,8 +91,8 @@ export default function ProductAddForm({ onSuccess }: Props) {
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
         <RHFTextField name="name" label="Tên" autoFocus />
         <RHFTextField name="description" label="Mô tả" />
-        <RHFTextField name="onHandMin" label="On Hand Min" type="number" />
-        <RHFTextField name="onHandMax" label="On Hand Max" type="number" />
+        <RHFTextField name="onHandMin" label="Tồn kho tô thiểu" type="number" />
+        <RHFTextField name="onHandMax" label="Tồn kho tối đa" type="number" />
         <CategoryForm />
       </Stack>
       <Stack alignItems="flex-end" sx={{ mt: 3 }}>

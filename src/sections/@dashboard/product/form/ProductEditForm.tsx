@@ -29,13 +29,13 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const YupSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
+    name: Yup.string().required('Tên là trường bắt buộc'),
     onHandMin: Yup.number()
-      .min(0, 'On Hand Min must be in range 0 - 1000000')
-      .max(1000000, 'On Hand Min must be in range 0 - 1000000'),
+      .min(0, 'Tồn kho tối thiểu phải trong khoảng từ 0 - 1000000')
+      .max(1000000, 'Tồn kho tối thiểu phải trong khoảng từ 0 - 1000000'),
     onHandMax: Yup.number()
-      .min(0, 'On Hand Max must be in range 0 - 1000000')
-      .max(1000000, 'On Hand Max must be in range 0 - 1000000'),
+      .min(0, 'Tồn kho tối đa phải trong khoảng từ 0 - 1000000')
+      .max(1000000, 'Tồn kho tối đa phải trong khoảng từ 0 - 1000000'),
   });
 
   const defaultValues = useMemo(
@@ -99,6 +99,8 @@ export default function ProductEditForm({ payload, onSuccess }: Props) {
         <RHFTextField name="description" label="Mô tả" />
         <RHFTextField name="onHandMin" label="On Hand Min" type="number" />
         <RHFTextField name="onHandMax" label="On Hand Max" type="number" />
+        <RHFTextField name="onHandMin" label="Tồn kho tối thiểu" type="number" />
+        <RHFTextField name="onHandMax" label="Tồn kho tối đa" type="number" />
         <CategoryForm />
         <Barcode value={payload.code} style={{ width: 200, margin: '30px auto' }} />
       </Stack>

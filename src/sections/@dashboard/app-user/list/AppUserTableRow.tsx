@@ -58,15 +58,24 @@ export default function AppUserTableRow({
 
       <TableCell align="left">{phoneNumber}</TableCell>
 
-      <TableCell align="left">
-        <Label
-          variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-          color={(gender === ENUM_GENDER.FEMALE && 'success') || 'info'}
-          sx={{ textTransform: 'capitalize' }}
-        >
-          {gender}
-        </Label>
-      </TableCell>
+        <TableCell align="left">
+            {gender === ENUM_GENDER.MALE ? (
+                <Label
+                    variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+                    color={'info'}
+                    sx={{ textTransform: 'capitalize' }}
+                >
+                    Nam
+                </Label>
+            ) : <Label
+                variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+                color={'success'}
+                sx={{ textTransform: 'capitalize' }}
+            >
+                Nữ
+            </Label>}
+
+        </TableCell>
 
       <TableCell align="left">
         {' '}
@@ -75,7 +84,7 @@ export default function AppUserTableRow({
           color={(isActive && 'success') || 'error'}
           sx={{ textTransform: 'capitalize' }}
         >
-          {(isActive && 'Active') || 'InActive'}
+          {(isActive && 'Hoạt động') || 'Vô hiệu hóa'}
         </Label>
       </TableCell>
       <TableCell align="left">{inWarehouse?.name}</TableCell>

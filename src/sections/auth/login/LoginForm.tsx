@@ -33,12 +33,12 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    username: Yup.string().required('Username is required'),
-    password: Yup.string().required('Password is required'),
+    username: Yup.string().required('Tài khoản là trường bắt buộc'),
+    password: Yup.string().required('Mật khẩu là trường bắt buộc'),
   });
 
   const defaultValues = {
-    username: 'test',
+    username: 'master',
     password: '123123',
     remember: true,
   };
@@ -74,11 +74,11 @@ export default function LoginForm() {
       <Stack spacing={3}>
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
 
-        <RHFTextField name="username" label="Username" />
+        <RHFTextField name="username" label="Tài khoản" />
 
         <RHFTextField
           name="password"
-          label="Password"
+          label="Mật khẩu"
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -93,9 +93,9 @@ export default function LoginForm() {
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-        <RHFCheckbox name="remember" label="Remember me" />
+        <RHFCheckbox name="remember" label="Nhớ mật khẩu" />
         <Link component={RouterLink} variant="subtitle2" to={PATH_AUTH.resetPassword}>
-          Forgot password?
+          Quên mật khẩu?
         </Link>
       </Stack>
 
@@ -106,7 +106,7 @@ export default function LoginForm() {
         variant="contained"
         loading={isSubmitting}
       >
-        Login
+        Đăng nhập
       </LoadingButton>
     </FormProvider>
   );

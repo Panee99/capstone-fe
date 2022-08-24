@@ -60,6 +60,21 @@ export default function DeliveryRequestTableRow({
     }
   };
 
+  const getStatusData = (status: DeliveryRequestStatus) => {
+      switch (status) {
+          case 'Pending':
+              return 'Đang chờ';
+          case 'Confirmed':
+              return 'Xác nhận';
+          case 'Cancelled':
+              return 'Hủy';
+          case 'Done':
+              return 'Hoàn thành';
+          default:
+              return 'Lỗi';
+      }
+  }
+
   return (
     <TableRow hover selected={selected}>
       <TableCell padding="checkbox">
@@ -82,7 +97,7 @@ export default function DeliveryRequestTableRow({
           color={getStatusLabel(status)}
           sx={{ textTransform: 'capitalize' }}
         >
-          {status}
+          {getStatusData(status)}
         </Label>
       </TableCell>
 

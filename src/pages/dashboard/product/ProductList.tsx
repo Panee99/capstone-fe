@@ -47,8 +47,8 @@ const TABLE_HEAD = [
   { id: 'code', label: 'Mã', align: 'left' },
   { id: 'name', label: 'Tên', align: 'left' },
   { id: 'description', label: 'Mô tả', align: 'left' },
-  { id: 'onHandMin', label: 'On hand Min', align: 'center' },
-  { id: 'onHandMax', label: 'On hand Max', align: 'center' },
+  { id: 'onHandMin', label: 'Tồn kho tối thiểu', align: 'center' },
+  { id: 'onHandMax', label: 'Tồn kho tối đa', align: 'center' },
   { id: 'category', label: 'Loại sản phẩm', align: 'center' },
   { id: '' },
 ];
